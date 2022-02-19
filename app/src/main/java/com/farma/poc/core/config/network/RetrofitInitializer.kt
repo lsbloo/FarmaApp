@@ -15,6 +15,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 
 object RetrofitInitializer {
 
@@ -25,7 +26,12 @@ object RetrofitInitializer {
         }
 
         fun provideHttpClient(cache: Cache): OkHttpClient {
-            val interceptorLogger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
+            val interceptorLogger = HttpLoggingInterceptor { message ->
+                Timber.tag(
+                    "okHttp"
+                ).d(message)
+
+            }.setLevel(HttpLoggingInterceptor.Level.BASIC)
             val cachedOkHttpClientBuilder = OkHttpClient.Builder().apply {
                 cache
                 addInterceptor(interceptorLogger)

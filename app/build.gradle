@@ -52,6 +52,9 @@ android {
 
 dependencies {
 
+    // Timber Logger
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     // Gson

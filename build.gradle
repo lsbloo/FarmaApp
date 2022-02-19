@@ -11,6 +11,7 @@ buildscript {
         navigate_compose_version = "2.5.0-alpha01"
         gson_version = "2.9.0"
         retrofit_version = "2.9.0"
+        timber_version = "5.0.1"
     }
     repositories {
         google()
