@@ -2,10 +2,20 @@
 buildscript {
     ext {
         compose_version = '1.0.1'
+        koin_version= "3.2.0-beta-1"
+        square_up_http = "okhttp:4.9.3"
+        runtime_room_database = "2.3.0"
+        coroutines_version = "1.5.0"
+        runtime_compose_version = "1.0.5"
+        ktx_version = "2.4.1"
+        navigate_compose_version = "2.5.0-alpha01"
+        gson_version = "2.9.0"
+        retrofit_version = "2.9.0"
     }
     repositories {
         google()
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.4"
