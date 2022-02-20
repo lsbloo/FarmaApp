@@ -32,4 +32,7 @@ object Colors {
     val gradientLawrenciumTwo = Color(0XFF302b63)
     val gradientLawrenciumThree = Color(0XFF24243e)
 
+    val gradientSky = Color(0XFFe0eafc)
+    val gradientSkyTwo = Color(0XFFcfdef3)
+
 }

@@ -54,4 +54,5 @@ object RetrofitInitializer {
         single { provideGson() }
         single { provideSetupRetrofit(get(), get()) }
     }
+
 }
