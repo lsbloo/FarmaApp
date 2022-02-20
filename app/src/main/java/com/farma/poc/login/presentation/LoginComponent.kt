@@ -5,14 +5,17 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.ExperimentalUnitApi
@@ -21,7 +24,9 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.farma.poc.R
 import com.farma.poc.core.resources.colors.Colors
-import com.farma.poc.core.utils.components.customOutlinedTextField
+import com.farma.poc.core.resources.fonts.FontsTheme
+import com.farma.poc.core.utils.components.customTextField
+import com.farma.poc.core.utils.components.customTextView
 
 @ExperimentalUnitApi
 @Composable
@@ -42,9 +47,8 @@ fun topBanner(){
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf<Color>(
-                        Colors.gradientSky,
-                        Colors.gradientSkyTwo,
-                        Colors.gradientSky
+                        Colors.whitePrimary,
+                        Colors.whitePrimary
                     ),
                 ), alpha = 1.2f
             )
@@ -58,6 +62,10 @@ fun topBanner(){
 @Composable
 fun bodyContent() {
     var loginText by remember {
+        mutableStateOf("")
+    }
+
+    var passwordText by remember {
         mutableStateOf("")
     }
 
@@ -76,23 +84,78 @@ fun bodyContent() {
         )
 
         Spacer(modifier = Modifier.height(40.dp))
-        customOutlinedTextField(modifier = Modifier
-            .padding(start = 20.dp, end = 20.dp)
-            .fillMaxWidth(),
-            isPassword = true,
-            loginText,
-            { newValue -> loginText = newValue },
-            label =
-            {
-                Text(
-                    text = "username", style = TextStyle(
-                        color = Color.Black,
-                        fontWeight = FontWeight.Normal,
-                        letterSpacing = TextUnit(4F, TextUnitType(10L))
-                    )
+        customTextView(
+            text = "email",
+            upperCase = true,
+            color = Colors.redQuar,
+            modifier = Modifier.padding(start = 40.dp, end = 40.dp),
+            textStyle =
+            FontsTheme(
+                shadow = Shadow(
+                    color = Colors.redQuar,
+                    blurRadius = 1F,
                 )
-            },
-            placeholder = { Text(text = "Insira sua senha") })
+            ).typography.h1,
+            fontSize = TextUnit(20F, TextUnitType(20))
+        )
+        customTextField(modifier = Modifier
+            .padding(start = 40.dp, end = 20.dp)
+            .fillMaxWidth()
+            .padding(
+                end = 10.dp
+            ),
+            isPassword = false,
+            loginText,
+            onValueChange = { newValue ->
+                loginText = newValue
+            })
+
+        Spacer(modifier = Modifier.height(20.dp))
+        customTextView(
+            text = "password",
+            upperCase = true,
+            color = Colors.redQuar,
+            modifier = Modifier.padding(start = 40.dp, end = 40.dp),
+            textStyle =
+            FontsTheme(
+                shadow = Shadow(
+                    color = Colors.redQuar,
+                    blurRadius = 1F,
+                )
+            ).typography.h1,
+            fontSize = TextUnit(20F, TextUnitType(20))
+        )
+        customTextField(modifier = Modifier
+            .padding(start = 40.dp, end = 20.dp)
+            .fillMaxWidth()
+            .padding(
+                end = 10.dp
+            ),
+            isPassword = true,
+            passwordText,
+            onValueChange = { newValue ->
+                passwordText = newValue
+            })
     }
 }
 
+
+/**
+ * customOutlinedTextField(modifier = Modifier
+.padding(start = 20.dp, end = 20.dp)
+.fillMaxWidth(),
+isPassword = true,
+loginText,
+{ newValue -> loginText = newValue },
+label =
+{
+Text(
+text = "username", style = TextStyle(
+color = Color.Black,
+fontWeight = FontWeight.Normal,
+letterSpacing = TextUnit(4F, TextUnitType(10L))
+)
+)
+},
+placeholder = { Text(text = "Insira sua senha") })
+ */
