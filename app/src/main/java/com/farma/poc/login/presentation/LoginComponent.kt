@@ -10,17 +10,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.ExperimentalUnitApi
@@ -44,8 +41,9 @@ fun screenLogin(){
         floatingActionButton = {
                 FloatingActionButton(
                     onClick = {},
+                    backgroundColor = Colors.redPrimary
                 ) {
-                    Icon(Icons.Filled.Add,"")
+                    Icon(Icons.Filled.Info,"")
                 }
             },
         modifier = Modifier.fillMaxSize(), content = {
@@ -95,7 +93,7 @@ fun bodyContent() {
                 rememberScrollState()
             )
     ) {
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(60.dp))
         Image(
             painter = painterResource(id = R.drawable.logo_farm), contentDescription = "",
             modifier = Modifier
@@ -107,7 +105,7 @@ fun bodyContent() {
         Spacer(modifier = Modifier.height(20.dp))
         CustomTextView().apply{
             customTextView(
-            text = "email",
+            text = LoginConstants.View.LABEL_EMAIL,
             upperCase = true,
             color = Colors.redQuar,
             modifier = Modifier.padding(start = 40.dp, end = 40.dp),
@@ -134,7 +132,7 @@ fun bodyContent() {
 
         Spacer(modifier = Modifier.height(20.dp))
         CustomTextView().apply{customTextView(
-            text = "password",
+            text = LoginConstants.View.LABEL_PASSWORD,
             upperCase = true,
             color = Colors.redQuar,
             modifier = Modifier.padding(start = 40.dp, end = 40.dp),
@@ -162,10 +160,10 @@ fun bodyContent() {
         Spacer(modifier = Modifier.height(28.dp))
         CustomTextView().apply{
             customTextView(
-            text = "Forgot Password?", upperCase = true,
+            text = LoginConstants.View.LABEL_FORGOT_PASSWORD, upperCase = true,
             modifier =
             Modifier
-                .padding(start = 40.dp, end = 40.dp)
+                .padding(start = 40.dp, end = 28.dp)
                 .align(Alignment.End), color = Colors.redQuar, textStyle =
             FontsTheme(
                 fontWeight = FontWeight.Bold,
@@ -182,7 +180,7 @@ fun bodyContent() {
                 content = {
                     CustomTextView().apply {
                         customTextView(
-                            text = "login", upperCase = true,
+                            text = LoginConstants.View.BUTTON_LABEL_LOGIN, upperCase = true,
                             modifier =
                             Modifier.padding(12.dp), color = Colors.whitePrimary, textStyle =
                             FontsTheme(
@@ -217,7 +215,7 @@ fun bodyContent() {
                 .padding(start = 40.dp))
             CustomTextView().apply {
                 customTextView(
-                    text = "or connect with",
+                    text = LoginConstants.View.LABEL_OR_CONNECT_WITH,
                     upperCase = true,
                     modifier = Modifier
                         .padding(start = 12.dp, end = 12.dp)
@@ -241,7 +239,7 @@ fun bodyContent() {
             CustomCircularButton().apply {customCircularButton(
                 content = {
                     CustomTextView().apply{customTextView(
-                        text = "facebook", upperCase = true,
+                        text = LoginConstants.View.BUTTON_LABEL_FACEBOOK, upperCase = true,
                         modifier =
                         Modifier.padding(12.dp), color = Colors.whitePrimary, textStyle =
                         FontsTheme(
@@ -273,7 +271,7 @@ fun bodyContent() {
             CustomCircularButton().apply {customCircularButton(
                 content = {
                     CustomTextView().apply{customTextView(
-                        text = "google", upperCase = true,
+                        text = LoginConstants.View.BUTTON_LABEL_GOOGLE, upperCase = true,
                         modifier =
                         Modifier.padding(12.dp), color = Colors.whitePrimary, textStyle =
                         FontsTheme(
