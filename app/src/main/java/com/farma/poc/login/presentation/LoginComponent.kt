@@ -4,7 +4,12 @@ package com.farma.poc.login.presentation
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Scaffold
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,15 +30,27 @@ import androidx.compose.ui.unit.dp
 import com.farma.poc.R
 import com.farma.poc.core.resources.colors.Colors
 import com.farma.poc.core.resources.fonts.FontsTheme
+import com.farma.poc.core.utils.components.CustomCircularButton
+import com.farma.poc.core.utils.components.CustomTextView
 import com.farma.poc.core.utils.components.customTextField
-import com.farma.poc.core.utils.components.customTextView
 
 @ExperimentalUnitApi
 @Composable
 fun screenLogin(){
-    Scaffold(modifier = Modifier.fillMaxSize()) {
-        topBanner()
-    }
+    Scaffold(
+        topBar = {},
+        floatingActionButtonPosition = FabPosition.End,
+        isFloatingActionButtonDocked = true,
+        floatingActionButton = {
+                FloatingActionButton(
+                    onClick = {},
+                ) {
+                    Icon(Icons.Filled.Add,"")
+                }
+            },
+        modifier = Modifier.fillMaxSize(), content = {
+            topBanner()
+        })
 }
 
 
@@ -60,6 +77,7 @@ fun topBanner(){
 
 @ExperimentalUnitApi
 @Composable
+@Preview
 fun bodyContent() {
     var loginText by remember {
         mutableStateOf("")
@@ -73,18 +91,22 @@ fun bodyContent() {
         modifier = Modifier
             .fillMaxSize()
             .fillMaxWidth()
+            .verticalScroll(
+                rememberScrollState()
+            )
     ) {
-        Spacer(modifier = Modifier.height(80.dp))
+        Spacer(modifier = Modifier.height(40.dp))
         Image(
             painter = painterResource(id = R.drawable.logo_farm), contentDescription = "",
             modifier = Modifier
-                .width(180.dp)
-                .height(180.dp)
+                .width(150.dp)
+                .height(150.dp)
                 .align(Alignment.CenterHorizontally)
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
-        customTextView(
+        Spacer(modifier = Modifier.height(20.dp))
+        CustomTextView().apply{
+            customTextView(
             text = "email",
             upperCase = true,
             color = Colors.redQuar,
@@ -97,7 +119,7 @@ fun bodyContent() {
                 )
             ).typography.h1,
             fontSize = TextUnit(20F, TextUnitType(20))
-        )
+        )}
         customTextField(modifier = Modifier
             .padding(start = 40.dp, end = 20.dp)
             .fillMaxWidth()
@@ -111,7 +133,7 @@ fun bodyContent() {
             })
 
         Spacer(modifier = Modifier.height(20.dp))
-        customTextView(
+        CustomTextView().apply{customTextView(
             text = "password",
             upperCase = true,
             color = Colors.redQuar,
@@ -124,7 +146,7 @@ fun bodyContent() {
                 )
             ).typography.h1,
             fontSize = TextUnit(20F, TextUnitType(20))
-        )
+        )}
         customTextField(modifier = Modifier
             .padding(start = 40.dp, end = 20.dp)
             .fillMaxWidth()
@@ -136,26 +158,147 @@ fun bodyContent() {
             onValueChange = { newValue ->
                 passwordText = newValue
             })
+
+        Spacer(modifier = Modifier.height(28.dp))
+        CustomTextView().apply{
+            customTextView(
+            text = "Forgot Password?", upperCase = true,
+            modifier =
+            Modifier
+                .padding(start = 40.dp, end = 40.dp)
+                .align(Alignment.End), color = Colors.redQuar, textStyle =
+            FontsTheme(
+                fontWeight = FontWeight.Bold,
+                shadow = Shadow(
+                    color = Colors.redQuar,
+                    blurRadius = 2F,
+                )
+            ).typography.h2
+        )}
+
+        Spacer(modifier = Modifier.height(28.dp))
+        CustomCircularButton().apply {
+            customCircularButton(
+                content = {
+                    CustomTextView().apply {
+                        customTextView(
+                            text = "login", upperCase = true,
+                            modifier =
+                            Modifier.padding(12.dp), color = Colors.whitePrimary, textStyle =
+                            FontsTheme(
+                                shadow = Shadow(
+                                    color = Colors.whitePrimary,
+                                    blurRadius = 2F,
+                                )
+                            ).typography.h1
+                        )
+                    }
+                },
+                onClick = { },
+                elevation = ButtonDefaults.elevation(
+                    defaultElevation = 6.dp,
+                    pressedElevation = 8.dp,
+                    disabledElevation = 0.dp
+                ),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Colors.redQuar),
+                contentPadding = ButtonDefaults.ContentPadding,
+                enabled = true,
+                shape = RoundedCornerShape(32.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 32.dp, end = 32.dp)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(40.dp))
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Divider(color = Colors.dimGray, thickness = 2.dp, modifier = Modifier
+                .width(100.dp)
+                .padding(start = 40.dp))
+            CustomTextView().apply {
+                customTextView(
+                    text = "or connect with",
+                    upperCase = true,
+                    modifier = Modifier
+                        .padding(start = 12.dp, end = 12.dp)
+                        .align(Alignment.CenterVertically),
+                    color = Colors.dimGrayTwo,
+                    textStyle = FontsTheme(
+                        shadow = Shadow(
+                            color = Colors.dimGrayTwo,
+                            blurRadius = 2F,
+                        )
+                    ).typography.h1
+                )
+            }
+            Divider(color = Colors.dimGray, thickness = 2.dp, modifier = Modifier
+                .width(100.dp)
+                .padding(end = 40.dp))
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+        Row(modifier = Modifier.fillMaxWidth()) {
+            CustomCircularButton().apply {customCircularButton(
+                content = {
+                    CustomTextView().apply{customTextView(
+                        text = "facebook", upperCase = true,
+                        modifier =
+                        Modifier.padding(12.dp), color = Colors.whitePrimary, textStyle =
+                        FontsTheme(
+                            shadow = Shadow(
+                                color = Colors.whitePrimary,
+                                blurRadius = 2F,
+                            )
+                        ).typography.h1
+                    )
+                }},
+                onClick = { },
+                elevation = ButtonDefaults.elevation(
+                    defaultElevation = 6.dp,
+                    pressedElevation = 8.dp,
+                    disabledElevation = 0.dp
+                ),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Colors.bluePrimary),
+                contentPadding = ButtonDefaults.ContentPadding,
+                enabled = true,
+                shape = RoundedCornerShape(32.dp),
+                modifier = Modifier
+                    .width(190.dp)
+                    .height(60.dp)
+                    .padding(start = 32.dp)
+            )}
+
+            Spacer(modifier = Modifier.width(20.dp))
+
+            CustomCircularButton().apply {customCircularButton(
+                content = {
+                    CustomTextView().apply{customTextView(
+                        text = "google", upperCase = true,
+                        modifier =
+                        Modifier.padding(12.dp), color = Colors.whitePrimary, textStyle =
+                        FontsTheme(
+                            shadow = Shadow(
+                                color = Colors.whitePrimary,
+                                blurRadius = 2F,
+                            )
+                        ).typography.h1
+                    )
+                }},
+                onClick = { },
+                elevation = ButtonDefaults.elevation(
+                    defaultElevation = 6.dp,
+                    pressedElevation = 8.dp,
+                    disabledElevation = 0.dp
+                ),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Colors.redSecundary),
+                contentPadding = ButtonDefaults.ContentPadding,
+                enabled = true,
+                shape = RoundedCornerShape(32.dp),
+                modifier = Modifier
+                    .width(180.dp)
+                    .height(60.dp)
+                    .padding(end = 32.dp)
+            )}
+        }
     }
 }
-
-
-/**
- * customOutlinedTextField(modifier = Modifier
-.padding(start = 20.dp, end = 20.dp)
-.fillMaxWidth(),
-isPassword = true,
-loginText,
-{ newValue -> loginText = newValue },
-label =
-{
-Text(
-text = "username", style = TextStyle(
-color = Color.Black,
-fontWeight = FontWeight.Normal,
-letterSpacing = TextUnit(4F, TextUnitType(10L))
-)
-)
-},
-placeholder = { Text(text = "Insira sua senha") })
- */
