@@ -32,7 +32,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
                 redirectHomeApp()
             },
             onFailure = {
-                _authenticateUser.postValue(it)
+
             },
             onShowLoading = {
                 showLoadingLogin.postValue(it)
