@@ -1,4 +1,4 @@
-package com.farma.poc.login.presentation
+package com.farma.poc.login.constants
 
 class LoginConstants {
 

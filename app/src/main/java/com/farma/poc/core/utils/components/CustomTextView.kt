@@ -1,9 +1,11 @@
 package com.farma.poc.core.utils.components
 
+import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -26,12 +28,11 @@ class CustomTextView() {
         fontFamily: FontFamily? = null,
         letterSpacing: TextUnit = TextUnit.Unspecified,
         textDecoration: TextDecoration? = null,
-        textAlign: TextAlign? = null
+        textAlign: TextAlign? = null,
+        inlineContent: Map<String, InlineTextContent> = mapOf()
     ) {
         return Text(
-            text = if (upperCase) text.uppercase() else {
-                text
-            },
+            text = AnnotatedString(text = if (upperCase) text.uppercase() else { text }),
             color = color,
             style = textStyle,
             modifier = modifier,
@@ -41,7 +42,8 @@ class CustomTextView() {
             fontFamily = fontFamily,
             letterSpacing = letterSpacing,
             textDecoration = textDecoration,
-            textAlign = textAlign
+            textAlign = textAlign,
+            inlineContent = inlineContent
         )
     }
 }

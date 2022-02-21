@@ -1,16 +1,26 @@
 package com.farma.poc.login.data.task
 
+import com.farma.poc.core.config.network.ResultTask
 import com.farma.poc.login.data.api.LoginAPI
-import retrofit2.Retrofit
+import com.farma.poc.login.data.models.ResponseLoginDTO
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class LoginApiTask(private val retrofit: Retrofit, private val loginAPI: LoginAPI) {
 
-    private fun getRetrofit(): LoginAPI {
-        return retrofit.create(loginAPI::class.java)
+class LoginApiTask(private val loginAPI: LoginAPI) {
+
+
+    suspend fun authenticateUser(onSuccess: (ResultTask.OnSuccess<ResponseLoginDTO>) -> Unit, onFailure: (ResultTask.OnFailure<ResponseLoginDTO>) -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val result = loginAPI.authenticateUser()
+            result?.let {
+                onSuccess.invoke(ResultTask.OnSuccess(data = it))
+            }?: also {
+                onFailure.invoke(ResultTask.OnFailure(data = null))
+            }
+        }
+
     }
 
-
-    fun authenticateUser() {
-        getRetrofit().authenticateUser()
-    }
 }

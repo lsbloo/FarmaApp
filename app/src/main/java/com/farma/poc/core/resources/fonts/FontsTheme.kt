@@ -49,7 +49,7 @@ enum class FontEnum(val textStyle: TextStyle): PropertiesFont {
     )){
         override fun setupStyle(shadow: Shadow, fontFamily: FontFamily,fontWeight: FontWeight?): TextStyle {
             return TextStyle(
-                fontWeight = fontWeight?.let { it } ?: textStyle.fontWeight,
+                fontWeight = fontWeight ?: textStyle.fontWeight,
                 fontSize =  textStyle.fontSize,
                 letterSpacing = textStyle.letterSpacing,
                 textAlign = textStyle.textAlign,
