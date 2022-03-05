@@ -2,19 +2,17 @@ package com.farma.poc.login.presentation
 
 
 import android.content.Context
+import androidx.compose.animation.*
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.Text
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -23,36 +21,50 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.Placeholder
-import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
 import com.farma.poc.R
 import com.farma.poc.core.resources.colors.Colors
 import com.farma.poc.core.resources.fonts.FontsTheme
-import com.farma.poc.core.utils.components.CustomCircularButton
-import com.farma.poc.core.utils.components.CustomProgressButton
-import com.farma.poc.core.utils.components.CustomTextView
-import com.farma.poc.core.utils.components.customTextField
-import com.farma.poc.login.constants.LoginConstants
+import com.farma.poc.core.utils.components.*
+import com.farma.poc.core.utils.enums.DurationSnackBarEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@ExperimentalAnimationApi
+@ExperimentalMaterialApi
 @ExperimentalUnitApi
 @Composable
 fun screenLogin(loginViewModel: LoginViewModel, context: Context) {
+    val scaffoldState = rememberScaffoldState()
     Scaffold(
         topBar = {},
+        scaffoldState = scaffoldState,
         modifier = Modifier.fillMaxSize(), content = {
-            topBanner(loginViewModel,context)
+            DefaultSnackBar(
+                snackbarHostState = scaffoldState.snackbarHostState,
+                modifier = Modifier,
+                onDismiss = {
+                    scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
+                }
+            ).apply {
+                defaultSnackBar()
+            }
+            setupLoginScreen(loginViewModel, context, scaffoldState)
         })
 }
 
 
+@ExperimentalAnimationApi
+@ExperimentalMaterialApi
 @ExperimentalUnitApi
 @Composable
-fun topBanner(loginViewModel: LoginViewModel, context: Context) {
+fun setupLoginScreen(
+    loginViewModel: LoginViewModel,
+    context: Context,
+    scaffoldState: ScaffoldState
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -65,14 +77,18 @@ fun topBanner(loginViewModel: LoginViewModel, context: Context) {
                 ), alpha = 1.2f
             )
     ) {
-        bodyContent(loginViewModel, context )
+        bodyContent(loginViewModel, context, scaffoldState = scaffoldState)
     }
 
 }
 
+@ExperimentalAnimationApi
+@ExperimentalMaterialApi
 @ExperimentalUnitApi
 @Composable
-fun bodyContent(loginViewModel: LoginViewModel, context: Context) {
+fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState: ScaffoldState) {
+
+    val coroutineScope = rememberCoroutineScope()
     var loginText by remember {
         mutableStateOf("")
     }
@@ -81,13 +97,32 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context) {
         mutableStateOf("")
     }
 
-    loginViewModel.statusShowLoading.observeAsState().value?.let { showLoadding ->
-        if (showLoadding) {
+    loginViewModel.statusShowLoading.observeAsState().value?.let { showLoading ->
+        if (showLoading) {
             CustomProgressButton().apply {
                 customProgressButton()
             }
         }
     }
+
+    loginViewModel.showErrorFeedBack.value.let { showStatus ->
+        if (showStatus) {
+            CustomErrorFeedBack(
+                snackBarHostState = scaffoldState.snackbarHostState,
+                coroutineScope = coroutineScope,
+                message = "Não foi possivel realizar o login",
+                actionLabel = "Fechar",
+                durationSnackBar = DurationSnackBarEnum.SHORT,
+                actionPerformed = {
+
+                }
+            ).apply {
+                setupSnackBarError()
+                loginViewModel.showErrorFeedBack.value = false
+            }
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -151,17 +186,31 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context) {
                 fontSize = TextUnit(20F, TextUnitType(20))
             )
         }
-        customTextField(modifier = Modifier
-            .padding(start = 40.dp, end = 20.dp)
-            .fillMaxWidth()
-            .padding(
-                end = 10.dp
-            ),
-            isPassword = true,
+        customTextField(
+            modifier = Modifier
+                .padding(start = 40.dp, end = 20.dp)
+                .fillMaxWidth()
+                .padding(
+                    end = 10.dp
+                ),
+            isPassword = loginViewModel.stateEyeLogin.value,
             passwordText,
             onValueChange = { newValue ->
                 passwordText = newValue
-            })
+            },
+            trailingIcon = {
+                IconButton(onClick = {
+                    loginViewModel.apply {
+                        changeStateEyeLogin(!stateEyeLogin.value)
+                    }
+                }) {
+                    Icon(
+                        painter = painterResource(id = loginViewModel.iconLogin),
+                        contentDescription = ""
+                    )
+                }
+            },
+        )
 
         Spacer(modifier = Modifier.height(28.dp))
         CustomTextView().apply {
@@ -256,9 +305,12 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context) {
                     content = {
                         CustomTextView().apply {
                             customTextView(
-                                text = context.getString(R.string.button_facebook), upperCase = true,
+                                text = context.getString(R.string.button_facebook),
+                                upperCase = true,
                                 modifier =
-                                Modifier.padding(12.dp), color = Colors.whitePrimary, textStyle =
+                                Modifier.padding(12.dp),
+                                color = Colors.whitePrimary,
+                                textStyle =
                                 FontsTheme(
                                     shadow = Shadow(
                                         color = Colors.whitePrimary,

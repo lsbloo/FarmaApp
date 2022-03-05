@@ -38,4 +38,6 @@ object Colors {
 
     val bluePrimary = Color(0XFF1C6DD0)
 
+    val black = Color(0XFF000000)
+
 }

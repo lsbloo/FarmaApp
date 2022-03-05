@@ -1,6 +1,7 @@
 package com.farma.poc.core.resources.fonts
 
 import androidx.compose.material.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -9,12 +10,12 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.farma.poc.R
-import org.w3c.dom.Text
 
 interface PropertiesFont {
-    fun setupStyle(shadow: Shadow, fontFamily: FontFamily, fontWeight: FontWeight? = null): TextStyle
+    fun setupStyle(shadow: Shadow, fontFamily: FontFamily, fontWeight: FontWeight? = null, color: Color? = null, fontSize: TextUnit? = null): TextStyle
 }
 
 enum class FontEnum(val textStyle: TextStyle): PropertiesFont {
@@ -26,10 +27,10 @@ enum class FontEnum(val textStyle: TextStyle): PropertiesFont {
             textAlign = TextAlign.Left,
             lineHeight = 50.sp,
     )){
-        override fun setupStyle(shadow: Shadow, fontFamily: FontFamily,fontWeight: FontWeight?): TextStyle {
+        override fun setupStyle(shadow: Shadow, fontFamily: FontFamily,fontWeight: FontWeight?,color: Color?, fontSize: TextUnit?): TextStyle {
             return TextStyle(
                 fontWeight = textStyle.fontWeight,
-                fontSize =  textStyle.fontSize,
+                fontSize = fontSize ?: textStyle.fontSize,
                 letterSpacing = textStyle.letterSpacing,
                 textAlign = textStyle.textAlign,
                 lineHeight = textStyle.lineHeight,
@@ -47,22 +48,23 @@ enum class FontEnum(val textStyle: TextStyle): PropertiesFont {
         textAlign = TextAlign.Left,
         lineHeight = 50.sp,
     )){
-        override fun setupStyle(shadow: Shadow, fontFamily: FontFamily,fontWeight: FontWeight?): TextStyle {
+        override fun setupStyle(shadow: Shadow, fontFamily: FontFamily,fontWeight: FontWeight?,color: Color?, fontSize: TextUnit?): TextStyle {
             return TextStyle(
+                color = color ?: Color.Unspecified,
                 fontWeight = fontWeight ?: textStyle.fontWeight,
-                fontSize =  textStyle.fontSize,
+                fontSize =  fontSize ?: textStyle.fontSize,
                 letterSpacing = textStyle.letterSpacing,
                 textAlign = textStyle.textAlign,
                 lineHeight = textStyle.lineHeight,
                 shadow = shadow,
-                fontFamily = fontFamily
+                fontFamily = fontFamily,
             )
         }
     }
 
 }
 
-class FontsTheme(shadow: Shadow, fontWeight: FontWeight? = null) {
+class FontsTheme(shadow: Shadow, fontWeight: FontWeight? = null, color: Color? = null, fontSize: TextUnit? = null) {
 
     private val fonts = FontFamily(
         Font(R.font.roboto_black, weight = FontWeight.Medium),
@@ -91,7 +93,8 @@ class FontsTheme(shadow: Shadow, fontWeight: FontWeight? = null) {
         h2 = FontEnum.H2.setupStyle(
             shadow = shadow,
             fontFamily = fonts,
-            fontWeight = fontWeight
+            fontWeight = fontWeight,
+            color = color
         ),
         h3 = TextStyle(
             fontFamily = fonts,
