@@ -7,6 +7,6 @@ object ConfigApplicationConstants {
 
     // DATABASE_NAME
     const val NAME_DATABASE = "farma_db.db"
-    const val VERSION_DATABASE = 12
+    const val VERSION_DATABASE = 13
 
 }

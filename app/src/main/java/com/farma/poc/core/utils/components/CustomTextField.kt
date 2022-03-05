@@ -25,6 +25,7 @@ import com.farma.poc.core.resources.colors.Colors
 fun customTextField(
     modifier: Modifier,
     isPassword: Boolean,
+    changePasswordTransformation: Boolean? = null,
     state: String,
     onValueChange: (String) -> Unit,
     label: @Composable() (() -> Unit)? = null,
@@ -32,6 +33,8 @@ fun customTextField(
     leadingIcon: @Composable() (() -> Unit)? = null, textStyle: TextStyle? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
+    val maxCharPassword = 10
+    val maxCharOtherField = 40
     return TextField(
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Colors.redPrimary,
@@ -39,14 +42,19 @@ fun customTextField(
         ),
         modifier = modifier,
         value = state,
-        onValueChange = { onValueChange.invoke(it) },
+        onValueChange = {
+            if (it.length <= maxCharPassword && isPassword) onValueChange.invoke(it)
+            else if (!isPassword && it.length <= maxCharOtherField) {
+                onValueChange.invoke(it)
+            }
+        },
         label = label,
         placeholder = placeholder,
         leadingIcon = leadingIcon,
         keyboardOptions = if (isPassword) KeyboardOptions(keyboardType = KeyboardType.Password) else {
             KeyboardOptions(keyboardType = KeyboardType.Text)
         },
-        visualTransformation = if (isPassword) PasswordVisualTransformation() else {
+        visualTransformation = if (isPassword && changePasswordTransformation == true) PasswordVisualTransformation() else {
             VisualTransformation.None
         },
         trailingIcon = trailingIcon,

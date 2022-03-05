@@ -45,7 +45,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : BaseViewMod
     suspend fun login() {
         loginRepository.authenticateUser(
             onSuccess = {
-                _authenticateUser.postValue(it)
+                _authenticateUser.postValue(it.value)
                 redirectHomeApp()
             },
             onFailure = {

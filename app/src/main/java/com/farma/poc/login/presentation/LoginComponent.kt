@@ -2,6 +2,7 @@ package com.farma.poc.login.presentation
 
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -22,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import com.farma.poc.R
 import com.farma.poc.core.resources.colors.Colors
@@ -110,8 +112,8 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
             CustomErrorFeedBack(
                 snackBarHostState = scaffoldState.snackbarHostState,
                 coroutineScope = coroutineScope,
-                message = "Não foi possivel realizar o login",
-                actionLabel = "Fechar",
+                message = context.getString(R.string.error_login_request),
+                actionLabel = context.getString(R.string.label_closed_button),
                 durationSnackBar = DurationSnackBarEnum.SHORT,
                 actionPerformed = {
 
@@ -164,7 +166,7 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                 end = 10.dp
             ),
             isPassword = false,
-            loginText,
+            state = loginText,
             onValueChange = { newValue ->
                 loginText = newValue
             })
@@ -193,7 +195,8 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                 .padding(
                     end = 10.dp
                 ),
-            isPassword = loginViewModel.stateEyeLogin.value,
+            isPassword = true,
+            changePasswordTransformation = loginViewModel.stateEyeLogin.value,
             passwordText,
             onValueChange = { newValue ->
                 passwordText = newValue
@@ -212,7 +215,7 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
             },
         )
 
-        Spacer(modifier = Modifier.height(28.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         CustomTextView().apply {
             customTextView(
                 text = context.getString(R.string.label_forgot_pass), upperCase = false,
@@ -226,7 +229,8 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                         color = Colors.redQuar,
                         blurRadius = 2F,
                     )
-                ).typography.h2
+                ).typography.h2,
+                fontSize = 14.sp
             )
         }
 
@@ -273,32 +277,32 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
             Divider(
                 color = Colors.dimGray, thickness = 2.dp, modifier = Modifier
                     .width(100.dp)
-                    .padding(start = 40.dp)
+                    .padding(start = 40.dp, top = 8.dp)
             )
             CustomTextView().apply {
                 customTextView(
                     text = context.getString(R.string.label_connect_with),
                     upperCase = true,
                     modifier = Modifier
-                        .padding(start = 12.dp, end = 12.dp)
-                        .align(Alignment.CenterVertically),
+                        .padding(start = 12.dp, end = 12.dp),
                     color = Colors.dimGrayTwo,
                     textStyle = FontsTheme(
                         shadow = Shadow(
                             color = Colors.dimGrayTwo,
                             blurRadius = 2F,
                         )
-                    ).typography.h1
+                    ).typography.h1,
+                    fontSize = 14.sp
                 )
             }
             Divider(
                 color = Colors.dimGray, thickness = 2.dp, modifier = Modifier
                     .width(100.dp)
-                    .padding(end = 40.dp)
+                    .padding(end = 40.dp, top = 8.dp)
             )
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(28.dp))
         Row(modifier = Modifier.fillMaxWidth()) {
             CustomCircularButton().apply {
                 customCircularButton(
@@ -320,7 +324,13 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                             )
                         }
                     },
-                    onClick = { },
+                    onClick = {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.function_not_implemented),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    },
                     elevation = ButtonDefaults.elevation(
                         defaultElevation = 6.dp,
                         pressedElevation = 8.dp,
@@ -356,7 +366,13 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                             )
                         }
                     },
-                    onClick = { },
+                    onClick = {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.function_not_implemented),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    },
                     elevation = ButtonDefaults.elevation(
                         defaultElevation = 6.dp,
                         pressedElevation = 8.dp,

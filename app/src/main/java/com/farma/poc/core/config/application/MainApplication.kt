@@ -19,10 +19,13 @@ class MainApplication : Application() {
 
             androidContext(this@MainApplication)
 
-            modules(listOf<Module>(
-                RetrofitInitializer.getRetrofitNetModule(), FarmaDatabase.farmaDatabaseModule(),
-                LoginSetup.setupLogin()
-            ))
+            modules(
+                listOf<Module>(
+                    RetrofitInitializer.getRetrofitNetModule(),
+                    FarmaDatabase.farmaDatabaseModule(),
+                    LoginSetup.setupLogin()
+                )
+            )
         }
     }
 }

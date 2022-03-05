@@ -14,6 +14,7 @@ object FarmaDatabase {
             provideDatabase(androidApplication())
         }
     }
+
     private fun provideDatabase(application: Application): FarmaAppDatabase {
         return Room.databaseBuilder(application, FarmaAppDatabase::class.java, NAME_DATABASE)
             .fallbackToDestructiveMigration().allowMainThreadQueries().build()

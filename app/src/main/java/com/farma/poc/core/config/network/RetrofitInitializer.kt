@@ -24,15 +24,11 @@ object RetrofitInitializer {
         }
 
         fun provideHttpClient(cache: Cache): OkHttpClient {
-            val interceptorLogger = HttpLoggingInterceptor { message ->
-                Timber.tag(
-                    "okHttp"
-                ).d(message)
-
-            }.setLevel(HttpLoggingInterceptor.Level.BASIC)
+            val interceptorLogger = HttpLoggingInterceptor()
+            interceptorLogger.level = HttpLoggingInterceptor.Level.BODY
             val cachedOkHttpClientBuilder = OkHttpClient.Builder().apply {
                 cache
-                addInterceptor(interceptorLogger)
+               addInterceptor(interceptorLogger)
             }
             return cachedOkHttpClientBuilder.build()
         }
