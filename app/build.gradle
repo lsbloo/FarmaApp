@@ -1,0 +1,118 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "com.farma.poc"
+        minSdk 21
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+        useIR = true
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerVersion '1.5.21'
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+
+}
+
+dependencies {
+
+
+    // Timber Logger
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    // Gson
+    implementation "com.google.code.gson:gson:$gson_version"
+    implementation "com.squareup.retrofit2:converter-gson:$gson_version"
+
+    // SquareUp HttpClient
+    implementation "com.squareup.okhttp3:$square_up_http"
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+
+
+    // Koin Core features
+    implementation "io.insert-koin:koin-core:$koin_version"
+    // Koin Test features
+    testImplementation "io.insert-koin:koin-test:$koin_version"
+    // Koin main features for Android
+    implementation "io.insert-koin:koin-android:$koin_version"
+    // No more koin-android-viewmodel, koin-android-scope, koin-android-fragment
+    // Jetpack WorkManager
+    implementation "io.insert-koin:koin-androidx-workmanager:$koin_version"
+    // Navigation Graph
+    implementation "io.insert-koin:koin-androidx-navigation:$koin_version"
+    // Jetpack Compose
+    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
+
+    // ROOM DATABASE
+    implementation "androidx.room:room-runtime:$runtime_room_database"
+    kapt "androidx.room:room-compiler:$runtime_room_database"
+    implementation "androidx.room:room-ktx:$runtime_room_database"
+
+    // KTX VIEWMODELS
+    implementation 'androidx.activity:activity-ktx:1.3.0'
+
+    // coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
+    implementation "androidx.compose.runtime:runtime:$runtime_compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:$runtime_compose_version"
+    implementation "androidx.compose.runtime:runtime-rxjava2:$runtime_compose_version"
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$ktx_version")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$ktx_version")
+
+    // Navigate
+    implementation "androidx.navigation:navigation-compose:$navigate_compose_version"
+
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
+    implementation 'androidx.activity:activity-compose:1.4.0'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+}

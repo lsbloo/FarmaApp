@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">http://private-0e35c-farmaapp.apiary-mock.com/</domain>
+    </domain-config>
+</network-security-config>
