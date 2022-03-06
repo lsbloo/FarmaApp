@@ -3,6 +3,7 @@ package com.farma.poc.core.config.application
 import android.app.Application
 import com.farma.poc.core.config.data.FarmaDatabase
 import com.farma.poc.core.config.network.RetrofitInitializer
+import com.farma.poc.home.data.di.HomeSetup
 import com.farma.poc.login.data.di.LoginSetup
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -23,7 +24,8 @@ class MainApplication : Application() {
                 listOf<Module>(
                     RetrofitInitializer.getRetrofitNetModule(),
                     FarmaDatabase.farmaDatabaseModule(),
-                    LoginSetup.setupLogin()
+                    LoginSetup.setupLogin(),
+                    HomeSetup.setupHome()
                 )
             )
         }
