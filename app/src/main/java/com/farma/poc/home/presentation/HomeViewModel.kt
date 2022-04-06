@@ -5,4 +5,8 @@ import com.farma.poc.home.data.repository.HomeRepository
 
 class HomeViewModel(private val homeRepository: HomeRepository) : BaseViewModel() {
 
+
+
+
+
 }

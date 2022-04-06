@@ -14,4 +14,10 @@ class LoginConstants {
             const val BUTTON_LABEL_GOOGLE = "google"
         }
     }
+
+    class API {
+        companion object {
+            const val ENDPOINT_LOGIN = "/login"
+        }
+    }
 }
