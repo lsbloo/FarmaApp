@@ -12,22 +12,27 @@ import okhttp3.ResponseBody
 class LoginRepository(private val loginApiTask: LoginApiTask, private val loginDAO: LoginDAO) {
 
 
-    suspend fun authenticateUser(onSuccess: (LiveData<ResponseLoginDTO?>) -> Unit,
-                                 onFailure: (ResponseBody?) -> Unit,
+    suspend fun authenticateUser(onSuccessLiveData: (LiveData<ResponseLoginDTO?>) -> Unit,
+                                 onFailureError: (ResponseBody?) -> Unit,
                                  onShowLoading: (Boolean) -> Unit): Unit {
-        loginApiTask.authenticateUser(
-            onSuccess = {
-                it.data?.let { data -> loginDAO.insertLoginToken(data) }
-                getDataCached { dataCached ->
-                    onSuccess.invoke(dataCached)
+        loginApiTask.call(
+            callback =  {
+                        onSuccess, onFailure, onShouldLoading ->
+                onSuccess?.data?.let { data ->
+                    loginDAO.insertLoginToken(data)
+                } ?: also {
+                    getDataCached { dataCached ->
+                        onSuccessLiveData.invoke(dataCached)
+                    }
+                }
+
+                onFailure?.data?.let {
+                    onFailureError.invoke(it)
+                }
+                onShouldLoading?.let {
+                    onShowLoading.invoke(it)
                 }
             },
-            onFailure = {
-                onFailure.invoke(it.data)
-            },
-            onShouldLoading = {
-                onShowLoading.invoke(it)
-            }
         )
     }
 

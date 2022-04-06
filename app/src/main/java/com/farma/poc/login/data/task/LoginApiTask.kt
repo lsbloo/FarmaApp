@@ -1,5 +1,6 @@
 package com.farma.poc.login.data.task
 
+import com.farma.poc.core.base.BaseNetworkTaskImpl
 import com.farma.poc.core.config.network.ResultTask
 import com.farma.poc.login.data.api.LoginAPI
 import com.farma.poc.login.data.models.ResponseLoginDTO
@@ -9,26 +10,22 @@ import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 
 
-class LoginApiTask(private val loginAPI: LoginAPI) {
+class LoginApiTask(private val loginAPI: LoginAPI): BaseNetworkTaskImpl<ResponseLoginDTO,ResponseBody>() {
 
-
-    suspend fun authenticateUser(onSuccess: (ResultTask.OnSuccess<ResponseLoginDTO>) -> Unit,
-                                 onFailure: (ResultTask.OnFailure<ResponseBody>) -> Unit,
-    onShouldLoading: (Boolean) -> Unit) {
+    override suspend fun call(
+        t: ResponseLoginDTO?,
+        callback: (ResultTask.OnSuccess<ResponseLoginDTO>?, ResultTask.OnFailure<ResponseBody>?, onShouldLoading: Boolean?) -> Unit
+    ) {
         CoroutineScope(Dispatchers.IO).launch {
-            onShouldLoading.invoke(true)
+            callback.invoke(null,null,true)
             val result = loginAPI.authenticateUser()
             result.isSuccessful.let {
-                if(it) {
-                    onSuccess.invoke(ResultTask.OnSuccess(data = result.body()))
-                    onShouldLoading.invoke(false)
+                if (it) {
+                    callback.invoke(ResultTask.OnSuccess(data = result.body()),null, false)
                 } else {
-                    onFailure.invoke(ResultTask.OnFailure(data = result.errorBody()))
-                    onShouldLoading.invoke(false)
+                    callback.invoke(null,ResultTask.OnFailure(data = result.errorBody()), false)
                 }
             }
         }
-
     }
-
 }
