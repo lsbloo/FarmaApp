@@ -13,6 +13,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.farma.poc.core.navigation.RouterNavigationEnum
 import com.farma.poc.core.navigation.RouterNavigationManager
+import com.farma.poc.features.onboarding.presentation.OnboardingViewModel
+import com.farma.poc.features.onboarding.presentation.setupOnboardingScreen
+import com.farma.poc.features.splash.presentation.SplashViewModel
+import com.farma.poc.features.splash.presentation.screenSplash
 import com.farma.poc.home.presentation.homeComponent
 import com.farma.poc.login.presentation.LoginViewModel
 import com.farma.poc.login.presentation.screenLogin
@@ -30,14 +34,39 @@ class MainActivity : ComponentActivity() {
             FarmaAppTheme {
                 // A surface container using the 'background' color from the theme
                 val loginViewModel = getViewModel<LoginViewModel>()
+                val splashViewModel = getViewModel<SplashViewModel>()
+                val onboardingViewModel = getViewModel<OnboardingViewModel>()
+
                 Surface(color = MaterialTheme.colors.background) {
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = RouterNavigationEnum.LOGIN.name){
+                    NavHost(
+                        navController = navController,
+                        startDestination = RouterNavigationEnum.SPLASH.name
+                    ) {
                         val routerNavigationManager = RouterNavigationManager(navController, this)
+                        splashViewModel.setNavigation(routerNavigationManager)
                         loginViewModel.setNavigation(routerNavigationManager)
+                        onboardingViewModel.setNavigation(routerNavigationManager)
 
 
-                        composable(route = RouterNavigationEnum.LOGIN.name) { screenLogin(loginViewModel, this@MainActivity) }
+                        composable(route = RouterNavigationEnum.SPLASH.name) {
+                            screenSplash(
+                                splashViewModel = splashViewModel,
+                                context = this@MainActivity
+                            )
+                        }
+                        composable(route = RouterNavigationEnum.ONBOARDING.name) {
+                            setupOnboardingScreen(
+                                onboardingViewModel = onboardingViewModel,
+                                context = this@MainActivity
+                            )
+                        }
+                        composable(route = RouterNavigationEnum.LOGIN.name) {
+                            screenLogin(
+                                loginViewModel,
+                                this@MainActivity
+                            )
+                        }
                         composable(route = RouterNavigationEnum.HOME.name) { homeComponent() }
                     }
                 }

@@ -12,6 +12,7 @@ buildscript {
         gson_version = "2.9.0"
         retrofit_version = "2.9.0"
         timber_version = "5.0.1"
+        systemuicontroller_version = "0.17.0"
     }
     repositories {
         google()

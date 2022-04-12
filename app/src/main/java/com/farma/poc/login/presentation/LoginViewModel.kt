@@ -17,7 +17,6 @@ class LoginViewModel(private val loginRepository: LoginRepository) : BaseViewMod
 
     private val _authenticateUser = MutableLiveData<ResponseLoginDTO?>()
     var authenticateLogin: LiveData<ResponseLoginDTO?> = _authenticateUser
-    private var routerNavigation: RouterNavigation? = null
 
     private var showLoadingLogin = MutableLiveData<Boolean>(false)
     var statusShowLoading: LiveData<Boolean> = showLoadingLogin
@@ -38,9 +37,6 @@ class LoginViewModel(private val loginRepository: LoginRepository) : BaseViewMod
             R.drawable.ic_open_eye
         }
 
-    fun setNavigation(navController: RouterNavigation) {
-        this.routerNavigation = navController
-    }
 
     suspend fun login() {
         loginRepository.authenticateUser(

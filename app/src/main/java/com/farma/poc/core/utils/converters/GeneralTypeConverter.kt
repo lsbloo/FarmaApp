@@ -2,6 +2,7 @@ package com.farma.poc.core.utils.converters
 
 import androidx.room.TypeConverter
 import com.farma.poc.core.utils.dto.ProductDTO
+import com.farma.poc.features.onboarding.data.models.ItensOboardingDTO
 import com.farma.poc.home.data.models.HightLightsProductDTO
 import com.farma.poc.home.data.models.SubCategoryDTO
 import com.google.gson.Gson
@@ -11,6 +12,31 @@ import java.lang.reflect.Type
 
 class GeneralTypeConverter {
     private val gson: Gson = Gson()
+
+
+    @TypeConverter
+    fun saveItensOnboardingDTO(itensOboardingDTO: ItensOboardingDTO): String {
+        return gson.toJson(itensOboardingDTO)
+    }
+
+    @TypeConverter
+    fun restoreItensOnboardingDTO(data: String): ItensOboardingDTO? {
+        if(data == null) return null
+        val type: Type = object : TypeToken<ItensOboardingDTO>() {}.type
+        return gson.fromJson(data,type)
+    }
+
+    @TypeConverter
+    fun saveListItensOnboardingDTO(itensOboardingDTO: List<ItensOboardingDTO>): String {
+        return gson.toJson(itensOboardingDTO)
+    }
+
+    @TypeConverter
+    fun restoreListItensOnboardingDTO(data: String): List<ItensOboardingDTO>? {
+        if(data == null) return null
+        val type: Type = object : TypeToken<List<ItensOboardingDTO>>() {}.type
+        return gson.fromJson(data,type)
+    }
 
 
     @TypeConverter

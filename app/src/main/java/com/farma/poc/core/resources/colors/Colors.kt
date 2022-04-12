@@ -14,6 +14,8 @@ object Colors {
      * Colors
      */
 
+    val colorBackGroundPrimaryTheme = Color(0xFF383737)
+
     val redPrimary = Color(0xFFFA1D28)
     val redSecundary = Color (0xFFe4161e)
     val redTernary = Color(0xFFb7070a)
