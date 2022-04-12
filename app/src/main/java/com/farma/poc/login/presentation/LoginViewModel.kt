@@ -3,6 +3,7 @@ package com.farma.poc.login.presentation
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.farma.poc.R
 import com.farma.poc.core.base.BaseViewModel
 import com.farma.poc.core.navigation.RouterNavigation
@@ -38,24 +39,26 @@ class LoginViewModel(private val loginRepository: LoginRepository) : BaseViewMod
         }
 
 
-    suspend fun login() {
-        loginRepository.authenticateUser(
-            onSuccessLiveData = {
-                _authenticateUser.postValue(it.value)
-                redirectHomeApp()
-            },
-            onFailureError = {
-                showErrorFeedBack()
-            },
-            onShowLoading = {
-                showLoadingLogin.postValue(it)
-            }
-        )
+    fun login() {
+        viewModelScope.launch {
+            loginRepository.authenticateUser(
+                onSuccessLiveData = {
+                    _authenticateUser.postValue(it.value)
+                    redirectHomeApp()
+                },
+                onFailureError = {
+                    showErrorFeedBack()
+                },
+                onShowLoading = {
+                    showLoadingLogin.postValue(it)
+                }
+            )
+        }
     }
 
 
     private fun showErrorFeedBack() {
-        CoroutineScope(Dispatchers.Main).launch {
+        viewModelScope.launch {
             showErrorFeedBack.value = true
         }
     }
