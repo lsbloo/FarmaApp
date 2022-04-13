@@ -16,9 +16,9 @@ import com.farma.poc.features.onboarding.presentation.OnboardingViewModel
 import com.farma.poc.features.onboarding.presentation.setupOnboardingScreen
 import com.farma.poc.features.splash.presentation.SplashViewModel
 import com.farma.poc.features.splash.presentation.screenSplash
-import com.farma.poc.home.presentation.homeComponent
-import com.farma.poc.login.presentation.LoginViewModel
-import com.farma.poc.login.presentation.screenLogin
+import com.farma.poc.features.home.presentation.homeComponent
+import com.farma.poc.features.login.presentation.LoginViewModel
+import com.farma.poc.features.login.presentation.screenLogin
 import com.farma.poc.ui.theme.FarmaAppTheme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -107,7 +107,7 @@ class MainActivity : ComponentActivity() {
                                 RouterNavigationEnum.ONBOARDING.name ->
                                     slideIntoContainer(
                                         AnimatedContentScope.SlideDirection.Left,
-                                        animationSpec = tween(700)
+                                        animationSpec = tween(DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING)
                                     )
                                 else -> null
                             }
@@ -117,7 +117,7 @@ class MainActivity : ComponentActivity() {
                                     RouterNavigationEnum.LOGIN.name ->
                                         slideOutOfContainer(
                                             AnimatedContentScope.SlideDirection.Left,
-                                            animationSpec = tween(700)
+                                            animationSpec = tween(DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING)
                                         )
                                     else -> null
                                 }
@@ -127,7 +127,7 @@ class MainActivity : ComponentActivity() {
                                     RouterNavigationEnum.LOGIN.name ->
                                         slideIntoContainer(
                                             AnimatedContentScope.SlideDirection.Right,
-                                            animationSpec = tween(700)
+                                            animationSpec = tween(DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING)
                                         )
                                     else -> null
                                 }
@@ -138,7 +138,36 @@ class MainActivity : ComponentActivity() {
                                 context = this@MainActivity
                             )
                         }
-                        composable(route = RouterNavigationEnum.LOGIN.name) {
+                        composable(route = RouterNavigationEnum.LOGIN.name, enterTransition = {
+                            when (initialState.destination.route) {
+                                RouterNavigationEnum.ONBOARDING.name ->
+                                    slideIntoContainer(
+                                        AnimatedContentScope.SlideDirection.Left,
+                                        animationSpec = tween(DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING)
+                                    )
+                                else -> null
+                            }
+                        },
+                            exitTransition = {
+                                when (targetState.destination.route) {
+                                    RouterNavigationEnum.HOME.name ->
+                                        slideOutOfContainer(
+                                            AnimatedContentScope.SlideDirection.Left,
+                                            animationSpec = tween(DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING)
+                                        )
+                                    else -> null
+                                }
+                            },
+                            popEnterTransition = {
+                                when (initialState.destination.route) {
+                                    RouterNavigationEnum.ONBOARDING.name ->
+                                        slideIntoContainer(
+                                            AnimatedContentScope.SlideDirection.Right,
+                                            animationSpec = tween(DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING)
+                                        )
+                                    else -> null
+                                }
+                            }) {
                             screenLogin(
                                 loginViewModel,
                                 this@MainActivity

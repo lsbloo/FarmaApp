@@ -68,8 +68,7 @@ fun setupOnboardingScreen(onboardingViewModel: OnboardingViewModel, context: Con
             delay(3000)
             with(pageState) {
                 if (onboardingViewModel.stateViewPageIndex != 2 && currentPage != 1) {
-                    val target =
-                        if (currentPage < onboardingViewModel.stateViewPageIndex) currentPage + 1 else 0
+                    val target = if (currentPage < onboardingViewModel.stateViewPageIndex) currentPage + 1 else 0
 
                     animateScrollToPage(
                         page = target,

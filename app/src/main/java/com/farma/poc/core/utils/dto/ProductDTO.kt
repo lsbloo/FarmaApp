@@ -3,9 +3,7 @@ package com.farma.poc.core.utils.dto
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import com.farma.poc.core.utils.converters.GeneralTypeConverter
-import com.farma.poc.home.data.models.SubCategoryDTO
+import com.farma.poc.features.home.data.models.SubCategoryDTO
 import kotlinx.parcelize.Parcelize
 
 @Entity
