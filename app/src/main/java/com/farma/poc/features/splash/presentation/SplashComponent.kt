@@ -1,7 +1,10 @@
 package com.farma.poc.features.splash.presentation
 
+import android.annotation.SuppressLint
 import android.content.Context
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -28,11 +31,10 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Composable
 fun screenSplash(splashViewModel: SplashViewModel, context: Context) {
 
-    ComposableUtils.getSystemUiControllerWithColorStatusBarAndDarkIcon(
+    ComposableUtils.setSystemUiControllerWithColorStatusBarAndDarkIcon(
         color = Colors.colorBackGroundPrimaryTheme,
         darkIcons = true
     )
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -45,27 +47,38 @@ fun screenSplash(splashViewModel: SplashViewModel, context: Context) {
                 ), alpha = 1.2f
             )
     ) {
-        viewImageLogoApp()
-        splashViewModel.redirectToOnboarding()
+        viewImageLogoApp(splashViewModel)
+        splashViewModel.redirectToOnboarding(
+            onNavigateCalled = {}
+        )
     }
 }
+
 
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalUnitApi
 @Composable
-fun viewImageLogoApp() {
+fun viewImageLogoApp(splashViewModel: SplashViewModel) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo_farma), contentDescription = "",
-            modifier = Modifier
-                .width(245.dp)
-                .height(264.dp)
-        )
+        Crossfade(
+            targetState = splashViewModel.visibilityImageLogo,
+            animationSpec = tween(SplashViewModel.TIME_ANIMATION_CROSS_FADE_TWEEN)
+        ) { visibility ->
+            AnimatedVisibility(visible = visibility) {
+                Image(
+                    painter = painterResource(id = R.drawable.logo_farma), contentDescription = "",
+                    modifier = Modifier
+                        .width(245.dp)
+                        .height(264.dp)
+                )
+            }
+            splashViewModel.changeVisibilityImageLogo(true)
+        }
     }
 
 }

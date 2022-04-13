@@ -45,8 +45,8 @@ enum class FontEnum(val textStyle: TextStyle): PropertiesFont {
         fontWeight = FontWeight.Thin,
         fontSize = 16.sp,
         letterSpacing = 2.sp,
-        textAlign = TextAlign.Left,
-        lineHeight = 50.sp,
+        textAlign = TextAlign.Center,
+        lineHeight = 25.sp,
     )){
         override fun setupStyle(shadow: Shadow, fontFamily: FontFamily,fontWeight: FontWeight?,color: Color?, fontSize: TextUnit?): TextStyle {
             return TextStyle(

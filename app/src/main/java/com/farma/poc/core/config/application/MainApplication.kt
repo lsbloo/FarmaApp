@@ -1,6 +1,7 @@
 package com.farma.poc.core.config.application
 
 import android.app.Application
+import com.farma.poc.core.base.BaseViewModelModule
 import com.farma.poc.core.config.data.FarmaDatabase
 import com.farma.poc.core.config.network.RetrofitInitializer
 import com.farma.poc.features.onboarding.data.di.OnboardingSetup
@@ -26,6 +27,7 @@ class MainApplication : Application() {
                 listOf<Module>(
                     RetrofitInitializer.getRetrofitNetModule(),
                     FarmaDatabase.farmaDatabaseModule(),
+                    BaseViewModelModule.setupBaseViewModel(),
                     SplashSetup.setupSplash(),
                     OnboardingSetup.setupOnboarding(),
                     LoginSetup.setupLogin(),

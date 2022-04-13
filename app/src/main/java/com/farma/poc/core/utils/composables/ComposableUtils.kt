@@ -1,5 +1,7 @@
 package com.farma.poc.core.utils.composables
 
+import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
@@ -9,7 +11,7 @@ class ComposableUtils {
 
     companion object {
         @Composable
-        fun getSystemUiControllerWithColorStatusBarAndDarkIcon(color: Color, darkIcons: Boolean) {
+        fun setSystemUiControllerWithColorStatusBarAndDarkIcon(color: Color, darkIcons: Boolean) {
             val systemUiController = rememberSystemUiController()
             SideEffect {
                 systemUiController.setStatusBarColor(
@@ -20,7 +22,7 @@ class ComposableUtils {
         }
 
         @Composable
-        fun getSystemUiControllerWithColorStatusBar(color: Color) {
+        fun setSystemUiControllerWithColorStatusBar(color: Color) {
             val systemUiController = rememberSystemUiController()
             SideEffect {
                 systemUiController.setStatusBarColor(
@@ -42,6 +44,13 @@ class ComposableUtils {
             val systemUiController = rememberSystemUiController()
             SideEffect {
                 systemUiController.isSystemBarsVisible = visibility
+            }
+        }
+
+        @Composable
+        fun setBackHandler(enable: Boolean, onClickBackPressed: (() -> Unit)? = null){
+            BackHandler(enabled = enable) {
+                onClickBackPressed?.invoke()
             }
         }
     }

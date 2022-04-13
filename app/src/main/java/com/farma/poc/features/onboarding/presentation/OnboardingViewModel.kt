@@ -17,7 +17,7 @@ class OnboardingViewModel(private val onboardingRepository: OnboardingRepository
     BaseViewModel() {
 
     var onboardingDataSet: OnboardingDTO? by mutableStateOf(null)
-
+    var stateViewPageIndex by mutableStateOf(0)
     init {
         getOnboardingDataScreen()
     }
@@ -26,16 +26,16 @@ class OnboardingViewModel(private val onboardingRepository: OnboardingRepository
         viewModelScope.launch {
             onboardingRepository.getOnboardingData(
                 onSuccessData = { it ->
-                    if(it) { setupDataSet() }
-                },
-                onFailureError = {
-                    setupDataSet {
-                        if(!it) {
-                            // show Error
-                        }
+                    it.takeIf { SUCCESS_DATA }.apply {
+                        setupDataSet()
                     }
                 },
-                onShowLoading = {},
+                onFailureError = {
+                    setupDataSet { hasRecoveryData -> trySetupDataWithRecoveryLocal(hasRecoveryData) }
+                },
+                onShowLoading = {
+
+                },
             )
         }
 
@@ -44,17 +44,37 @@ class OnboardingViewModel(private val onboardingRepository: OnboardingRepository
     private fun setupDataSet(onRecovery: ((Boolean) -> Unit?)? = null){
         CoroutineScope(Dispatchers.Main).launch {
             onboardingRepository.getOnboardingFlow().collect {
-                if(it == null) {
-                    onRecovery?.invoke(false)
-                } else {
-                    onboardingDataSet = it
+                it?.let { onboardingData ->
+                    onboardingDataSet = onboardingData
                     onRecovery?.invoke(true)
+                }?: also {
+                    onRecovery?.invoke(false)
                 }
             }
         }
     }
 
+    private fun trySetupDataWithRecoveryLocal(hasDataRecovery: Boolean) {
+        hasDataRecovery.takeIf { !SUCCESS_DATA }.apply {
+            setupDataSet()
+        }?: also {
+            // show error
+        }
+    }
+
+    fun animateToPage(index: Int, redirectLogin: (() -> Unit) ? = null) {
+        if(index == 2) {
+            redirectLogin?.invoke()
+        } else {
+            stateViewPageIndex = index
+        }
+    }
+
     fun redirectToLogin() {
         this.routerNavigation?.navigateTo(RouterNavigationEnum.LOGIN)
+    }
+
+    companion object {
+        private const val SUCCESS_DATA = true
     }
 }
