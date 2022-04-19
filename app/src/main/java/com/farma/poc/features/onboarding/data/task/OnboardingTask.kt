@@ -9,11 +9,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 
-class OnboardingTask(private val onboardingAPI: OnboardingAPI): BaseNetworkTaskImpl<OnboardingDTO, ResponseBody>() {
+class OnboardingTask(private val onboardingAPI: OnboardingAPI): BaseNetworkTaskImpl<Any,OnboardingDTO, ResponseBody>() {
 
 
     override suspend fun call(
-        t: OnboardingDTO?,
+        t: Any?,
         callback: (ResultTask.OnSuccess<OnboardingDTO>?, ResultTask.OnFailure<ResponseBody>?, onShouldLoading: Boolean?) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {

@@ -1,5 +1,6 @@
 package com.farma.poc.features.login.data.di
 
+import android.content.Context
 import com.farma.poc.core.config.data.FarmaAppDatabase
 import com.farma.poc.features.login.data.api.LoginAPI
 import com.farma.poc.features.login.data.repository.LoginRepository
@@ -24,8 +25,8 @@ object LoginSetup {
         return LoginRepository(loginApiTask = loginApiTask, loginDAO = databaseInstance.loginDao())
     }
 
-    private fun provideLoginViewModel(loginRepository: LoginRepository): LoginViewModel {
-        return LoginViewModel(loginRepository = loginRepository)
+    private fun provideLoginViewModel(loginRepository: LoginRepository, context: Context): LoginViewModel {
+        return LoginViewModel(loginRepository = loginRepository, context)
     }
 
 
@@ -37,7 +38,7 @@ object LoginSetup {
             provideLoginApiTask(get())
         }
         single { provideLoginRepository(get(), get()) }
-        single { provideLoginViewModel(get()) }
+        single { provideLoginViewModel(get(),get()) }
     }
 
 }

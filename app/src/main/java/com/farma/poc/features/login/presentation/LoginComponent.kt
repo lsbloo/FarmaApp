@@ -105,6 +105,9 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
         }
     }
 
+    loginViewModel.passwordText.value = passwordText
+    loginViewModel.emailText.value = loginText
+
     loginViewModel.showErrorFeedBack.value.let { showStatus ->
         if (showStatus) {
             CustomErrorFeedBack(
@@ -251,9 +254,7 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                     }
                 },
                 onClick = {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        loginViewModel.login()
-                    }
+                    loginViewModel.login()
                 },
                 elevation = ButtonDefaults.elevation(
                     defaultElevation = 6.dp,

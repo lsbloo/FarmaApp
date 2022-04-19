@@ -1,5 +1,6 @@
 package com.farma.poc.features.onboarding.data.di
 
+import android.content.Context
 import com.farma.poc.core.config.data.FarmaAppDatabase
 import com.farma.poc.features.onboarding.data.api.OnboardingAPI
 import com.farma.poc.features.onboarding.data.repository.OnboardingRepository
@@ -27,12 +28,15 @@ object OnboardingSetup {
     private fun provideOnboardingAPI(retrofit: Retrofit) =
         retrofit.create(OnboardingAPI::class.java)
 
-    private fun provideOnboardingViewModel(onboardingRepository: OnboardingRepository) = OnboardingViewModel(onboardingRepository = onboardingRepository)
+    private fun provideOnboardingViewModel(
+        onboardingRepository: OnboardingRepository,
+        context: Context
+    ) = OnboardingViewModel(onboardingRepository = onboardingRepository, context = context)
 
     fun setupOnboarding() = module {
         single { provideOnboardingAPI(get()) }
         single { provideOnboardingTask(get()) }
         single { provideOnboardingRepository(get(), get()) }
-        single { provideOnboardingViewModel(get()) }
+        single { provideOnboardingViewModel(get(),get()) }
     }
 }

@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.farma.poc.core.base.BaseDTO
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -15,4 +16,4 @@ data class ResponseLoginDTO(
     val bearerToken: String? = null,
     @ColumnInfo(name = "data_expires")
     val dataExpires: String? = null
-): Parcelable
+): BaseDTO(),Parcelable

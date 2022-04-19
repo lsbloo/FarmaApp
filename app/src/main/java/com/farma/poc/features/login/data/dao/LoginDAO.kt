@@ -14,6 +14,6 @@ interface LoginDAO {
     fun insertLoginToken(loginDTO: ResponseLoginDTO)
 
     @Query("select * from tokenlogin where id=:idUser")
-    fun getLoginToken(idUser: Int): LiveData<ResponseLoginDTO?>
+    fun getLoginToken(idUser: Int): ResponseLoginDTO?
 
 }

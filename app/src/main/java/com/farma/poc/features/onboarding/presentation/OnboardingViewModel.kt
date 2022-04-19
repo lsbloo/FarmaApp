@@ -1,5 +1,6 @@
 package com.farma.poc.features.onboarding.presentation
 
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -13,8 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class OnboardingViewModel(private val onboardingRepository: OnboardingRepository) :
-    BaseViewModel() {
+class OnboardingViewModel(private val onboardingRepository: OnboardingRepository, context: Context) :
+    BaseViewModel(context) {
 
     var onboardingDataSet: OnboardingDTO? by mutableStateOf(null)
     var stateViewPageIndex by mutableStateOf(0)

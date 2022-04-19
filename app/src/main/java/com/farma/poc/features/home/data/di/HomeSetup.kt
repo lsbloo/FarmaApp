@@ -1,5 +1,6 @@
 package com.farma.poc.features.home.data.di
 
+import android.content.Context
 import com.farma.poc.core.config.data.FarmaAppDatabase
 import com.farma.poc.features.home.data.api.HomeAPI
 import com.farma.poc.features.home.data.repository.HomeRepository
@@ -22,8 +23,9 @@ object HomeSetup {
 
 
     private fun provideHomeViewModel(
-        homeRepository: HomeRepository
-    ): HomeViewModel = HomeViewModel(homeRepository = homeRepository)
+        homeRepository: HomeRepository,
+        context: Context
+    ): HomeViewModel = HomeViewModel(homeRepository = homeRepository, context)
 
 
     fun setupHome() = module {
@@ -33,7 +35,7 @@ object HomeSetup {
         }
         single { provideHomeCategoryApiTask(get()) }
         single { provideHomeRepository(get(),get()) }
-        single { provideHomeViewModel(get()) }
+        single { provideHomeViewModel(get(),get()) }
     }
 
 }
