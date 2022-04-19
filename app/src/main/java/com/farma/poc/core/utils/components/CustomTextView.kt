@@ -29,7 +29,7 @@ class CustomTextView() {
         letterSpacing: TextUnit = TextUnit.Unspecified,
         textDecoration: TextDecoration? = null,
         textAlign: TextAlign? = null,
-        inlineContent: Map<String, InlineTextContent> = mapOf()
+        inlineContent: Map<String, InlineTextContent> = mapOf(),
     ) {
         return Text(
             text = AnnotatedString(text = if (upperCase) text.uppercase() else { text }),
@@ -43,7 +43,7 @@ class CustomTextView() {
             letterSpacing = letterSpacing,
             textDecoration = textDecoration,
             textAlign = textAlign,
-            inlineContent = inlineContent
+            inlineContent = inlineContent,
         )
     }
 }

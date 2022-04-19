@@ -96,10 +96,11 @@ class FontsTheme(shadow: Shadow, fontWeight: FontWeight? = null, color: Color? =
             fontWeight = fontWeight,
             color = color
         ),
-        h3 = TextStyle(
+        h3 = FontEnum.H2.setupStyle(
+            shadow = shadow,
             fontFamily = fonts,
-            fontStyle = FontStyle.Italic,
-            fontSize = 16.sp,
-        ),
+            fontWeight = fontWeight,
+            fontSize = 14.sp,
+            color = color)
     )
 }

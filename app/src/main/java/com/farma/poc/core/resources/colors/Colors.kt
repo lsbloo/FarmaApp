@@ -22,6 +22,7 @@ object Colors {
     val redQuar = Color(0xFFFF2626)
 
     val whitePrimary = Color(0xFFFFFFFF)
+    val whiteSecundary = Color(0xFFFCFCFC)
     val lightGray = Color(0xFFd2d3e1)
 
     val dimGray = Color(0xFF808080)
@@ -38,7 +39,7 @@ object Colors {
     val gradientSky = Color(0XFFe0eafc)
     val gradientSkyTwo = Color(0XFFcfdef3)
 
-    val bluePrimary = Color(0XFF1C6DD0)
+    val bluePrimary = Color(0XFF1877F2)
 
     val black = Color(0XFF000000)
 

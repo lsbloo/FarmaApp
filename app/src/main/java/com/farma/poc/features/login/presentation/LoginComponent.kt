@@ -5,13 +5,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.animation.*
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -20,16 +20,18 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.Placeholder
+import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import com.farma.poc.R
 import com.farma.poc.core.resources.colors.Colors
 import com.farma.poc.core.resources.fonts.FontsTheme
+import com.farma.poc.core.utils.colors.OutlinedTextFieldColor.Companion.getDefaultTextFieldOutlinedColor
 import com.farma.poc.core.utils.components.*
+import com.farma.poc.core.utils.composables.ComposableUtils
 import com.farma.poc.core.utils.enums.DurationSnackBarEnum
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalAnimationApi
@@ -53,6 +55,13 @@ fun screenLogin(loginViewModel: LoginViewModel, context: Context) {
             }
             setupLoginScreen(loginViewModel, context, scaffoldState)
         })
+
+    ComposableUtils.setBackHandler(
+        enable = true,
+        onClickBackPressed = {
+
+        }
+    )
 }
 
 
@@ -71,8 +80,8 @@ fun setupLoginScreen(
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf<Color>(
-                        Colors.whitePrimary,
-                        Colors.whitePrimary
+                        Colors.colorBackGroundPrimaryTheme,
+                        Colors.colorBackGroundPrimaryTheme
                     ),
                 ), alpha = 1.2f
             )
@@ -138,8 +147,8 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
         Image(
             painter = painterResource(id = R.drawable.logo_farm), contentDescription = "",
             modifier = Modifier
-                .width(150.dp)
-                .height(150.dp)
+                .width(162.dp)
+                .height(148.dp)
                 .align(Alignment.CenterHorizontally)
         )
 
@@ -147,16 +156,15 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
         CustomTextView().apply {
             customTextView(
                 text = context.getString(R.string.label_email),
-                upperCase = true,
-                color = Colors.redQuar,
+                upperCase = false,
+                color = Colors.whiteSecundary,
                 modifier = Modifier.padding(start = 40.dp, end = 40.dp),
                 textStyle =
                 FontsTheme(
                     shadow = Shadow(
-                        color = Colors.redQuar,
-                        blurRadius = 1F,
+                        color = Colors.whitePrimary,
                     )
-                ).typography.h1,
+                ).typography.h2,
                 fontSize = TextUnit(20F, TextUnitType(20))
             )
         }
@@ -170,22 +178,39 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
             state = loginText,
             onValueChange = { newValue ->
                 loginText = newValue
+            }, colorsTextField = getDefaultTextFieldOutlinedColor(), placeholder = {
+                CustomTextView().apply {
+                    customTextView(
+                        text = context.getString(R.string.label_placeholder_email_login),
+                        upperCase = false,
+                        color = Colors.whiteSecundary.copy(alpha = 0.4f),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 4.dp),
+                        textStyle =
+                        FontsTheme(
+                            shadow = Shadow(
+                                color = Colors.whitePrimary,
+                            )
+                        ).typography.h3,
+                        textAlign = TextAlign.Left
+                    )
+                }
             })
 
         Spacer(modifier = Modifier.height(20.dp))
         CustomTextView().apply {
             customTextView(
                 text = context.getString(R.string.label_password),
-                upperCase = true,
-                color = Colors.redQuar,
+                upperCase = false,
+                color = Colors.whiteSecundary,
                 modifier = Modifier.padding(start = 40.dp, end = 40.dp),
                 textStyle =
                 FontsTheme(
                     shadow = Shadow(
-                        color = Colors.redQuar,
-                        blurRadius = 1F,
+                        color = Colors.whitePrimary
                     )
-                ).typography.h1,
+                ).typography.h2,
                 fontSize = TextUnit(20F, TextUnitType(20))
             )
         }
@@ -213,22 +238,59 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                         contentDescription = ""
                     )
                 }
-            },
+            }, colorsTextField = getDefaultTextFieldOutlinedColor(), placeholder = {
+                CustomTextView().apply {
+                    customTextView(
+                        text = context.getString(R.string.label_placeholder_password_login),
+                        upperCase = false,
+                        color = Colors.whiteSecundary.copy(alpha = 0.4f),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 4.dp),
+                        textStyle =
+                        FontsTheme(
+                            shadow = Shadow(
+                                color = Colors.whitePrimary,
+                            )
+                        ).typography.h3,
+                        textAlign = TextAlign.Left
+                    )
+                }
+            }
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         CustomTextView().apply {
             customTextView(
-                text = context.getString(R.string.label_forgot_pass), upperCase = false,
+                text = context.getString(R.string.label_forgot_pass),
+                upperCase = false,
                 modifier =
                 Modifier
                     .padding(start = 40.dp, end = 28.dp)
-                    .align(Alignment.End), color = Colors.redQuar, textStyle =
+                    .align(Alignment.End), color = Colors.whiteSecundary, textStyle =
                 FontsTheme(
-                    fontWeight = FontWeight.Bold,
                     shadow = Shadow(
-                        color = Colors.redQuar,
-                        blurRadius = 2F,
+                        color = Colors.whitePrimary
+                    )
+                ).typography.h2,
+                fontSize = 14.sp
+            )
+        }
+        Spacer(modifier = Modifier.height(6.dp))
+        CustomTextView().apply {
+            customTextView(
+                text = context.getString(R.string.label_create_account),
+                upperCase = false,
+                modifier =
+                Modifier
+                    .padding(start = 40.dp, end = 28.dp)
+                    .align(Alignment.End)
+                    .clickable {
+                        loginViewModel.redirectToSingUp()
+                    }, color = Colors.whiteSecundary, textStyle =
+                FontsTheme(
+                    shadow = Shadow(
+                        color = Colors.whitePrimary
                     )
                 ).typography.h2,
                 fontSize = 14.sp
@@ -241,7 +303,7 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                 content = {
                     CustomTextView().apply {
                         customTextView(
-                            text = context.getString(R.string.button_login), upperCase = true,
+                            text = context.getString(R.string.button_login), upperCase = false,
                             modifier =
                             Modifier.padding(12.dp), color = Colors.whitePrimary, textStyle =
                             FontsTheme(
@@ -249,7 +311,7 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                                     color = Colors.whitePrimary,
                                     blurRadius = 2F,
                                 )
-                            ).typography.h1
+                            ).typography.h2
                         )
                     }
                 },
@@ -264,7 +326,7 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                 colors = ButtonDefaults.buttonColors(backgroundColor = Colors.redQuar),
                 contentPadding = ButtonDefaults.ContentPadding,
                 enabled = true,
-                shape = RoundedCornerShape(32.dp),
+                shape = RoundedCornerShape(6.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 32.dp, end = 32.dp)
@@ -274,7 +336,7 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
         Spacer(modifier = Modifier.height(40.dp))
         Row(modifier = Modifier.fillMaxWidth()) {
             Divider(
-                color = Colors.dimGray, thickness = 2.dp, modifier = Modifier
+                color = Colors.whiteSecundary, thickness = 2.dp, modifier = Modifier
                     .width(100.dp)
                     .padding(start = 40.dp, top = 8.dp)
             )
@@ -284,20 +346,19 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                     upperCase = true,
                     modifier = Modifier
                         .padding(start = 12.dp, end = 12.dp),
-                    color = Colors.dimGrayTwo,
+                    color = Colors.whiteSecundary,
                     textStyle = FontsTheme(
                         shadow = Shadow(
-                            color = Colors.dimGrayTwo,
-                            blurRadius = 2F,
+                            color = Colors.whitePrimary,
                         )
-                    ).typography.h1,
+                    ).typography.h3,
                     fontSize = 14.sp
                 )
             }
             Divider(
-                color = Colors.dimGray, thickness = 2.dp, modifier = Modifier
+                color = Colors.whiteSecundary, thickness = 2.dp, modifier = Modifier
                     .width(100.dp)
-                    .padding(end = 40.dp, top = 8.dp)
+                    .padding(end = 20.dp, top = 8.dp)
             )
         }
 
@@ -306,22 +367,12 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
             CustomCircularButton().apply {
                 customCircularButton(
                     content = {
-                        CustomTextView().apply {
-                            customTextView(
-                                text = context.getString(R.string.button_facebook),
-                                upperCase = true,
-                                modifier =
-                                Modifier.padding(12.dp),
-                                color = Colors.whitePrimary,
-                                textStyle =
-                                FontsTheme(
-                                    shadow = Shadow(
-                                        color = Colors.whitePrimary,
-                                        blurRadius = 2F,
-                                    )
-                                ).typography.h1
-                            )
-                        }
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_new_facebook), contentDescription = "",
+                            modifier = Modifier
+                                .width(30.dp)
+                                .height(30.dp)
+                        )
                     },
                     onClick = {
                         Toast.makeText(
@@ -338,10 +389,10 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                     colors = ButtonDefaults.buttonColors(backgroundColor = Colors.bluePrimary),
                     contentPadding = ButtonDefaults.ContentPadding,
                     enabled = true,
-                    shape = RoundedCornerShape(32.dp),
+                    shape = RoundedCornerShape(6.dp),
                     modifier = Modifier
                         .width(190.dp)
-                        .height(60.dp)
+                        .height(40.dp)
                         .padding(start = 32.dp)
                 )
             }
@@ -351,19 +402,12 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
             CustomCircularButton().apply {
                 customCircularButton(
                     content = {
-                        CustomTextView().apply {
-                            customTextView(
-                                text = context.getString(R.string.button_google), upperCase = true,
-                                modifier =
-                                Modifier.padding(12.dp), color = Colors.whitePrimary, textStyle =
-                                FontsTheme(
-                                    shadow = Shadow(
-                                        color = Colors.whitePrimary,
-                                        blurRadius = 2F,
-                                    )
-                                ).typography.h1
-                            )
-                        }
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_new_google), contentDescription = "",
+                            modifier = Modifier
+                                .width(30.dp)
+                                .height(30.dp)
+                        )
                     },
                     onClick = {
                         Toast.makeText(
@@ -380,11 +424,11 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                     colors = ButtonDefaults.buttonColors(backgroundColor = Colors.redSecundary),
                     contentPadding = ButtonDefaults.ContentPadding,
                     enabled = true,
-                    shape = RoundedCornerShape(32.dp),
+                    shape = RoundedCornerShape(6.dp),
                     modifier = Modifier
                         .width(180.dp)
-                        .height(60.dp)
-                        .padding(end = 32.dp)
+                        .height(40.dp)
+                        .padding(end = 32.dp),
                 )
             }
         }

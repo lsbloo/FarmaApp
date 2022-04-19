@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import com.farma.poc.R
 import com.farma.poc.core.resources.colors.Colors
+import com.farma.poc.core.utils.colors.OutlinedTextFieldColor
 
 
 @ExperimentalUnitApi
@@ -32,13 +33,14 @@ fun customTextField(
     placeholder: @Composable() (() -> Unit)? = null,
     leadingIcon: @Composable() (() -> Unit)? = null, textStyle: TextStyle? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
+    colorsTextField: OutlinedTextFieldColor,
 ) {
     val maxCharPassword = 10
     val maxCharOtherField = 40
     return TextField(
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Colors.redPrimary,
-            unfocusedBorderColor = Color.Black
+            focusedBorderColor = colorsTextField.focusedBorderColor,
+            unfocusedBorderColor = colorsTextField.unfocusedBorderColor
         ),
         modifier = modifier,
         value = state,
@@ -63,9 +65,9 @@ fun customTextField(
             it
         } ?: run {
             TextStyle(
-                color = Color.Black,
+                color = Colors.whitePrimary,
                 textAlign = TextAlign.Left,
-                letterSpacing = TextUnit(2F, TextUnitType(type = 10L))
+                letterSpacing = TextUnit(1F, TextUnitType(type = 10L))
             )
         },
     )

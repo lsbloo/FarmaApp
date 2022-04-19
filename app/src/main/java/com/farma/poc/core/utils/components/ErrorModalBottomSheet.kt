@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.farma.poc.core.resources.colors.Colors
 import com.farma.poc.core.resources.fonts.FontsTheme
+import com.farma.poc.core.utils.colors.OutlinedTextFieldColor.Companion.getDefaultTextFieldOutlinedColor
 
 
 class ErrorModalBottomSheet(
@@ -58,7 +59,7 @@ class ErrorModalBottomSheet(
                             ).typography.h2,
                             onValueChange = { _ ->
                             }
-                        )
+                        , colorsTextField = getDefaultTextFieldOutlinedColor())
                     }
                 }
             }

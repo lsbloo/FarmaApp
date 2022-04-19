@@ -2,11 +2,8 @@ package com.farma.poc.core.utils.components
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.farma.poc.core.utils.enums.DurationSnackBarEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

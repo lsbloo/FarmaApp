@@ -1,6 +1,7 @@
 package com.farma.poc.features.login.presentation
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -47,6 +48,10 @@ class LoginViewModel(private val loginRepository: LoginRepository, context: Cont
         }, onFailure = {
             // SHOW ERROR EMAIL OR PASSWORD EMPTY
         })
+
+    }
+
+    fun redirectToSingUp() {
 
     }
 
