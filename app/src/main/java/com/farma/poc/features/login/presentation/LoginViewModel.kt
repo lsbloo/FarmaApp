@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.farma.poc.R
 import com.farma.poc.core.base.BaseViewModel
+import com.farma.poc.core.navigation.RouterNavigation
 import com.farma.poc.core.navigation.RouterNavigationEnum
 import com.farma.poc.core.utils.safeLet
 import com.farma.poc.features.login.data.models.ResponseLoginDTO
@@ -27,6 +28,7 @@ class LoginViewModel(private val loginRepository: LoginRepository, context: Cont
     var emailText = mutableStateOf("")
 
     var showErrorFeedBack = mutableStateOf(false)
+    var showErrorFeedBackEmptyCredentials = mutableStateOf(false)
 
     var stateEyeLogin = mutableStateOf(true)
 
@@ -45,14 +47,16 @@ class LoginViewModel(private val loginRepository: LoginRepository, context: Cont
     fun login() {
         safeLet(emailText.value, passwordText.value, onResult = { emailText, passwordText ->
             authenticate(emailText, passwordText)
+            showErrorFeedBackEmptyCredentials.value = false
         }, onFailure = {
-            // SHOW ERROR EMAIL OR PASSWORD EMPTY
+            showErrorFeedBackEmptyCredentials.value = true
+            showErrorFeedBackCredentials()
         })
 
     }
 
-    fun redirectToSingUp() {
-
+    fun redirectToSingUp(onRedirect: (() -> Unit)? = null) {
+        routerNavigation?.navigateTo(router = RouterNavigationEnum.SINGUP)
     }
 
     private fun authenticate(email: String, password: String) {
@@ -102,6 +106,10 @@ class LoginViewModel(private val loginRepository: LoginRepository, context: Cont
         safeLet(emailText.value, passwordText.value, onResult = { emailText, _ ->
             firstLetter.invoke(emailText.substring(0))
         })
+    }
+
+    private fun showErrorFeedBackCredentials() {
+        showErrorFeedBackEmptyCredentials.value = true
     }
 
     private fun showErrorFeedBack() {

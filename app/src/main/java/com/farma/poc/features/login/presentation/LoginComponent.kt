@@ -25,20 +25,25 @@ import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
+import com.farma.poc.MainActivity
 import com.farma.poc.R
+import com.farma.poc.core.navigation.RouterNavigation
+import com.farma.poc.core.navigation.RouterNavigationEnum
 import com.farma.poc.core.resources.colors.Colors
 import com.farma.poc.core.resources.fonts.FontsTheme
 import com.farma.poc.core.utils.colors.OutlinedTextFieldColor.Companion.getDefaultTextFieldOutlinedColor
 import com.farma.poc.core.utils.components.*
 import com.farma.poc.core.utils.composables.ComposableUtils
+import com.farma.poc.core.utils.composables.ComposableUtils.Companion.showSnackBarError
 import com.farma.poc.core.utils.enums.DurationSnackBarEnum
+import kotlinx.coroutines.CoroutineScope
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalUnitApi
 @Composable
-fun screenLogin(loginViewModel: LoginViewModel, context: Context) {
+fun screenLogin(loginViewModel: LoginViewModel, context: Context, activity: MainActivity? = null) {
     val scaffoldState = rememberScaffoldState()
     Scaffold(
         topBar = {},
@@ -59,7 +64,7 @@ fun screenLogin(loginViewModel: LoginViewModel, context: Context) {
     ComposableUtils.setBackHandler(
         enable = true,
         onClickBackPressed = {
-
+            activity?.finish()
         }
     )
 }
@@ -106,32 +111,34 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
         mutableStateOf("")
     }
 
-    loginViewModel.statusShowLoading.observeAsState().value?.let { showLoading ->
-        if (showLoading) {
-            CustomProgressButton().apply {
-                customProgressButton()
+    with(loginViewModel) {
+        statusShowLoading.observeAsState().value?.let { showLoading ->
+            if (showLoading) {
+                CustomProgressButton().apply {
+                    customProgressButton()
+                }
             }
         }
-    }
 
-    loginViewModel.passwordText.value = passwordText
-    loginViewModel.emailText.value = loginText
+        this.passwordText.value = passwordText
+        this.emailText.value = loginText
 
-    loginViewModel.showErrorFeedBack.value.let { showStatus ->
-        if (showStatus) {
-            CustomErrorFeedBack(
-                snackBarHostState = scaffoldState.snackbarHostState,
-                coroutineScope = coroutineScope,
+
+        showErrorFeedBack.value.let { showStatus ->
+            showSnackBarError(scaffoldState = scaffoldState.snackbarHostState,
+                coroutineScope = coroutineScope, enable = showStatus,
                 message = context.getString(R.string.error_login_request),
-                actionLabel = context.getString(R.string.label_closed_button),
-                durationSnackBar = DurationSnackBarEnum.SHORT,
-                actionPerformed = {
-
-                }
-            ).apply {
-                setupSnackBarError()
-                loginViewModel.showErrorFeedBack.value = false
-            }
+                actionLabel = context.getString(R.string.label_closed_button), onApply = {
+                    loginViewModel.showErrorFeedBack.value = false
+                })
+        }
+        showErrorFeedBackEmptyCredentials.value.let {
+            showSnackBarError(scaffoldState = scaffoldState.snackbarHostState,
+                coroutineScope = coroutineScope, enable = it,
+                message = context.getString(R.string.error_login_labels),
+                actionLabel = context.getString(R.string.label_closed_button), onApply = {
+                    showErrorFeedBackEmptyCredentials.value = false
+                })
         }
     }
 
@@ -368,7 +375,8 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                 customCircularButton(
                     content = {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_new_facebook), contentDescription = "",
+                            painter = painterResource(id = R.drawable.ic_new_facebook),
+                            contentDescription = "",
                             modifier = Modifier
                                 .width(30.dp)
                                 .height(30.dp)
@@ -403,7 +411,8 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                 customCircularButton(
                     content = {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_new_google), contentDescription = "",
+                            painter = painterResource(id = R.drawable.ic_new_google),
+                            contentDescription = "",
                             modifier = Modifier
                                 .width(30.dp)
                                 .height(30.dp)
@@ -421,7 +430,7 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                         pressedElevation = 8.dp,
                         disabledElevation = 0.dp
                     ),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Colors.redSecundary),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Colors.black),
                     contentPadding = ButtonDefaults.ContentPadding,
                     enabled = true,
                     shape = RoundedCornerShape(6.dp),
@@ -434,3 +443,4 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
         }
     }
 }
+

@@ -10,8 +10,13 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.unit.ExperimentalUnitApi
+import com.farma.poc.core.animation.TransitionComponents
 import com.farma.poc.core.navigation.RouterNavigationEnum
 import com.farma.poc.core.navigation.RouterNavigationManager
+import com.farma.poc.core.resources.colors.Colors
+import com.farma.poc.core.resources.colors.Colors.colorBackGroundPrimaryTheme
+import com.farma.poc.core.utils.composables.ComposableUtils
+import com.farma.poc.core.utils.composables.ComposableUtils.Companion.setSystemUiControllerWithColorStatusBar
 import com.farma.poc.features.onboarding.presentation.OnboardingViewModel
 import com.farma.poc.features.onboarding.presentation.setupOnboardingScreen
 import com.farma.poc.features.splash.presentation.SplashViewModel
@@ -19,6 +24,8 @@ import com.farma.poc.features.splash.presentation.screenSplash
 import com.farma.poc.features.home.presentation.homeComponent
 import com.farma.poc.features.login.presentation.LoginViewModel
 import com.farma.poc.features.login.presentation.screenLogin
+import com.farma.poc.features.singup.presentation.SingUpViewModel
+import com.farma.poc.features.singup.presentation.screenSingUp
 import com.farma.poc.ui.theme.FarmaAppTheme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -31,6 +38,7 @@ class MainActivity : ComponentActivity() {
     companion object {
         private const val DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING = 1000
     }
+
     @ExperimentalPagerApi
     @ExperimentalAnimationApi
     @ExperimentalMaterialApi
@@ -38,13 +46,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            setSystemUiControllerWithColorStatusBar(color = colorBackGroundPrimaryTheme)
             FarmaAppTheme {
                 // A surface container using the 'background' color from the theme
                 val loginViewModel = getViewModel<LoginViewModel>()
                 val splashViewModel = getViewModel<SplashViewModel>()
                 val onboardingViewModel = getViewModel<OnboardingViewModel>()
+                val singUpViewModel = getViewModel<SingUpViewModel>()
 
-                Surface(color = MaterialTheme.colors.background) {
+                Surface(color = colorBackGroundPrimaryTheme) {
                     val navController = rememberAnimatedNavController()
                     AnimatedNavHost(
                         navController = navController,
@@ -54,125 +64,51 @@ class MainActivity : ComponentActivity() {
                         splashViewModel.setNavigation(routerNavigationManager)
                         loginViewModel.setNavigation(routerNavigationManager)
                         onboardingViewModel.setNavigation(routerNavigationManager)
+                        singUpViewModel.setNavigation(routerNavigationManager)
+
+                        TransitionComponents(
+                            RouterNavigationEnum.SPLASH,
+                            RouterNavigationEnum.ONBOARDING,
+                            DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING
+                        )
+                            .setupComponentWithAnimation(this, onCallComponentScreen = {
+                                screenSplash(
+                                    splashViewModel = splashViewModel,
+                                    context = this@MainActivity
+                                )
+                            })
+
+                        TransitionComponents(
+                            RouterNavigationEnum.ONBOARDING,
+                            RouterNavigationEnum.LOGIN,
+                            DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING
+                        )
+                            .setupComponentWithAnimation(this, onCallComponentScreen = {
+                                setupOnboardingScreen(
+                                    onboardingViewModel = onboardingViewModel,
+                                    context = this@MainActivity
+                                )
+                            })
+
+                        TransitionComponents(
+                            RouterNavigationEnum.LOGIN,
+                            RouterNavigationEnum.HOME,
+                            DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING
+                        )
+                            .setupComponentWithAnimation(this, onCallComponentScreen = {
+                                screenLogin(
+                                    loginViewModel,
+                                    this@MainActivity,
+                                    this@MainActivity
+                                )
+                            })
 
 
-                        composable(route = RouterNavigationEnum.SPLASH.name,
-                            enterTransition = {
-                                when (initialState.destination.route) {
-                                    RouterNavigationEnum.ONBOARDING.name ->
-                                        slideIntoContainer(
-                                            AnimatedContentScope.SlideDirection.Left,
-                                            animationSpec = tween(DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING)
-                                        )
-                                    else -> null
-                                }
-                            },
-                            exitTransition = {
-                                when (targetState.destination.route) {
-                                    RouterNavigationEnum.ONBOARDING.name ->
-                                        slideOutOfContainer(
-                                            AnimatedContentScope.SlideDirection.Left,
-                                            animationSpec = tween(DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING)
-                                        )
-                                    else -> null
-                                }
-                            },
-                            popEnterTransition = {
-                                when (initialState.destination.route) {
-                                    RouterNavigationEnum.ONBOARDING.name ->
-                                        slideIntoContainer(
-                                            AnimatedContentScope.SlideDirection.Right,
-                                            animationSpec = tween(DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING)
-                                        )
-                                    else -> null
-                                }
-                            },
-                            popExitTransition = {
-                                when (targetState.destination.route) {
-                                    RouterNavigationEnum.ONBOARDING.name ->
-                                        slideOutOfContainer(
-                                            AnimatedContentScope.SlideDirection.Right,
-                                            animationSpec = tween(DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING)
-                                        )
-                                    else -> null
-                                }
-                            }) {
-                            screenSplash(
-                                splashViewModel = splashViewModel,
-                                context = this@MainActivity
-                            )
-                        }
-                        composable(route = RouterNavigationEnum.ONBOARDING.name, enterTransition = {
-                            when (initialState.destination.route) {
-                                RouterNavigationEnum.ONBOARDING.name ->
-                                    slideIntoContainer(
-                                        AnimatedContentScope.SlideDirection.Left,
-                                        animationSpec = tween(DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING)
-                                    )
-                                else -> null
-                            }
-                        },
-                            exitTransition = {
-                                when (targetState.destination.route) {
-                                    RouterNavigationEnum.LOGIN.name ->
-                                        slideOutOfContainer(
-                                            AnimatedContentScope.SlideDirection.Left,
-                                            animationSpec = tween(DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING)
-                                        )
-                                    else -> null
-                                }
-                            },
-                            popEnterTransition = {
-                                when (initialState.destination.route) {
-                                    RouterNavigationEnum.LOGIN.name ->
-                                        slideIntoContainer(
-                                            AnimatedContentScope.SlideDirection.Right,
-                                            animationSpec = tween(DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING)
-                                        )
-                                    else -> null
-                                }
-                            }
-                        ) {
-                            setupOnboardingScreen(
-                                onboardingViewModel = onboardingViewModel,
-                                context = this@MainActivity
-                            )
-                        }
-                        composable(route = RouterNavigationEnum.LOGIN.name, enterTransition = {
-                            when (initialState.destination.route) {
-                                RouterNavigationEnum.ONBOARDING.name ->
-                                    slideIntoContainer(
-                                        AnimatedContentScope.SlideDirection.Left,
-                                        animationSpec = tween(DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING)
-                                    )
-                                else -> null
-                            }
-                        },
-                            exitTransition = {
-                                when (targetState.destination.route) {
-                                    RouterNavigationEnum.HOME.name ->
-                                        slideOutOfContainer(
-                                            AnimatedContentScope.SlideDirection.Left,
-                                            animationSpec = tween(DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING)
-                                        )
-                                    else -> null
-                                }
-                            },
-                            popEnterTransition = {
-                                when (initialState.destination.route) {
-                                    RouterNavigationEnum.ONBOARDING.name ->
-                                        slideIntoContainer(
-                                            AnimatedContentScope.SlideDirection.Right,
-                                            animationSpec = tween(DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING)
-                                        )
-                                    else -> null
-                                }
-                            }) {
-                            screenLogin(
-                                loginViewModel,
-                                this@MainActivity
-                            )
-                        }
+
+                        composable(route = RouterNavigationEnum.SINGUP.name) { screenSingUp(
+                            context = this@MainActivity,
+                            singUpViewModel = singUpViewModel
+                        ) }
                         composable(route = RouterNavigationEnum.HOME.name) { homeComponent() }
                     }
                 }

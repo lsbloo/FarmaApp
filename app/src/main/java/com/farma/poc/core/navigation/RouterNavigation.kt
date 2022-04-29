@@ -1,5 +1,7 @@
 package com.farma.poc.core.navigation
 
+import androidx.compose.runtime.Composable
+
 interface RouterNavigation {
 
     fun navigateTo(
@@ -11,8 +13,15 @@ interface RouterNavigation {
         router: RouterNavigationEnum,
     )
 
+    @Composable
+    fun navigateToWithAnimationTransition(
+        initRouterNavigationEnum: RouterNavigationEnum,
+        destinationRouter: RouterNavigationEnum,
+        timeDurationTween: Int
+    )
+
     fun popBackStack()
 
-    fun navigatePop()
+    fun navigatePop(routerBackDestination: RouterNavigationEnum)
 
 }

@@ -6,6 +6,7 @@
     <string name="label_password">Senha</string>
     <string name="label_forgot_pass">Esqueceu a senha?</string>
     <string name="label_create_account">Criar conta</string>
+    <string name="label_create_account_second">Criar Conta</string>
     <string name="label_connect_with">Ou conecte-se com</string>
     <string name="button_login">Entrar</string>
     <string name="button_facebook">Facebook</string>
@@ -16,10 +17,12 @@
 
     <string name="label_placeholder_email_login">example@email.com</string>
     <string name="label_placeholder_password_login">***</string>
-
+    <string name="label_name">Nome</string>
+    <string name="label_cpf">Cpf</string>
 
     <!-- Messages Warning -->
     <string name="function_not_implemented">Funcionalidade não implementada!</string>
     <string name="error_login_request">Não foi possivel realizar o login</string>
+    <string name="error_login_labels">Preencha os campos corretamente!</string>
 
 </resources>

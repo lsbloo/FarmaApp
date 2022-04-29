@@ -1,9 +1,20 @@
 package com.farma.poc.core.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
+import androidx.navigation.navOptions
+import com.farma.poc.MainActivity
+import com.farma.poc.core.animation.TransitionComponents
+import com.farma.poc.features.splash.presentation.screenSplash
+import com.google.accompanist.navigation.animation.AnimatedNavHost
 
-class RouterNavigationManager(private val navController: NavHostController, private val navGraphBuilder: NavGraphBuilder) : RouterNavigation {
+class RouterNavigationManager(
+    private val navController: NavHostController,
+    private val navGraphBuilder: NavGraphBuilder
+) : RouterNavigation {
 
 
     override fun navigateTo(navigationRouter: RouterNavigationEnum, arguments: Any) {
@@ -14,11 +25,33 @@ class RouterNavigationManager(private val navController: NavHostController, priv
         navController.navigate(router.name)
     }
 
+    @Composable
+    @ExperimentalAnimationApi
+    override fun navigateToWithAnimationTransition(
+        initRouterNavigationEnum: RouterNavigationEnum,
+        destinationRouter: RouterNavigationEnum,
+        timeDurationTween: Int
+    ) {
+        AnimatedNavHost(
+            navController = navController,
+            startDestination = initRouterNavigationEnum.name
+        ) {
+            TransitionComponents(initRouterNavigationEnum, destinationRouter, timeDurationTween)
+                .setupComponentWithAnimation(this, onCallComponentScreen = {
+                    navController.navigate(destinationRouter.name)
+                })
+        }
+    }
+
     override fun popBackStack() {
         navController.popBackStack()
     }
 
-    override fun navigatePop() {
+    override fun navigatePop(routerBackDestination: RouterNavigationEnum) {
+        navController.popBackStack(route = routerBackDestination.name,
+            inclusive = false,
+            saveState = false
+        )
     }
 
 }

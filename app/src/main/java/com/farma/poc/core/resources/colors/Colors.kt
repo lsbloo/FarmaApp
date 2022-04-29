@@ -20,6 +20,7 @@ object Colors {
     val redSecundary = Color (0xFFe4161e)
     val redTernary = Color(0xFFb7070a)
     val redQuar = Color(0xFFFF2626)
+    val redQuin = Color(0xFF8C1422)
 
     val whitePrimary = Color(0xFFFFFFFF)
     val whiteSecundary = Color(0xFFFCFCFC)

@@ -8,6 +8,7 @@ import com.farma.poc.features.onboarding.data.di.OnboardingSetup
 import com.farma.poc.features.splash.data.di.SplashSetup
 import com.farma.poc.features.home.data.di.HomeSetup
 import com.farma.poc.features.login.data.di.LoginSetup
+import com.farma.poc.features.singup.data.di.SingUpSetup
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -31,7 +32,8 @@ class MainApplication : Application() {
                     SplashSetup.setupSplash(),
                     OnboardingSetup.setupOnboarding(),
                     LoginSetup.setupLogin(),
-                    HomeSetup.setupHome()
+                    HomeSetup.setupHome(),
+                    SingUpSetup.setupSingUp()
                 )
             )
         }
