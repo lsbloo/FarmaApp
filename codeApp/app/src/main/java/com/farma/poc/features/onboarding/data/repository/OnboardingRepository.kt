@@ -25,7 +25,8 @@ class OnboardingRepository(
     suspend fun getOnboardingData(
         onSuccessData: (Boolean) -> Unit,
         onFailureError: (ResponseBody?) -> Unit,
-        onShowLoading: (Boolean) -> Unit
+        onShowLoading: (Boolean) -> Unit,
+        onNetworkError: () -> Unit,
     ) {
         onboardingTask.call(
             callback = { onSuccess, onFailure, onShouldLoading ->
@@ -41,8 +42,10 @@ class OnboardingRepository(
                 onShouldLoading?.let {
                     onShowLoading.invoke(it)
                 }
+            },
+            errorNetWorkNotAvailable = {
+                onNetworkError.invoke()
             }
-
         )
     }
 

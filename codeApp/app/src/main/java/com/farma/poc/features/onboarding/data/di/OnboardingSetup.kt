@@ -22,8 +22,8 @@ object OnboardingSetup {
         )
     }
 
-    private fun provideOnboardingTask(onboardingAPI: OnboardingAPI) =
-        OnboardingTask(onboardingAPI = onboardingAPI)
+    private fun provideOnboardingTask(onboardingAPI: OnboardingAPI, context: Context) =
+        OnboardingTask(onboardingAPI = onboardingAPI, context = context)
 
     private fun provideOnboardingAPI(retrofit: Retrofit) =
         retrofit.create(OnboardingAPI::class.java)
@@ -35,7 +35,7 @@ object OnboardingSetup {
 
     fun setupOnboarding() = module {
         single { provideOnboardingAPI(get()) }
-        single { provideOnboardingTask(get()) }
+        single { provideOnboardingTask(get(),get()) }
         single { provideOnboardingRepository(get(), get()) }
         single { provideOnboardingViewModel(get(),get()) }
     }

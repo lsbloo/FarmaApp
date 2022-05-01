@@ -13,8 +13,8 @@ object HomeSetup {
 
     private fun provideHomeApi(retrofit: Retrofit): HomeAPI = retrofit.create(HomeAPI::class.java)
 
-    private fun provideHomeCategoryApiTask(homeAPI: HomeAPI): HomeCategoryTask =
-        HomeCategoryTask(homeAPI)
+    private fun provideHomeCategoryApiTask(homeAPI: HomeAPI, context: Context): HomeCategoryTask =
+        HomeCategoryTask(homeAPI, context = context)
 
     private fun provideHomeRepository(
         homeCategoryTask: HomeCategoryTask,
@@ -33,7 +33,7 @@ object HomeSetup {
         single {
             provideHomeApi(get())
         }
-        single { provideHomeCategoryApiTask(get()) }
+        single { provideHomeCategoryApiTask(get(),get()) }
         single { provideHomeRepository(get(),get()) }
         single { provideHomeViewModel(get(),get()) }
     }

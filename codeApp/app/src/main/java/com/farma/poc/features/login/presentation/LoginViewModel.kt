@@ -57,6 +57,7 @@ class LoginViewModel(private val loginRepository: LoginRepository, context: Cont
 
     fun redirectToSingUp(onRedirect: (() -> Unit)? = null) {
         routerNavigation?.navigateTo(router = RouterNavigationEnum.SINGUP)
+        onRedirect?.invoke()
     }
 
     private fun authenticate(email: String, password: String) {

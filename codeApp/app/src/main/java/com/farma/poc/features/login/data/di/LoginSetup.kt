@@ -14,8 +14,8 @@ object LoginSetup {
     private fun provideLoginApi(retrofit: Retrofit): LoginAPI =
         retrofit.create(LoginAPI::class.java)
 
-    private fun provideLoginApiTask(loginAPI: LoginAPI): LoginApiTask {
-        return LoginApiTask(loginAPI = loginAPI)
+    private fun provideLoginApiTask(loginAPI: LoginAPI, context: Context): LoginApiTask {
+        return LoginApiTask(loginAPI = loginAPI, context)
     }
 
     private fun provideLoginRepository(
@@ -35,7 +35,7 @@ object LoginSetup {
             provideLoginApi(get())
         }
         single {
-            provideLoginApiTask(get())
+            provideLoginApiTask(get(),get())
         }
         single { provideLoginRepository(get(), get()) }
         single { provideLoginViewModel(get(),get()) }

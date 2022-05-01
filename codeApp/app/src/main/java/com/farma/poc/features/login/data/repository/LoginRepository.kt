@@ -35,6 +35,9 @@ class LoginRepository(private val loginApiTask: LoginApiTask, private val loginD
                     onShowLoading.invoke(it)
                 }
             },
+            errorNetWorkNotAvailable = {
+
+            }
         )
     }
 

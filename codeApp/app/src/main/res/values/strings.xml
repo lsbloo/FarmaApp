@@ -18,11 +18,12 @@
     <string name="label_placeholder_email_login">example@email.com</string>
     <string name="label_placeholder_password_login">***</string>
     <string name="label_name">Nome</string>
-    <string name="label_cpf">Cpf</string>
+    <string name="label_cpf">CPF</string>
 
     <!-- Messages Warning -->
     <string name="function_not_implemented">Funcionalidade não implementada!</string>
     <string name="error_login_request">Não foi possivel realizar o login</string>
     <string name="error_login_labels">Preencha os campos corretamente!</string>
+    <string name="error_singup_request">Não foi possivel criar sua conta, tente novamente!</string>
 
 </resources>

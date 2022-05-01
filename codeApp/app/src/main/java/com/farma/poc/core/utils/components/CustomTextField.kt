@@ -34,6 +34,7 @@ fun customTextField(
     leadingIcon: @Composable() (() -> Unit)? = null, textStyle: TextStyle? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     colorsTextField: OutlinedTextFieldColor,
+    isError: Boolean? = null,
 ) {
     val maxCharPassword = 10
     val maxCharOtherField = 40
@@ -59,6 +60,7 @@ fun customTextField(
         visualTransformation = if (isPassword && changePasswordTransformation == true) PasswordVisualTransformation() else {
             VisualTransformation.None
         },
+        isError = isError ?: false,
         trailingIcon = trailingIcon,
         maxLines = 1,
         textStyle = textStyle?.let {

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -107,6 +108,43 @@ fun bodyContent(singUpViewModel: SingUpViewModel, context: Context, scaffoldStat
         mutableStateOf("")
     }
 
+    val coroutineScope = rememberCoroutineScope()
+
+    with(singUpViewModel) {
+        this.name.value = nameState
+        this.cpf.value = cpfState
+        this.email.value = emailState
+        this.password.value = passwordState
+
+
+
+        showErrorFeedBackEmptyCredentials.value.let {
+            ComposableUtils.showSnackBarError(scaffoldState = scaffoldState.snackbarHostState,
+                coroutineScope = coroutineScope, enable = it,
+                message = context.getString(R.string.error_login_labels),
+                actionLabel = context.getString(R.string.label_closed_button), onApply = {
+                    showErrorFeedBackEmptyCredentials.value = false
+                })
+        }
+
+        showErrorFeedBack.value.let {
+            ComposableUtils.showSnackBarError(scaffoldState = scaffoldState.snackbarHostState,
+                coroutineScope = coroutineScope, enable = it,
+                message = context.getString(R.string.error_singup_request),
+                actionLabel = context.getString(R.string.label_closed_button), onApply = {
+                    showErrorFeedBack.value = false
+                })
+        }
+
+        shouldLoading.value.let { showLoading ->
+            if (showLoading) {
+                CustomProgressButton().apply {
+                    customProgressButton()
+                }
+            }
+        }
+    }
+
 
     Column(
         modifier = Modifier
@@ -142,134 +180,191 @@ fun bodyContent(singUpViewModel: SingUpViewModel, context: Context, scaffoldStat
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
-        customTextField(modifier = Modifier
-            .padding(start = 40.dp, end = 20.dp)
-            .fillMaxWidth()
-            .padding(
-                end = 10.dp
-            ),
-            isPassword = false,
-            state = nameState,
-            onValueChange = { newValue ->
-                nameState = newValue
-            },
-            colorsTextField = OutlinedTextFieldColor.getDefaultTextFieldOutlinedColor(),
-            placeholder = {
-                CustomTextView().apply {
-                    customTextView(
-                        text = context.getString(R.string.label_name),
-                        upperCase = false,
-                        color = Colors.whiteSecundary.copy(alpha = 0.4f),
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 4.dp),
-                        textStyle =
-                        FontsTheme(
-                            shadow = Shadow(
-                                color = whitePrimary,
-                            )
-                        ).typography.h3,
-                        textAlign = TextAlign.Left
-                    )
-                }
-            })
+        Column(modifier = Modifier.padding(start = 40.dp, end = 20.dp)) {
+            customTextField(modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    end = 10.dp
+                ),
+                isPassword = false,
+                state = nameState,
+                onValueChange = { newValue ->
+                    nameState = newValue
+                    if (newValue.isEmpty()) {
+                        singUpViewModel.isErrorName.value = false
+                        singUpViewModel.messageErrorNameValidator.value = ""
+                    }
+                },
+                isError = singUpViewModel.isErrorName.value,
+                colorsTextField = OutlinedTextFieldColor.getDefaultTextFieldOutlinedColor(),
+                placeholder = {
+                    CustomTextView().apply {
+                        customTextView(
+                            text = context.getString(R.string.label_name),
+                            upperCase = false,
+                            color = Colors.whiteSecundary.copy(alpha = 0.4f),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(top = 4.dp),
+                            textStyle =
+                            FontsTheme(
+                                shadow = Shadow(
+                                    color = whitePrimary,
+                                )
+                            ).typography.h3,
+                            textAlign = TextAlign.Left
+                        )
+                    }
+                })
+
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = singUpViewModel.messageErrorNameValidator.value,
+                color = Colors.redPrimary,
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.padding(all = 1.dp)
+            )
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
-        customTextField(modifier = Modifier
-            .padding(start = 40.dp, end = 20.dp)
-            .fillMaxWidth()
-            .padding(
-                end = 10.dp
-            ),
-            isPassword = false,
-            state = emailState,
-            onValueChange = { newValue ->
-                emailState = newValue
-            },
-            colorsTextField = OutlinedTextFieldColor.getDefaultTextFieldOutlinedColor(),
-            placeholder = {
-                CustomTextView().apply {
-                    customTextView(
-                        text = context.getString(R.string.label_email),
-                        upperCase = false,
-                        color = Colors.whiteSecundary.copy(alpha = 0.4f),
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 4.dp),
-                        textStyle =
-                        FontsTheme(
-                            shadow = Shadow(
-                                color = whitePrimary,
-                            )
-                        ).typography.h3,
-                        textAlign = TextAlign.Left
-                    )
-                }
-            })
+        Column(modifier = Modifier.padding(start = 40.dp, end = 20.dp)) {
+            customTextField(modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    end = 10.dp
+                ),
+                isPassword = false,
+                state = emailState,
+                onValueChange = { newValue ->
+                    emailState = newValue
+                    if (newValue.isEmpty()) {
+                        singUpViewModel.isErrorEmail.value = false
+                        singUpViewModel.messageErrorEmailValidator.value = ""
+                    }
+                },
+                isError = singUpViewModel.isErrorEmail.value,
+                colorsTextField = OutlinedTextFieldColor.getDefaultTextFieldOutlinedColor(),
+                placeholder = {
+                    CustomTextView().apply {
+                        customTextView(
+                            text = context.getString(R.string.label_email),
+                            upperCase = false,
+                            color = Colors.whiteSecundary.copy(alpha = 0.4f),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(top = 4.dp),
+                            textStyle =
+                            FontsTheme(
+                                shadow = Shadow(
+                                    color = whitePrimary,
+                                )
+                            ).typography.h3,
+                            textAlign = TextAlign.Left
+                        )
+                    }
+                })
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = singUpViewModel.messageErrorEmailValidator.value,
+                color = Colors.redPrimary,
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.padding(all = 1.dp)
+            )
+        }
+
         Spacer(modifier = Modifier.height(8.dp))
-        customTextField(modifier = Modifier
-            .padding(start = 40.dp, end = 20.dp)
-            .fillMaxWidth()
-            .padding(
-                end = 10.dp
-            ),
-            isPassword = false,
-            state = cpfState,
-            onValueChange = { newValue ->
-                cpfState = newValue
-            },
-            colorsTextField = OutlinedTextFieldColor.getDefaultTextFieldOutlinedColor(),
-            placeholder = {
-                CustomTextView().apply {
-                    customTextView(
-                        text = context.getString(R.string.label_cpf),
-                        upperCase = false,
-                        color = Colors.whiteSecundary.copy(alpha = 0.4f),
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 4.dp),
-                        textStyle =
-                        FontsTheme(
-                            shadow = Shadow(
-                                color = whitePrimary,
-                            )
-                        ).typography.h3,
-                        textAlign = TextAlign.Left
-                    )
-                }
-            })
+        Column(modifier = Modifier.padding(start = 40.dp , end = 20.dp)) {
+            customTextField(modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    end = 10.dp
+                ),
+                isPassword = false,
+                state = cpfState,
+                onValueChange = { newValue ->
+                    cpfState = newValue
+                    if (newValue.isEmpty()) {
+                        singUpViewModel.isErrorCpf.value = false
+                        singUpViewModel.messageErrorCpfValidator.value = ""
+                    }
+                },
+                isError = singUpViewModel.isErrorCpf.value,
+                colorsTextField = OutlinedTextFieldColor.getDefaultTextFieldOutlinedColor(),
+                placeholder = {
+                    CustomTextView().apply {
+                        customTextView(
+                            text = context.getString(R.string.label_cpf),
+                            upperCase = false,
+                            color = Colors.whiteSecundary.copy(alpha = 0.4f),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(top = 4.dp),
+                            textStyle =
+                            FontsTheme(
+                                shadow = Shadow(
+                                    color = whitePrimary,
+                                )
+                            ).typography.h3,
+                            textAlign = TextAlign.Left
+                        )
+                    }
+                })
+
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = singUpViewModel.messageErrorCpfValidator.value,
+                color = Colors.redPrimary,
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.padding(all = 1.dp)
+            )
+        }
         Spacer(modifier = Modifier.height(8.dp))
-        customTextField(modifier = Modifier
-            .padding(start = 40.dp, end = 20.dp)
-            .fillMaxWidth()
-            .padding(
-                end = 10.dp
-            ),
-            isPassword = false,
-            state = passwordState,
-            onValueChange = { newValue ->
-                passwordState = newValue
-            },
-            colorsTextField = OutlinedTextFieldColor.getDefaultTextFieldOutlinedColor(),
-            placeholder = {
-                CustomTextView().apply {
-                    customTextView(
-                        text = context.getString(R.string.label_password),
-                        upperCase = false,
-                        color = Colors.whiteSecundary.copy(alpha = 0.4f),
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 4.dp),
-                        textStyle =
-                        FontsTheme(
-                            shadow = Shadow(
-                                color = whitePrimary,
-                            )
-                        ).typography.h3,
-                        textAlign = TextAlign.Left
-                    )
-                }
-            })
+        Column(modifier = Modifier
+            .padding(start = 40.dp, end = 20.dp)) {
+            customTextField(modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    end = 10.dp
+                ),
+                isPassword = false,
+                state = passwordState,
+                onValueChange = { newValue ->
+                    passwordState = newValue
+                    if (newValue.isEmpty()) {
+                        singUpViewModel.isErrorPassword.value = false
+                        singUpViewModel.messageErrorPasswordValidator.value = ""
+                    }
+                },
+                isError = singUpViewModel.isErrorPassword.value,
+                colorsTextField = OutlinedTextFieldColor.getDefaultTextFieldOutlinedColor(),
+                placeholder = {
+                    CustomTextView().apply {
+                        customTextView(
+                            text = context.getString(R.string.label_password),
+                            upperCase = false,
+                            color = Colors.whiteSecundary.copy(alpha = 0.4f),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(top = 4.dp),
+                            textStyle =
+                            FontsTheme(
+                                shadow = Shadow(
+                                    color = whitePrimary,
+                                )
+                            ).typography.h3,
+                            textAlign = TextAlign.Left
+                        )
+                    }
+                })
+
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = singUpViewModel.messageErrorPasswordValidator.value,
+                color = Colors.redPrimary,
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.padding(all = 1.dp)
+            )
+        }
         Spacer(modifier = Modifier.height(20.dp))
         CustomCircularButton().apply {
             customCircularButton(
@@ -292,7 +387,7 @@ fun bodyContent(singUpViewModel: SingUpViewModel, context: Context, scaffoldStat
                     }
                 },
                 onClick = {
-
+                    singUpViewModel.registerAccount()
                 },
                 elevation = ButtonDefaults.elevation(
                     defaultElevation = 6.dp,

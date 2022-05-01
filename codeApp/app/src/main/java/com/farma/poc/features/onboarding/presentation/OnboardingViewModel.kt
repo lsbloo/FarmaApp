@@ -19,11 +19,13 @@ class OnboardingViewModel(private val onboardingRepository: OnboardingRepository
 
     var onboardingDataSet: OnboardingDTO? by mutableStateOf(null)
     var stateViewPageIndex by mutableStateOf(0)
+
+    var showErrorNetwork = mutableStateOf(false)
     init {
         getOnboardingDataScreen()
     }
 
-    fun getOnboardingDataScreen() {
+    private fun getOnboardingDataScreen() {
         viewModelScope.launch {
             onboardingRepository.getOnboardingData(
                 onSuccessData = { it ->
@@ -37,6 +39,11 @@ class OnboardingViewModel(private val onboardingRepository: OnboardingRepository
                 onShowLoading = {
 
                 },
+                onNetworkError = {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        showErrorNetwork.value = true
+                    }
+                }
             )
         }
 
