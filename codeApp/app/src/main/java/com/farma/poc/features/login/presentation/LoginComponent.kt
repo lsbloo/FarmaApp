@@ -88,7 +88,7 @@ fun setupLoginScreen(
                         Colors.colorBackGroundPrimaryTheme,
                         Colors.colorBackGroundPrimaryTheme
                     ),
-                ), alpha = 1.2f
+                )
             )
     ) {
         bodyContent(loginViewModel, context, scaffoldState = scaffoldState)

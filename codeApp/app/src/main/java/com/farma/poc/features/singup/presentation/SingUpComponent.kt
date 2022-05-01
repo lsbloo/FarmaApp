@@ -2,6 +2,7 @@ package com.farma.poc.features.singup.presentation
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -22,12 +23,18 @@ import com.farma.poc.R
 import com.farma.poc.core.resources.colors.Colors
 import com.farma.poc.core.resources.colors.Colors.blackBackGroundPrimaryTheme
 import com.farma.poc.core.resources.colors.Colors.colorBackGroundPrimaryTheme
+import com.farma.poc.core.resources.colors.Colors.redQuar
 import com.farma.poc.core.resources.colors.Colors.redQuin
+import com.farma.poc.core.resources.colors.Colors.redSecundary
 import com.farma.poc.core.resources.colors.Colors.whitePrimary
 import com.farma.poc.core.resources.fonts.FontsTheme
 import com.farma.poc.core.utils.colors.OutlinedTextFieldColor
 import com.farma.poc.core.utils.components.*
 import com.farma.poc.core.utils.composables.ComposableUtils
+import com.farma.poc.features.singup.constants.SingUpConstants.DIALOG.LABEL_CONFIRM_BUTTON
+import com.farma.poc.features.singup.constants.SingUpConstants.DIALOG.LABEL_DISMISS_BUTTON
+import com.farma.poc.features.singup.constants.SingUpConstants.DIALOG.LABEL_TEXT_DESCRIPTION
+import com.farma.poc.features.singup.constants.SingUpConstants.DIALOG.TITLE_SINGUP
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -37,11 +44,10 @@ import com.farma.poc.core.utils.composables.ComposableUtils
 @Composable
 fun screenSingUp(context: Context, singUpViewModel: SingUpViewModel) {
     val scaffoldState = rememberScaffoldState()
-
     Scaffold(
         topBar = {
             TopBarDefault(
-                backGroundColor = blackBackGroundPrimaryTheme,
+                backGroundColor = redSecundary,
                 R.drawable.ic_arrow_back,
                 R.drawable.logo_farma,
                 context.getString(R.string.app_name),
@@ -72,7 +78,7 @@ fun screenSingUp(context: Context, singUpViewModel: SingUpViewModel) {
                                 Colors.colorBackGroundPrimaryTheme,
                                 Colors.colorBackGroundPrimaryTheme
                             ),
-                        ), alpha = 1.2f
+                        )
                     )
             ) {
                 bodyContent(singUpViewModel, context, scaffoldState = scaffoldState)
@@ -143,6 +149,27 @@ fun bodyContent(singUpViewModel: SingUpViewModel, context: Context, scaffoldStat
                 }
             }
         }
+
+        var (showDialog, setShowDialog) = remember { mutableStateOf(false)}
+        shouldDialogSuccessfulRegister.value.let {
+            if (it) {
+                CustomAlertDialog(
+                    TITLE_SINGUP,
+                    LABEL_CONFIRM_BUTTON,
+                    LABEL_DISMISS_BUTTON,
+                    LABEL_TEXT_DESCRIPTION,
+                    onClickConfirmButton = {
+                        shouldDialogSuccessfulRegister.value = false
+                        showDialog = false
+                        singUpViewModel.backToNavigate()
+                    },
+                    onClickDismissButton = {
+                        shouldDialogSuccessfulRegister.value = false
+                        showDialog = false
+                    }
+                ).apply { setupDialog() }
+            }
+        }
     }
 
 
@@ -154,7 +181,6 @@ fun bodyContent(singUpViewModel: SingUpViewModel, context: Context, scaffoldStat
                 rememberScrollState()
             )
     ) {
-        Spacer(modifier = Modifier.height(20.dp))
         Image(
             painter = painterResource(id = R.drawable.logo_farm), contentDescription = "",
             modifier = Modifier
@@ -162,7 +188,7 @@ fun bodyContent(singUpViewModel: SingUpViewModel, context: Context, scaffoldStat
                 .height(148.dp)
                 .align(Alignment.CenterHorizontally)
         )
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         CustomTextView().apply {
             customTextView(
                 text = context.getString(R.string.label_create_account),
@@ -179,7 +205,7 @@ fun bodyContent(singUpViewModel: SingUpViewModel, context: Context, scaffoldStat
                 letterSpacing = 4.sp
             )
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Column(modifier = Modifier.padding(start = 40.dp, end = 20.dp)) {
             customTextField(modifier = Modifier
                 .fillMaxWidth()
@@ -273,7 +299,7 @@ fun bodyContent(singUpViewModel: SingUpViewModel, context: Context, scaffoldStat
         }
 
         Spacer(modifier = Modifier.height(8.dp))
-        Column(modifier = Modifier.padding(start = 40.dp , end = 20.dp)) {
+        Column(modifier = Modifier.padding(start = 40.dp, end = 20.dp)) {
             customTextField(modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -319,8 +345,10 @@ fun bodyContent(singUpViewModel: SingUpViewModel, context: Context, scaffoldStat
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Column(modifier = Modifier
-            .padding(start = 40.dp, end = 20.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(start = 40.dp, end = 20.dp)
+        ) {
             customTextField(modifier = Modifier
                 .fillMaxWidth()
                 .padding(

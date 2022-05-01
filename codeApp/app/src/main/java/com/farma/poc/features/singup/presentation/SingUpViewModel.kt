@@ -39,6 +39,7 @@ class SingUpViewModel(
     var isErrorPassword = mutableStateOf(false)
 
     var shouldLoading = mutableStateOf(false)
+    var shouldDialogSuccessfulRegister = mutableStateOf(false)
 
     fun registerAccount() {
         safeLet(
@@ -89,7 +90,7 @@ class SingUpViewModel(
                                             name = name,
                                             cpf = cpf,
                                             onSuccessData = { _ ->
-                                                backToNavigate()
+                                                shouldDialogSuccessfulRegister.value = true
                                             },
                                             onFailureError = { _ ->
                                                 showErrorFeedBack.value = true
