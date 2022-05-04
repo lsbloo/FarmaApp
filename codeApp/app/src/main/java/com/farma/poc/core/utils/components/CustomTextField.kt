@@ -1,5 +1,6 @@
 package com.farma.poc.core.utils.components
 
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.TextField
@@ -35,6 +36,9 @@ fun customTextField(
     trailingIcon: @Composable (() -> Unit)? = null,
     colorsTextField: OutlinedTextFieldColor,
     isError: Boolean? = null,
+    keyboardOptions: KeyboardOptions? = null,
+    KeyboardActions: KeyboardActions? = null
+
 ) {
     val maxCharPassword = 10
     val maxCharOtherField = 40
@@ -55,12 +59,13 @@ fun customTextField(
         placeholder = placeholder,
         leadingIcon = leadingIcon,
         keyboardOptions = if (isPassword) KeyboardOptions(keyboardType = KeyboardType.Password) else {
-            KeyboardOptions(keyboardType = KeyboardType.Text)
+            keyboardOptions ?: KeyboardOptions(keyboardType = KeyboardType.Text)
         },
         visualTransformation = if (isPassword && changePasswordTransformation == true) PasswordVisualTransformation() else {
             VisualTransformation.None
         },
         isError = isError ?: false,
+        keyboardActions = KeyboardActions ?: KeyboardActions(),
         trailingIcon = trailingIcon,
         maxLines = 1,
         textStyle = textStyle?.let {

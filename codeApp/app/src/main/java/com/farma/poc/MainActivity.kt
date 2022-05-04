@@ -17,6 +17,7 @@ import com.farma.poc.core.resources.colors.Colors
 import com.farma.poc.core.resources.colors.Colors.colorBackGroundPrimaryTheme
 import com.farma.poc.core.utils.composables.ComposableUtils
 import com.farma.poc.core.utils.composables.ComposableUtils.Companion.setSystemUiControllerWithColorStatusBar
+import com.farma.poc.features.home.presentation.HomeViewModel
 import com.farma.poc.features.onboarding.presentation.OnboardingViewModel
 import com.farma.poc.features.onboarding.presentation.setupOnboardingScreen
 import com.farma.poc.features.splash.presentation.SplashViewModel
@@ -53,6 +54,7 @@ class MainActivity : ComponentActivity() {
                 val splashViewModel = getViewModel<SplashViewModel>()
                 val onboardingViewModel = getViewModel<OnboardingViewModel>()
                 val singUpViewModel = getViewModel<SingUpViewModel>()
+                val homeViewModel = getViewModel<HomeViewModel>()
 
                 Surface(color = colorBackGroundPrimaryTheme) {
                     val navController = rememberAnimatedNavController()
@@ -104,12 +106,23 @@ class MainActivity : ComponentActivity() {
                             })
 
 
+                        TransitionComponents(
+                            RouterNavigationEnum.HOME,
+                            RouterNavigationEnum.SINGUP,
+                            DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING
+                        ).setupComponentWithAnimation(
+                            this, onCallComponentScreen = {
+                                homeComponent(
+                                    context = this@MainActivity,
+                                    homeViewModel = homeViewModel)
+                            }
+                        )
 
                         composable(route = RouterNavigationEnum.SINGUP.name) { screenSingUp(
                             context = this@MainActivity,
                             singUpViewModel = singUpViewModel
                         ) }
-                        composable(route = RouterNavigationEnum.HOME.name) { homeComponent() }
+
                     }
                 }
             }

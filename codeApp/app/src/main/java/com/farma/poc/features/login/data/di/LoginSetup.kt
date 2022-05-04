@@ -2,10 +2,13 @@ package com.farma.poc.features.login.data.di
 
 import android.content.Context
 import com.farma.poc.core.config.data.FarmaAppDatabase
+import com.farma.poc.core.utils.typeValidator.PojoValidator
 import com.farma.poc.features.login.data.api.LoginAPI
 import com.farma.poc.features.login.data.repository.LoginRepository
 import com.farma.poc.features.login.data.task.LoginApiTask
 import com.farma.poc.features.login.presentation.LoginViewModel
+import com.farma.poc.features.login.validators.LoginValidatorImpl
+import com.farma.poc.features.login.validators.interfaces.LoginValidator
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
@@ -25,9 +28,11 @@ object LoginSetup {
         return LoginRepository(loginApiTask = loginApiTask, loginDAO = databaseInstance.loginDao())
     }
 
-    private fun provideLoginViewModel(loginRepository: LoginRepository, context: Context): LoginViewModel {
-        return LoginViewModel(loginRepository = loginRepository, context)
+    private fun provideLoginViewModel(loginRepository: LoginRepository, context: Context, loginValidator: LoginValidator<PojoValidator>): LoginViewModel {
+        return LoginViewModel(loginRepository = loginRepository, loginValidator,context)
     }
+
+    private fun provideLoginValidator() = LoginValidatorImpl<PojoValidator>()
 
 
     fun setupLogin() = module {
@@ -37,8 +42,9 @@ object LoginSetup {
         single {
             provideLoginApiTask(get(),get())
         }
+
         single { provideLoginRepository(get(), get()) }
-        single { provideLoginViewModel(get(),get()) }
+        single { provideLoginViewModel(get(),get(),provideLoginValidator()) }
     }
 
 }

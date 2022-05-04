@@ -26,4 +26,7 @@
     <string name="error_login_labels">Preencha os campos corretamente!</string>
     <string name="error_singup_request">Não foi possivel criar sua conta, tente novamente!</string>
 
+
+    <!-- Messages Search -->
+    <string name="label_field_search">O que você procura?</string>
 </resources>

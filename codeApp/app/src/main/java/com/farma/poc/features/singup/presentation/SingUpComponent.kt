@@ -7,6 +7,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -17,6 +18,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import com.farma.poc.R
@@ -43,11 +45,14 @@ import com.farma.poc.features.singup.constants.SingUpConstants.DIALOG.TITLE_SING
 @ExperimentalUnitApi
 @Composable
 fun screenSingUp(context: Context, singUpViewModel: SingUpViewModel) {
+    ComposableUtils.setSystemUiControllerWithColorStatusBar(
+        color = Colors.redQuin
+    )
     val scaffoldState = rememberScaffoldState()
     Scaffold(
         topBar = {
             TopBarDefault(
-                backGroundColor = redSecundary,
+                backGroundColor = redQuin,
                 R.drawable.ic_arrow_back,
                 R.drawable.logo_farma,
                 context.getString(R.string.app_name),
@@ -268,6 +273,7 @@ fun bodyContent(singUpViewModel: SingUpViewModel, context: Context, scaffoldStat
                         singUpViewModel.messageErrorEmailValidator.value = ""
                     }
                 },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 isError = singUpViewModel.isErrorEmail.value,
                 colorsTextField = OutlinedTextFieldColor.getDefaultTextFieldOutlinedColor(),
                 placeholder = {
@@ -315,6 +321,7 @@ fun bodyContent(singUpViewModel: SingUpViewModel, context: Context, scaffoldStat
                     }
                 },
                 isError = singUpViewModel.isErrorCpf.value,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 colorsTextField = OutlinedTextFieldColor.getDefaultTextFieldOutlinedColor(),
                 placeholder = {
                     CustomTextView().apply {
@@ -364,6 +371,7 @@ fun bodyContent(singUpViewModel: SingUpViewModel, context: Context, scaffoldStat
                     }
                 },
                 isError = singUpViewModel.isErrorPassword.value,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 colorsTextField = OutlinedTextFieldColor.getDefaultTextFieldOutlinedColor(),
                 placeholder = {
                     CustomTextView().apply {

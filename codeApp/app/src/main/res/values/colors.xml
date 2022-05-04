@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+
+    <!-- Farma ThemeApp -->
+
+    <color name="red_quin">#FF2626</color>
+    <color name="black_20">#FF383737</color>
+    <color name="light_gray">#FFd2d3e1</color>
 </resources>

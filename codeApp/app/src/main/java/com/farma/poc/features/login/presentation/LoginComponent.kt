@@ -45,6 +45,10 @@ import kotlinx.coroutines.CoroutineScope
 @Composable
 fun screenLogin(loginViewModel: LoginViewModel, context: Context, activity: MainActivity? = null) {
     val scaffoldState = rememberScaffoldState()
+    ComposableUtils.setSystemUiControllerWithColorStatusBar(
+        color = Colors.colorBackGroundPrimaryTheme
+    )
+
     Scaffold(
         topBar = {},
         scaffoldState = scaffoldState,
@@ -150,7 +154,7 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                 rememberScrollState()
             )
     ) {
-        Spacer(modifier = Modifier.height(80.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         Image(
             painter = painterResource(id = R.drawable.logo_farm), contentDescription = "",
             modifier = Modifier
@@ -183,8 +187,13 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
             ),
             isPassword = false,
             state = loginText,
+            isError = loginViewModel.isErrorEmail.value,
             onValueChange = { newValue ->
                 loginText = newValue
+                if (newValue.isNullOrEmpty()) {
+                    loginViewModel.messageErrorEmailValidator.value = ""
+                    loginViewModel.isErrorEmail.value = false
+                }
             }, colorsTextField = getDefaultTextFieldOutlinedColor(), placeholder = {
                 CustomTextView().apply {
                     customTextView(
@@ -204,6 +213,13 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                     )
                 }
             })
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = loginViewModel.messageErrorEmailValidator.value,
+            color = Colors.redPrimary,
+            style = MaterialTheme.typography.caption,
+            modifier = Modifier.padding(start = 40.dp, end = 20.dp)
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
         CustomTextView().apply {
@@ -229,10 +245,15 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                     end = 10.dp
                 ),
             isPassword = true,
+            isError = loginViewModel.isErrorPassword.value,
             changePasswordTransformation = loginViewModel.stateEyeLogin.value,
-            passwordText,
+            state = passwordText,
             onValueChange = { newValue ->
                 passwordText = newValue
+                if (newValue.isNullOrEmpty()) {
+                    loginViewModel.isErrorPassword.value = false
+                    loginViewModel.messageErrorPasswordValidator.value = ""
+                }
             },
             trailingIcon = {
                 IconButton(onClick = {
@@ -264,6 +285,13 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                     )
                 }
             }
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = loginViewModel.messageErrorPasswordValidator.value,
+            color = Colors.redPrimary,
+            style = MaterialTheme.typography.caption,
+            modifier = Modifier.padding(start = 40.dp, end = 20.dp)
         )
 
         Spacer(modifier = Modifier.height(12.dp))

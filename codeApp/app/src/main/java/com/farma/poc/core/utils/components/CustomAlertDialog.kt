@@ -35,7 +35,7 @@ class CustomAlertDialog(
                     text = title,
                     color = Colors.black,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(start = 40.dp, end = 40.dp),
+                    modifier = Modifier.padding(start = 65.dp, end = 40.dp),
                     style = FontsTheme(
                         shadow = Shadow(
                             color = Colors.whitePrimary,
