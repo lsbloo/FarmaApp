@@ -14,10 +14,12 @@ import com.farma.poc.features.home.data.models.HightLightsProductDTO
 import com.farma.poc.features.home.data.models.SubCategoryDTO
 import com.farma.poc.features.login.data.dao.LoginDAO
 import com.farma.poc.features.login.data.models.ResponseLoginDTO
+import com.farma.poc.features.settings.home.data.dao.SettingsDAO
+import com.farma.poc.features.settings.home.data.model.GetSettingsDTO
 
 @Database(
     entities = [Person::class, ResponseLoginDTO::class, ProductDTO::class,
-        CategoryDTO::class, SubCategoryDTO::class, HightLightsProductDTO::class, OnboardingDTO::class],
+        CategoryDTO::class, SubCategoryDTO::class, HightLightsProductDTO::class, OnboardingDTO::class, GetSettingsDTO::class],
     version = VERSION_DATABASE
 )
 @TypeConverters(*[GeneralTypeConverter::class])
@@ -25,4 +27,5 @@ abstract class FarmaAppDatabase : RoomDatabase() {
     abstract fun onboardingDAO(): OnboardingDAO
     abstract fun loginDao(): LoginDAO
     abstract fun homeDao(): HomeDAO
+    abstract fun settingsDao(): SettingsDAO
 }

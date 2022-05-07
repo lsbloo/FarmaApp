@@ -85,9 +85,10 @@ fun homeComponent(context: Context, homeViewModel: HomeViewModel) {
         })
 
     ComposableUtils.setBackHandler(
-        enable = false,
+        enable = true,
         onClickBackPressed = {
 
+            // show dialog logout app
         }
     )
 }
@@ -135,7 +136,7 @@ fun bodyContent(homeViewModel: HomeViewModel, context: Context, scaffoldState: S
                     Toast.makeText(context, "Ajuda Clicado", Toast.LENGTH_SHORT).show()
                 },
                 onCLickMore = {
-                    Toast.makeText(context, "Mais Clicado", Toast.LENGTH_SHORT).show()
+                    homeViewModel.redirectToSettings()
                 })
         }
     }

@@ -32,4 +32,9 @@
 
     <!-- Messages Search -->
     <string name="label_field_search">O que você procura?</string>
+
+
+    <!-- Configuration Screen -->
+    <string name="label_screen_settings">Configurações</string>
+    <string name="label_my_profile">Meu Perfil</string>
 </resources>

@@ -25,6 +25,8 @@ import com.farma.poc.features.splash.presentation.screenSplash
 import com.farma.poc.features.home.presentation.homeComponent
 import com.farma.poc.features.login.presentation.LoginViewModel
 import com.farma.poc.features.login.presentation.screenLogin
+import com.farma.poc.features.settings.home.presentation.SettingsViewModel
+import com.farma.poc.features.settings.home.presentation.settingsComponent
 import com.farma.poc.features.singup.presentation.SingUpViewModel
 import com.farma.poc.features.singup.presentation.screenSingUp
 import com.farma.poc.ui.theme.FarmaAppTheme
@@ -55,6 +57,7 @@ class MainActivity : ComponentActivity() {
                 val onboardingViewModel = getViewModel<OnboardingViewModel>()
                 val singUpViewModel = getViewModel<SingUpViewModel>()
                 val homeViewModel = getViewModel<HomeViewModel>()
+                val settingsViewModel = getViewModel<SettingsViewModel>()
 
                 Surface(color = colorBackGroundPrimaryTheme) {
                     val navController = rememberAnimatedNavController()
@@ -67,6 +70,8 @@ class MainActivity : ComponentActivity() {
                         loginViewModel.setNavigation(routerNavigationManager)
                         onboardingViewModel.setNavigation(routerNavigationManager)
                         singUpViewModel.setNavigation(routerNavigationManager)
+                        homeViewModel.setNavigation(routerNavigationManager)
+                        settingsViewModel.setNavigation(routerNavigationManager)
 
                         TransitionComponents(
                             RouterNavigationEnum.SPLASH,
@@ -114,14 +119,30 @@ class MainActivity : ComponentActivity() {
                             this, onCallComponentScreen = {
                                 homeComponent(
                                     context = this@MainActivity,
-                                    homeViewModel = homeViewModel)
+                                    homeViewModel = homeViewModel
+                                )
                             }
                         )
 
-                        composable(route = RouterNavigationEnum.SINGUP.name) { screenSingUp(
-                            context = this@MainActivity,
-                            singUpViewModel = singUpViewModel
-                        ) }
+                        TransitionComponents(
+                            RouterNavigationEnum.SETTINGS,
+                            RouterNavigationEnum.SINGUP,
+                            DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING
+                        ).setupComponentWithAnimation(
+                            this, onCallComponentScreen = {
+                                settingsComponent(
+                                    context = this@MainActivity,
+                                    settingsViewModel = settingsViewModel
+                                )
+                            }
+                        )
+
+                        composable(route = RouterNavigationEnum.SINGUP.name) {
+                            screenSingUp(
+                                context = this@MainActivity,
+                                singUpViewModel = singUpViewModel
+                            )
+                        }
 
                     }
                 }

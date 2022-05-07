@@ -49,7 +49,7 @@ class OnboardingRepository(
         )
     }
 
-    fun getOnboardingFlow() = onboardingDAO.getOnboardingDataSet(SINGLE_ID_ONBOARDING).onStart { delay(1000) }
+    suspend fun getOnboardingFlow() = onboardingDAO.getOnboardingDataSet(SINGLE_ID_ONBOARDING).onStart { delay(1000) }
 
 
     companion object {

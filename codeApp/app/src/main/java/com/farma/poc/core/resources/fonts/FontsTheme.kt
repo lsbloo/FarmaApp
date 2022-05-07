@@ -60,6 +60,33 @@ enum class FontEnum(val textStyle: TextStyle): PropertiesFont {
                 fontFamily = fontFamily,
             )
         }
+    },
+
+    H4(textStyle = TextStyle(
+        fontWeight = FontWeight.Thin,
+        fontSize = 10.sp,
+        letterSpacing = 1.sp,
+        textAlign = TextAlign.Center
+    )
+    ) {
+        override fun setupStyle(
+            shadow: Shadow,
+            fontFamily: FontFamily,
+            fontWeight: FontWeight?,
+            color: Color?,
+            fontSize: TextUnit?
+        ): TextStyle {
+            return TextStyle(
+                color = color ?: Color.Unspecified,
+                fontWeight = fontWeight ?: textStyle.fontWeight,
+                fontSize =  fontSize ?: textStyle.fontSize,
+                letterSpacing = textStyle.letterSpacing,
+                textAlign = textStyle.textAlign,
+                lineHeight = textStyle.lineHeight,
+                shadow = shadow,
+                fontFamily = fontFamily,
+            )
+        }
     }
 
 }
@@ -101,6 +128,13 @@ class FontsTheme(shadow: Shadow, fontWeight: FontWeight? = null, color: Color? =
             fontFamily = fonts,
             fontWeight = fontWeight,
             fontSize = 14.sp,
+            color = color),
+
+        h4 = FontEnum.H4.setupStyle(
+            shadow = shadow,
+            fontFamily = fonts,
+            fontWeight = fontWeight,
+            fontSize = 12.sp,
             color = color)
     )
 }

@@ -2,12 +2,14 @@ package com.farma.poc.features.home.presentation
 
 import android.content.Context
 import com.farma.poc.core.base.BaseViewModel
+import com.farma.poc.core.navigation.RouterNavigationEnum
 import com.farma.poc.features.home.data.repository.HomeRepository
 
-class HomeViewModel(private val homeRepository: HomeRepository,context: Context) : BaseViewModel(context) {
+class HomeViewModel(private val homeRepository: HomeRepository, context: Context) :
+    BaseViewModel(context) {
 
 
-
-
-
+    fun redirectToSettings() {
+        routerNavigation?.navigateTo(RouterNavigationEnum.SETTINGS)
+    }
 }
