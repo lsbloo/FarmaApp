@@ -43,6 +43,7 @@ object Colors {
     val bluePrimary = Color(0XFF1877F2)
 
     val black = Color(0XFF000000)
+    val blackSecundary = Color(0xFF949292)
 
     val blackBackGroundPrimaryTheme = Color(0xFF282828)
 

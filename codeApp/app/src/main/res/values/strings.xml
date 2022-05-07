@@ -15,7 +15,7 @@
     <string name="label_closed_button">Fechar</string>
 
 
-    <string name="label_placeholder_email_login">example@email.com</string>
+    <string name="label_placeholder_email_login">exemplo@gmail.com</string>
     <string name="label_placeholder_password_login">***</string>
     <string name="label_name">Nome</string>
     <string name="label_cpf">CPF</string>
@@ -26,6 +26,9 @@
     <string name="error_login_labels">Preencha os campos corretamente!</string>
     <string name="error_singup_request">Não foi possivel criar sua conta, tente novamente!</string>
 
+    <string name="label_bottom_navigation_start">Início</string>
+    <string name="label_bottom_navigation_help">Ajuda</string>
+    <string name="label_bottom_navigation_more">Mais</string>
 
     <!-- Messages Search -->
     <string name="label_field_search">O que você procura?</string>
