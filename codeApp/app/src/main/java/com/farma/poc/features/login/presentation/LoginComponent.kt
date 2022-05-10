@@ -3,7 +3,11 @@ package com.farma.poc.features.login.presentation
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
+import android.os.Build.VERSION
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.biometric.BiometricPrompt
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -27,6 +31,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import com.farma.poc.MainActivity
 import com.farma.poc.R
+import com.farma.poc.core.base.BaseActivity
+import com.farma.poc.core.config.biometric.OnAuthenticationBiometric
+import com.farma.poc.core.config.biometric.SetupBiometricInfo.Companion.getBiometric
 import com.farma.poc.core.navigation.RouterNavigation
 import com.farma.poc.core.navigation.RouterNavigationEnum
 import com.farma.poc.core.resources.colors.Colors
@@ -62,7 +69,7 @@ fun screenLogin(loginViewModel: LoginViewModel, context: Context, activity: Main
             ).apply {
                 defaultSnackBar()
             }
-            setupLoginScreen(loginViewModel, context, scaffoldState)
+            setupLoginScreen(loginViewModel, context, scaffoldState, activity)
         })
 
     ComposableUtils.setBackHandler(
@@ -81,7 +88,8 @@ fun screenLogin(loginViewModel: LoginViewModel, context: Context, activity: Main
 fun setupLoginScreen(
     loginViewModel: LoginViewModel,
     context: Context,
-    scaffoldState: ScaffoldState
+    scaffoldState: ScaffoldState,
+    activity: MainActivity?
 ) {
     Box(
         modifier = Modifier
@@ -95,7 +103,7 @@ fun setupLoginScreen(
                 )
             )
     ) {
-        bodyContent(loginViewModel, context, scaffoldState = scaffoldState)
+        bodyContent(loginViewModel, context, scaffoldState = scaffoldState, activity)
     }
 
 }
@@ -104,7 +112,12 @@ fun setupLoginScreen(
 @ExperimentalMaterialApi
 @ExperimentalUnitApi
 @Composable
-fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState: ScaffoldState) {
+fun bodyContent(
+    loginViewModel: LoginViewModel,
+    context: Context,
+    scaffoldState: ScaffoldState,
+    activity: MainActivity?
+) {
 
     val coroutineScope = rememberCoroutineScope()
     var loginText by remember {
@@ -351,7 +364,13 @@ fun bodyContent(loginViewModel: LoginViewModel, context: Context, scaffoldState:
                     }
                 },
                 onClick = {
-                    loginViewModel.login()
+                    activity?.let { baseActivity ->
+                        if (VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            loginViewModel.authenticate(baseActivity)
+                        } else {
+                            loginViewModel.login()
+                        }
+                    }
                 },
                 elevation = ButtonDefaults.elevation(
                     defaultElevation = 6.dp,

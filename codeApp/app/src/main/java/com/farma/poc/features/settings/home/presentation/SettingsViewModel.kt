@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.farma.poc.core.base.BaseViewModel
+import com.farma.poc.core.config.constants.ConfigApplicationConstants
 import com.farma.poc.core.navigation.RouterNavigationEnum
 import com.farma.poc.features.settings.home.data.model.GetSettingsDTO
 import com.farma.poc.features.settings.home.data.repository.SettingsRepository
@@ -16,7 +17,7 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository, cont
     BaseViewModel(context) {
 
     var datasetScreenSettings = mutableStateOf(GetSettingsDTO())
-
+    var hasFlagShowBiometric = mutableStateOf(false)
 
     fun getDataScreen() {
         viewModelScope.launch {
@@ -52,6 +53,21 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository, cont
                 } ?: also {
                     onRecovery(false)
                 }
+            }
+        }
+    }
+
+    fun activateBiometric(flagShow: Boolean) {
+        ConfigApplicationConstants.PREFERENCES_SECURITY.AUTHENTICATE_WITH_BIOMETRIC.value = flagShow
+        viewModelScope.launch {
+            getDataStoreConfig().setFlagShowBiometric(ConfigApplicationConstants.PREFERENCES_SECURITY.AUTHENTICATE_WITH_BIOMETRIC.value)
+        }
+    }
+
+    fun getStatusShowBiometric() {
+        viewModelScope.launch {
+            getDataStoreConfig().sharedFlagShowBiometric.collect {
+                hasFlagShowBiometric.value = it
             }
         }
     }

@@ -1,13 +1,23 @@
 package com.farma.poc.features.login.presentation
 
 import android.content.Context
+import android.os.Build
 import android.util.Log
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.biometric.BiometricPrompt
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.farma.poc.R
+import com.farma.poc.core.base.BaseActivity
 import com.farma.poc.core.base.BaseViewModel
+import com.farma.poc.core.config.biometric.OnAuthenticationBiometric
+import com.farma.poc.core.config.biometric.SetupBiometricInfo
+import com.farma.poc.core.config.biometric.SetupBiometricInfo.Companion.getBiometric
+import com.farma.poc.core.config.biometric.TypeAuthentication
+import com.farma.poc.core.config.constants.ConfigApplicationConstants.PREFERENCES_SECURITY.AUTHENTICATE_WITH_BIOMETRIC
 import com.farma.poc.core.navigation.RouterNavigation
 import com.farma.poc.core.navigation.RouterNavigationEnum
 import com.farma.poc.core.utils.safeLet
@@ -44,6 +54,8 @@ class LoginViewModel(
     var isErrorEmail = mutableStateOf(false)
     var isErrorPassword = mutableStateOf(false)
 
+    var hasFlagShowBiometric = mutableStateOf(false)
+
     fun changeStateEyeLogin(state: Boolean) {
         stateEyeLogin.value = state
     }
@@ -55,6 +67,18 @@ class LoginViewModel(
             R.drawable.ic_open_eye
         }
 
+
+    init {
+        getStatusShowBiometric()
+    }
+
+    private fun getStatusShowBiometric() {
+        viewModelScope.launch {
+            getDataStoreConfig().sharedFlagShowBiometric.collect {
+                hasFlagShowBiometric.value = it
+            }
+        }
+    }
 
     fun login() {
         safeLet(emailText.value, passwordText.value, onResult = { emailText, passwordText ->
@@ -102,6 +126,7 @@ class LoginViewModel(
                     val autenticateUser = { data: ResponseLoginDTO? ->
                         authenticateUserWhereSuccessGetToken(
                             data = data,
+                            email = email,
                             onRedirect = {
                                 redirectHomeApp()
                             }
@@ -121,19 +146,93 @@ class LoginViewModel(
 
     private fun authenticateUserWhereSuccessGetToken(
         data: ResponseLoginDTO?,
+        email: String,
         onRedirect: (() -> Unit)? = null
     ) {
         safeLet(data?.bearerToken, data?.dataExpires, onResult = { bearerToken, dataExpires ->
             setupAcronymnUserAuthenticated { firstLetter ->
                 viewModelScope.launch {
-                    getDataStoreConfig().setAcronymUserFlow(firstLetter)
-                    getDataStoreConfig().setSharedTokenSession(bearerToken)
-                    getDataStoreConfig().setSharedTimeSession(dataExpires)
+                    getDataStoreConfig().apply {
+                        setSharedEmailUser(email)
+                        setAcronymUserFlow(firstLetter)
+                        setSharedTokenSession(bearerToken)
+                        setSharedTimeSession(dataExpires)
+                    }
                 }
 
             }
             onRedirect?.invoke()
         })
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun authenticate(activity: BaseActivity) {
+        if (hasFlagShowBiometric.value) {
+            getBiometric(activity).apply {
+                getAvailableBiometricInDevice(
+                    onBiometricSuccess = {
+                        setup(
+                            activity.getString(R.string.label_title_biometric),
+                            activity.getString(R.string.label_subtitle_biometric),
+                            object : OnAuthenticationBiometric {
+                                override fun onAuthenticateError(
+                                    error: CharSequence
+                                ) {
+                                    Log.d("ERROR_BIOMETRIC", "" + error)
+                                    Toast.makeText(
+                                        activity,
+                                        activity.getText(R.string.label_error_authenticate_biometric),
+                                        Toast.LENGTH_SHORT
+                                    )
+                                }
+
+                                override fun onAuthenticateFailed() {
+                                    Log.d("FAILED_BIOMETRIC", "GENERAL TYPE ERROR")
+                                    Toast.makeText(
+                                        activity,
+                                        activity.getText(R.string.label_error_authenticate_biometric),
+                                        Toast.LENGTH_SHORT
+                                    )
+                                }
+
+                                override fun onAuthenticateSuccess(
+                                    result: BiometricPrompt.AuthenticationResult
+                                ) {
+                                    Log.d("SUCCESS_BIOMETRIC", "AUTHENTICATION SUCESSFUL")
+                                    authenticateWithBiometricOrCredential(result.authenticationType)
+                                }
+
+                            })
+                    },
+                    onBiometricErrorUnsupported = {
+                        login()
+                    },
+                    onBiometricErrorHardware = {
+                        login()
+                    },
+                    onBiometricCreateCredentials = {
+                        login()
+                    },
+                    onBiometricNotHasHardware = {
+                        login()
+                    },
+                )
+            }
+        } else {
+            login()
+        }
+    }
+
+    private fun authenticateWithBiometricOrCredential(typeAuth: Int) {
+        val typeAuthentication =
+            if (typeAuth == TypeAuthentication.AUTHENTICATION_BIOMETRIC.value) {
+                TypeAuthentication.AUTHENTICATION_BIOMETRIC
+            } else {
+                TypeAuthentication.AUTHENTICATION_CREDENTIAL
+            }
+
+        // TODO METHOD
+        redirectHomeApp()
     }
 
     private fun setupAcronymnUserAuthenticated(firstLetter: (String) -> Unit) {
@@ -152,7 +251,7 @@ class LoginViewModel(
         }
     }
 
-    private fun redirectHomeApp() {
+    fun redirectHomeApp() {
         CoroutineScope(Dispatchers.Main).launch {
             routerNavigation?.navigateTo(RouterNavigationEnum.HOME)
         }

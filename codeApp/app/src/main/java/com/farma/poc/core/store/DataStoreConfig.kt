@@ -2,10 +2,7 @@ package com.farma.poc.core.store
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.farma.poc.core.config.constants.ConfigApplicationConstants
 import kotlinx.coroutines.flow.Flow
@@ -26,6 +23,11 @@ class DataStoreConfig(private val context: Context) {
     private val sharedAcronymnUser =
         stringPreferencesKey(ConfigApplicationConstants.Shared.SHARED_ACRONYM_USER_SESSION)
 
+    private val sharedEmailUser = stringPreferencesKey(ConfigApplicationConstants.Shared.SHARED_EMAIL_USER)
+
+    private val sharedShowBiometric =
+        booleanPreferencesKey(ConfigApplicationConstants.Shared.SHARED_BIOMETRIC_USER)
+
     val sharedTimeSessionFlow: Flow<String> = context.dataStore.data.map { preferences ->
         preferences[sharedTimeSession] ?: ""
     }
@@ -36,6 +38,21 @@ class DataStoreConfig(private val context: Context) {
 
     val sharedAcronymnUserFlow: Flow<String> = context.dataStore.data.map { preferences ->
         preferences[sharedAcronymnUser] ?: ""
+    }
+
+    val sharedFlagShowBiometric: Flow<Boolean> = context.dataStore.data.map { preferences ->
+        preferences[sharedShowBiometric] ?: false
+    }
+
+    val sharedEmailuser: Flow<String> = context.dataStore.data.map { preferences ->
+        preferences[sharedEmailUser] ?: ""
+    }
+
+
+    suspend fun setFlagShowBiometric(flagShow: Boolean) {
+        context.dataStore.edit { settings ->
+            settings[sharedShowBiometric] = flagShow
+        }
     }
 
     suspend fun setAcronymUserFlow(sharedAcronymUser: String) {
@@ -53,6 +70,12 @@ class DataStoreConfig(private val context: Context) {
     suspend fun setSharedTokenSession(sharedTokenSessionx: String) {
         context.dataStore.edit { settings ->
             settings[sharedTokenSession] = sharedTokenSessionx
+        }
+    }
+
+    suspend fun setSharedEmailUser(email: String) {
+        context.dataStore.edit {  settings ->
+            settings[sharedEmailUser] = email
         }
     }
 }

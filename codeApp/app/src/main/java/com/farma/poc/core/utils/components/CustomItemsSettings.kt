@@ -4,8 +4,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
+import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shadow
@@ -40,8 +43,13 @@ class CustomItemsSettings(
             onCLickMethodPayment: (() -> Unit)? = null,
             onClickAddress: (() -> Unit)? = null,
             onClickCloseAccount: (() -> Unit)? = null,
+            onCheckedValueChangeBiometric: ((Boolean) -> Unit)? = null,
+            initStateSwitchToggleBiometric: Boolean = false
         ) {
-            Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 ItemSettings(data.labelOrder, onClickButton = {
                     onCLickOrder?.invoke()
                 }).setup()
@@ -62,6 +70,14 @@ class CustomItemsSettings(
                     onClickAddress?.invoke()
                 })
                 Spacer(modifier = Modifier.height(12.dp))
+                ItemSettings(
+                    data.labelBiometric,
+                    hasSwitchToggle = true,
+                    initStateSwitchToggle = initStateSwitchToggleBiometric,
+                    onCheckedValueChange = {
+                        onCheckedValueChangeBiometric?.invoke(it)
+                    }).setup()
+                Spacer(modifier = Modifier.height(12.dp))
                 ItemSettings(data.labelCloseAccount, onClickButton = {
                     onClickCloseAccount?.invoke()
                 }).setup()
@@ -71,20 +87,36 @@ class CustomItemsSettings(
 }
 
 
-class ItemSettings(private val label: String?, private val onClickButton: (() -> Unit)? = null) {
+class ItemSettings(
+    private val label: String?,
+    private val onClickButton: (() -> Unit)? = null,
+    private val hasSwitchToggle: Boolean = false,
+    private val onCheckedValueChange: ((Boolean) -> Unit)? = null,
+    private val initStateSwitchToggle: Boolean = false
+) {
 
     @ExperimentalUnitApi
     @Composable
     fun setup() {
+
+        val modifierItemSettings = if (onClickButton != null) {
+            Modifier
+                .fillMaxSize()
+                .clickable {
+                    onClickButton?.invoke()
+                }
+        } else {
+            Modifier
+                .fillMaxSize()
+        }
+        val stateCheckedSwitch = remember { mutableStateOf(initStateSwitchToggle) }
         Column(modifier = Modifier.fillMaxSize()) {
             Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clickable {
-                        onClickButton?.invoke()
-                    }, horizontalArrangement = Arrangement.SpaceBetween) {
+                modifier = modifierItemSettings, horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 if (label != null) {
                     Text(
+                        modifier = Modifier.width(180.dp),
                         text = label,
                         color = Colors.whitePrimary,
                         textAlign = TextAlign.Left,
@@ -96,10 +128,19 @@ class ItemSettings(private val label: String?, private val onClickButton: (() ->
                         ).typography.h3
                     )
                 }
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_arrow_right),
-                    contentDescription = ""
-                )
+                if (hasSwitchToggle) {
+                    Switch(
+                        checked = stateCheckedSwitch.value,
+                        onCheckedChange = {
+                            stateCheckedSwitch.value = it
+                            onCheckedValueChange?.invoke(stateCheckedSwitch.value)
+                        })
+                } else {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_arrow_right),
+                        contentDescription = ""
+                    )
+                }
             }
             Divider(
                 color = Colors.dimGray, thickness = 1.dp, modifier = Modifier

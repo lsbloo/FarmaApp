@@ -14,5 +14,7 @@ interface LoginAPI {
     @POST(LoginConstants.API.ENDPOINT_LOGIN)
     suspend fun authenticateUser(@Body credentialsDTO: CredentialsDTO): Response<ResponseLoginDTO?>
 
+    @POST(LoginConstants.API.ENDPOINT_LOGIN_WITH_BIOMETRIC)
+    suspend fun authenticateUserByBiometric(): Response<ResponseLoginDTO?>
 
 }

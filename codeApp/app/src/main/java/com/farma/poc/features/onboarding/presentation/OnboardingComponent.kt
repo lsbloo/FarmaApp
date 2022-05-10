@@ -109,7 +109,7 @@ fun setupOnboardingScreen(onboardingViewModel: OnboardingViewModel, context: Con
                         .fillMaxSize()
                         .verticalScroll(
                             rememberScrollState()
-                        ),
+                        ).padding(start = 12.dp, end = 12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = remember {
                         object : Arrangement.Vertical {

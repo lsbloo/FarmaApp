@@ -63,6 +63,7 @@ class CustomTopBar(
                     )
                 ),
         ) {
+            Spacer(modifier = Modifier.height(16.dp))
             Row(modifier = Modifier.fillMaxWidth()) {
                 Spacer(modifier = Modifier.width(8.dp))
                 AnimatedVisibility(visible = imageLeft != null) {
@@ -110,7 +111,7 @@ class CustomTopBar(
                     )
                 }
 
-                if (imageCart != null) Spacer(modifier = Modifier.width(65.dp))
+                if (imageCart != null) Spacer(modifier = Modifier.width(60.dp))
                 imageCart?.let {
                     Image(
                         painter = painterResource(id = it), contentDescription = "",

@@ -77,6 +77,7 @@ fun settingsComponent(context: Context, settingsViewModel: SettingsViewModel) {
                 setupBodyContent(context = context, settingsViewModel = settingsViewModel)
             }
         })
+    settingsViewModel.getStatusShowBiometric()
 }
 
 @ExperimentalUnitApi
@@ -122,7 +123,7 @@ fun setupBodyContent(context: Context, settingsViewModel: SettingsViewModel) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(140.dp)
+                .height(100.dp)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_male_placeholder_profile),
@@ -152,8 +153,6 @@ fun setupBodyContent(context: Context, settingsViewModel: SettingsViewModel) {
                 )
             }
         }
-
-        Spacer(modifier = Modifier.height(12.dp))
         CustomTextView().customTextView(
             text = context.getString(R.string.label_screen_settings),
             modifier = Modifier,
@@ -214,7 +213,11 @@ fun setupBodyContent(context: Context, settingsViewModel: SettingsViewModel) {
                     Toast.LENGTH_SHORT
                 ).show()
                 settingsViewModel.redirectToOrder()
-            }
+            },
+            onCheckedValueChangeBiometric = { valueChange ->
+                settingsViewModel.activateBiometric(valueChange)
+            },
+            initStateSwitchToggleBiometric = settingsViewModel.hasFlagShowBiometric.value
         )
 
         Spacer(modifier = Modifier.height(56.dp))
@@ -241,7 +244,7 @@ fun setupBodyContent(context: Context, settingsViewModel: SettingsViewModel) {
                     }
                 },
                 onClick = {
-                          settingsViewModel.logout()
+                    settingsViewModel.logout()
                 },
                 elevation = ButtonDefaults.elevation(
                     defaultElevation = 6.dp,

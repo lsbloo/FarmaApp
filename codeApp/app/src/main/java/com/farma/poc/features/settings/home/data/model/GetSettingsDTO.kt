@@ -19,6 +19,7 @@ data class GetSettingsDTO(
     val labelAddress: String? = null,
     val labelCloseAccount: String? = null,
     val genre: String? = null,
+    val labelBiometric: String? = null,
     @PrimaryKey(autoGenerate = true)
     val id: Long = 1
 ) : Parcelable

@@ -16,6 +16,8 @@ buildscript {
         navigation_animation_version = "0.24.6-alpha"
         view_pager_version="0.12.0"
         data_store_version="1.0.0"
+        version_biometric = "1.2.0-alpha04"
+
     }
     repositories {
         google()

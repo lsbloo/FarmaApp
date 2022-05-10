@@ -16,7 +16,7 @@
 
 
     <string name="label_placeholder_email_login">exemplo@gmail.com</string>
-    <string name="label_placeholder_password_login">***</string>
+    <string name="label_placeholder_password_login">******</string>
     <string name="label_name">Nome</string>
     <string name="label_cpf">CPF</string>
 
@@ -37,4 +37,11 @@
     <!-- Configuration Screen -->
     <string name="label_screen_settings">Configurações</string>
     <string name="label_my_profile">Meu Perfil</string>
+
+
+    <!-- Biometric Dialog -->
+    <string name="label_title_biometric">   Autenticação por biometria</string>
+    <string name="label_subtitle_biometric">    Insira sua biometria ou digite o PIN</string>
+
+    <string name="label_error_authenticate_biometric">Não foi possivel realizar seu login, tente novamente!</string>
 </resources>
