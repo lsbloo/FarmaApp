@@ -10,7 +10,7 @@ import kotlinx.parcelize.Parcelize
 @Entity
 @Parcelize
 data class ProductDTO(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
     val name: String? = null,
     val value: Double? = null,
@@ -18,5 +18,6 @@ data class ProductDTO(
     val minValue: Double? = null,
     val description: String? = null,
     val subCategoryDTO: SubCategoryDTO? = null,
-    val quantity: Int? = null
+    val quantity: Int? = null,
+    val productId: Long = 0
 ): BaseDTO(),Parcelable

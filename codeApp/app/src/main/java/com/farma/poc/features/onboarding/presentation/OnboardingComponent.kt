@@ -71,7 +71,7 @@ fun setupOnboardingScreen(onboardingViewModel: OnboardingViewModel, context: Con
 
     LaunchedEffect(key1 = pageState.currentPage) {
         launch {
-            delay(3000)
+            delay(2000)
             with(pageState) {
                 if (onboardingViewModel.stateViewPageIndex != 2 && currentPage != 1) {
                     val target = if (currentPage < onboardingViewModel.stateViewPageIndex) currentPage + 1 else 0

@@ -6,6 +6,9 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
@@ -21,20 +24,21 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import com.farma.poc.R
+import com.farma.poc.core.base.BaseActivity
 import com.farma.poc.core.resources.colors.Colors
 import com.farma.poc.core.utils.colors.OutlinedTextFieldColor
-import com.farma.poc.core.utils.components.ButtonNavigation
-import com.farma.poc.core.utils.components.CustomBottomNavigation
+import com.farma.poc.core.utils.components.*
+import com.farma.poc.core.utils.components.CustomAlertDialog.Companion.setupDialogLogout
 import com.farma.poc.core.utils.components.CustomBottomNavigation.Companion.setupBottomNavigationHome
-import com.farma.poc.core.utils.components.CustomTopBar
-import com.farma.poc.core.utils.components.DefaultSnackBar
+import com.farma.poc.core.utils.components.CustomCircularImageView.Companion.setupCategories
 import com.farma.poc.core.utils.composables.ComposableUtils
+import com.farma.poc.features.home.data.models.CategoryDTO
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalUnitApi
 @Composable
-fun homeComponent(context: Context, homeViewModel: HomeViewModel) {
+fun homeComponent(activity: BaseActivity, homeViewModel: HomeViewModel) {
 
     val scaffoldState = rememberScaffoldState()
 
@@ -47,9 +51,9 @@ fun homeComponent(context: Context, homeViewModel: HomeViewModel) {
             CustomTopBar(
                 backGroundColor = Colors.redQuin,
                 imageSupportText = R.drawable.logo_farma,
-                textTopBar = context.getString(R.string.app_name),
+                textTopBar = activity.getString(R.string.app_name),
                 imageCart = R.drawable.ic_cart,
-                labelSearchTextField = context.getString(R.string.label_field_search),
+                labelSearchTextField = activity.getString(R.string.label_field_search),
                 iconLabelSearchField = R.drawable.ic_search,
                 hasSearchField = true,
                 colorsTextField = OutlinedTextFieldColor.getDefaultTextFieldOutlinedColor()
@@ -80,15 +84,33 @@ fun homeComponent(context: Context, homeViewModel: HomeViewModel) {
                         )
                     )
             ) {
-                bodyContent(homeViewModel, context, scaffoldState = scaffoldState)
+                bodyContent(homeViewModel, activity, scaffoldState = scaffoldState)
             }
         })
+
+    if (homeViewModel.logoutAppEvent.value) {
+        setupDialogLogout(
+            title = activity.getString(R.string.label_title_dialog_logout),
+            labelConfirmButton = activity.getString(R.string.label_confirm_button_dialog_logout),
+            labelDismissButton = activity.getString(R.string.label_dismiss_button_dialog_logoutt),
+            textDescription = activity.getString(R.string.label_description_dialog_logout),
+            onClickDismissButton = {
+                homeViewModel.dismissDialogLogout.value = false
+                homeViewModel.logoutAppEvent.value = false
+            },
+            onClickConfirmButton = {
+                activity.finish()
+            }, onDismiss = {
+                false
+            }
+        )
+    }
 
     ComposableUtils.setBackHandler(
         enable = true,
         onClickBackPressed = {
-
-            // show dialog logout app
+            homeViewModel.logoutAppEvent.value = true
+            homeViewModel.dismissDialogLogout.value = true
         }
     )
 }
@@ -118,6 +140,21 @@ fun bodyContent(homeViewModel: HomeViewModel, context: Context, scaffoldState: S
             }
 
         }) {
+
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(120.dp)
+        ) {
+            itemsIndexed(homeViewModel.getItensCategories(homeViewModel.itemsHome.value)) { index, item ->
+                Box(modifier = Modifier.padding(start = 12.dp, end = 12.dp)) {
+                    setupCategories(textImageView = item.name,
+                        onClickImage = {}, index = index)
+                }
+
+            }
+        }
+
         Box(
             Modifier
                 .fillMaxWidth()
@@ -140,4 +177,6 @@ fun bodyContent(homeViewModel: HomeViewModel, context: Context, scaffoldState: S
                 })
         }
     }
+
+    homeViewModel.getItemsHome()
 }

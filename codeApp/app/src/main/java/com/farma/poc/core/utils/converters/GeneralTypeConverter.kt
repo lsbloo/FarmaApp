@@ -2,8 +2,10 @@ package com.farma.poc.core.utils.converters
 
 import androidx.room.TypeConverter
 import com.farma.poc.core.utils.dto.ProductDTO
+import com.farma.poc.features.home.data.models.CategoryDTO
 import com.farma.poc.features.onboarding.data.models.ItensOboardingDTO
 import com.farma.poc.features.home.data.models.HightLightsProductDTO
+import com.farma.poc.features.home.data.models.ItemsHomeDTO
 import com.farma.poc.features.home.data.models.SubCategoryDTO
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -21,9 +23,9 @@ class GeneralTypeConverter {
 
     @TypeConverter
     fun restoreItensOnboardingDTO(data: String): ItensOboardingDTO? {
-        if(data == null) return null
+        if (data == null) return null
         val type: Type = object : TypeToken<ItensOboardingDTO>() {}.type
-        return gson.fromJson(data,type)
+        return gson.fromJson(data, type)
     }
 
     @TypeConverter
@@ -33,9 +35,9 @@ class GeneralTypeConverter {
 
     @TypeConverter
     fun restoreListItensOnboardingDTO(data: String): List<ItensOboardingDTO>? {
-        if(data == null) return null
+        if (data == null) return null
         val type: Type = object : TypeToken<List<ItensOboardingDTO>>() {}.type
-        return gson.fromJson(data,type)
+        return gson.fromJson(data, type)
     }
 
 
@@ -98,4 +100,34 @@ class GeneralTypeConverter {
         return gson.fromJson(data, object : TypeToken<HightLightsProductDTO>() {}.type)
     }
 
+    @TypeConverter
+    fun saveItemsHomeDTO(itemsHomeDTO: ItemsHomeDTO): String {
+        return gson.toJson(itemsHomeDTO)
+    }
+
+    @TypeConverter
+    fun restoreItemsHomeDTO(data: String): ItemsHomeDTO? {
+        if (data == null) return null
+        return gson.fromJson(data, object : TypeToken<ItemsHomeDTO>() {}.type)
+    }
+
+    @TypeConverter
+    fun saveListCategories(items: List<CategoryDTO>?): String {
+        return gson.toJson(items)
+    }
+
+    @TypeConverter
+    fun restoreListCategories(data: String): List<CategoryDTO>? {
+        return gson.fromJson(data, object: TypeToken<List<CategoryDTO>>() {}.type)
+    }
+
+    @TypeConverter
+    fun saveListHighLights(items: List<HightLightsProductDTO>?): String {
+        return gson.toJson(items)
+    }
+
+    @TypeConverter
+    fun restoreListHighLights(data: String): List<HightLightsProductDTO>? {
+        return gson.fromJson(data, object : TypeToken<List<HightLightsProductDTO>>() {}.type)
+    }
 }

@@ -1,6 +1,7 @@
 package com.farma.poc.core.base
 
 import android.content.Context
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.farma.poc.core.navigation.RouterNavigation
 import com.farma.poc.core.store.DataStoreConfig
@@ -14,5 +15,8 @@ open class BaseViewModel(private val context: Context) : ViewModel() {
     }
 
     fun getDataStoreConfig() = DataStoreConfig(context = context)
+
+    var logoutAppEvent = mutableStateOf(false)
+    var dismissDialogLogout = mutableStateOf(true)
 
 }

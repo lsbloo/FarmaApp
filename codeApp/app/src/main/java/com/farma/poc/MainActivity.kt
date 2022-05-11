@@ -115,7 +115,7 @@ class MainActivity : BaseActivity() {
                         ).setupComponentWithAnimation(
                             this, onCallComponentScreen = {
                                 homeComponent(
-                                    context = this@MainActivity,
+                                    activity = this@MainActivity,
                                     homeViewModel = homeViewModel
                                 )
                             }
@@ -128,7 +128,7 @@ class MainActivity : BaseActivity() {
                         ).setupComponentWithAnimation(
                             this, onCallComponentScreen = {
                                 settingsComponent(
-                                    context = this@MainActivity,
+                                    activity = this@MainActivity,
                                     settingsViewModel = settingsViewModel
                                 )
                             }

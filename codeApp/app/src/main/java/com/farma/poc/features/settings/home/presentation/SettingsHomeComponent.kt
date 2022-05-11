@@ -23,19 +23,18 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import com.farma.poc.R
+import com.farma.poc.core.base.BaseActivity
 import com.farma.poc.core.resources.colors.Colors
 import com.farma.poc.core.resources.fonts.FontsTheme
-import com.farma.poc.core.utils.components.CustomCircularButton
+import com.farma.poc.core.utils.components.*
+import com.farma.poc.core.utils.components.CustomAlertDialog.Companion.setupDialogLogout
 import com.farma.poc.core.utils.components.CustomItemsSettings.Companion.setupItemsSettingsScreen
-import com.farma.poc.core.utils.components.CustomTextView
-import com.farma.poc.core.utils.components.DefaultSnackBar
-import com.farma.poc.core.utils.components.TopBarDefault
 import com.farma.poc.features.settings.home.data.model.GetSettingsDTO
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalUnitApi
 @Composable
-fun settingsComponent(context: Context, settingsViewModel: SettingsViewModel) {
+fun settingsComponent(activity: BaseActivity, settingsViewModel: SettingsViewModel) {
 
     val scaffoldState = rememberScaffoldState()
     Scaffold(
@@ -43,7 +42,7 @@ fun settingsComponent(context: Context, settingsViewModel: SettingsViewModel) {
             TopBarDefault(
                 backGroundColor = Colors.redQuin,
                 R.drawable.ic_arrow_back,
-                textTopBar = context.getString(R.string.label_screen_settings),
+                textTopBar = activity.getString(R.string.label_screen_settings),
                 onCLickImageLeft = {
                     settingsViewModel.redirectToHome()
                 }
@@ -74,7 +73,7 @@ fun settingsComponent(context: Context, settingsViewModel: SettingsViewModel) {
                         )
                     )
             ) {
-                setupBodyContent(context = context, settingsViewModel = settingsViewModel)
+                setupBodyContent(activity = activity, settingsViewModel = settingsViewModel)
             }
         })
     settingsViewModel.getStatusShowBiometric()
@@ -82,7 +81,29 @@ fun settingsComponent(context: Context, settingsViewModel: SettingsViewModel) {
 
 @ExperimentalUnitApi
 @Composable
-fun setupBodyContent(context: Context, settingsViewModel: SettingsViewModel) {
+fun setupBodyContent(activity: BaseActivity, settingsViewModel: SettingsViewModel) {
+    var eventClickLogout = false
+
+    with(settingsViewModel) {
+        if (logoutAppEvent.value) {
+            setupDialogLogout(
+                title = activity.getString(R.string.label_title_dialog_logout),
+                labelConfirmButton = activity.getString(R.string.label_confirm_button_dialog_logout),
+                labelDismissButton = activity.getString(R.string.label_dismiss_button_dialog_logoutt),
+                textDescription = activity.getString(R.string.label_description_dialog_logout),
+                onClickDismissButton = {
+                    dismissDialogLogout.value = false
+                    logoutAppEvent.value = false
+                },
+                onClickConfirmButton = {
+                    activity.finish()
+                }, onDismiss = {
+                    false
+                }
+            )
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -109,7 +130,7 @@ fun setupBodyContent(context: Context, settingsViewModel: SettingsViewModel) {
     ) {
         Spacer(modifier = Modifier.height(18.dp))
         CustomTextView().customTextView(
-            text = context.getString(R.string.label_my_profile),
+            text = activity.getString(R.string.label_my_profile),
             modifier = Modifier,
             color = Colors.whitePrimary,
             textStyle = FontsTheme(
@@ -154,7 +175,7 @@ fun setupBodyContent(context: Context, settingsViewModel: SettingsViewModel) {
             }
         }
         CustomTextView().customTextView(
-            text = context.getString(R.string.label_screen_settings),
+            text = activity.getString(R.string.label_screen_settings),
             modifier = Modifier,
             color = Colors.whitePrimary,
             textStyle = FontsTheme(
@@ -169,47 +190,47 @@ fun setupBodyContent(context: Context, settingsViewModel: SettingsViewModel) {
             data = settingsViewModel.datasetScreenSettings.value,
             onClickAddress = {
                 Toast.makeText(
-                    context,
-                    context.getString(R.string.function_not_implemented),
+                    activity,
+                    activity.getString(R.string.function_not_implemented),
                     Toast.LENGTH_SHORT
                 ).show()
                 settingsViewModel.redirectAddress()
             },
             onClickAsks = {
                 Toast.makeText(
-                    context,
-                    context.getString(R.string.function_not_implemented),
+                    activity,
+                    activity.getString(R.string.function_not_implemented),
                     Toast.LENGTH_SHORT
                 ).show()
                 settingsViewModel.redirectToFaq()
             },
             onClickCloseAccount = {
                 Toast.makeText(
-                    context,
-                    context.getString(R.string.function_not_implemented),
+                    activity,
+                    activity.getString(R.string.function_not_implemented),
                     Toast.LENGTH_SHORT
                 ).show()
             },
             onCLickInfoUser = {
                 Toast.makeText(
-                    context,
-                    context.getString(R.string.function_not_implemented),
+                    activity,
+                    activity.getString(R.string.function_not_implemented),
                     Toast.LENGTH_SHORT
                 ).show()
                 settingsViewModel.redirectToDataUser()
             },
             onCLickMethodPayment = {
                 Toast.makeText(
-                    context,
-                    context.getString(R.string.function_not_implemented),
+                    activity,
+                    activity.getString(R.string.function_not_implemented),
                     Toast.LENGTH_SHORT
                 ).show()
                 settingsViewModel.redirectMethodsPayment()
             },
             onCLickOrder = {
                 Toast.makeText(
-                    context,
-                    context.getString(R.string.function_not_implemented),
+                    activity,
+                    activity.getString(R.string.function_not_implemented),
                     Toast.LENGTH_SHORT
                 ).show()
                 settingsViewModel.redirectToOrder()
@@ -244,7 +265,8 @@ fun setupBodyContent(context: Context, settingsViewModel: SettingsViewModel) {
                     }
                 },
                 onClick = {
-                    settingsViewModel.logout()
+                    eventClickLogout = true
+                    settingsViewModel.logout(eventClickLogout)
                 },
                 elevation = ButtonDefaults.elevation(
                     defaultElevation = 6.dp,

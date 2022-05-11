@@ -44,6 +44,10 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository, cont
         }
     }
 
+    fun onDismissDialog() {
+        dismissDialogLogout.value = false
+    }
+
     private fun tryRecoveryDataCached(onRecovery: (Boolean) -> Unit) {
         CoroutineScope(Dispatchers.Main).launch {
             settingsRepository.getSettingsDataCached().collect {
@@ -72,8 +76,8 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository, cont
         }
     }
 
-    fun logout() {
-        routerNavigation?.navigatePop(RouterNavigationEnum.LOGIN)
+    fun logout(logoutClick: Boolean) {
+        logoutAppEvent.value = logoutClick
     }
 
     fun redirectToHome() {

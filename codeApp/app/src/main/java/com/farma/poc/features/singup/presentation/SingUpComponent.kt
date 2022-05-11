@@ -172,7 +172,7 @@ fun bodyContent(singUpViewModel: SingUpViewModel, context: Context, scaffoldStat
                         shouldDialogSuccessfulRegister.value = false
                         showDialog = false
                     }
-                ).apply { setupDialog() }
+                , onDismiss = {}).apply { setupDialog() }
             }
         }
     }

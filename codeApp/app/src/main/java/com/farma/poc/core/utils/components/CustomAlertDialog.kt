@@ -21,15 +21,38 @@ class CustomAlertDialog(
     private var labelDismissButton: String,
     private var textDescription: String,
     private var onClickConfirmButton: () -> Unit,
-    private var onClickDismissButton: () -> Unit
+    private var onClickDismissButton: () -> Unit,
+    private var onDismiss: () -> Unit
 ) {
 
+
+    companion object {
+        @ExperimentalUnitApi
+        @Composable
+        fun setupDialogLogout(
+            title: String,
+            labelConfirmButton: String,
+            labelDismissButton: String,
+            textDescription: String,
+            onClickConfirmButton: () -> Unit,
+            onClickDismissButton: () -> Unit,
+            onDismiss: () -> Unit
+        ) = CustomAlertDialog(
+            title = title,
+            labelConfirmButton = labelConfirmButton,
+            labelDismissButton = labelDismissButton,
+            textDescription = textDescription,
+            onClickConfirmButton = onClickConfirmButton,
+            onClickDismissButton = onClickDismissButton,
+            onDismiss = onDismiss
+        ).setupDialog()
+    }
 
     @ExperimentalUnitApi
     @Composable
     fun setupDialog() {
         AlertDialog(
-            onDismissRequest = { },
+            onDismissRequest = onDismiss,
             title = {
                 Text(
                     text = title,
@@ -72,7 +95,9 @@ class CustomAlertDialog(
             },
             dismissButton = {
                 Button(
-                    onClick = { onClickConfirmButton.invoke() },
+                    onClick = {
+                        onClickDismissButton.invoke()
+                    },
                     elevation = ButtonDefaults.elevation(
                         defaultElevation = 6.dp,
                         pressedElevation = 8.dp,

@@ -4,7 +4,7 @@ import android.content.Context
 import com.farma.poc.core.config.data.FarmaAppDatabase
 import com.farma.poc.features.home.data.api.HomeAPI
 import com.farma.poc.features.home.data.repository.HomeRepository
-import com.farma.poc.features.home.data.task.HomeCategoryTask
+import com.farma.poc.features.home.data.task.GetHomeItemsTask
 import com.farma.poc.features.home.presentation.HomeViewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -13,13 +13,13 @@ object HomeSetup {
 
     private fun provideHomeApi(retrofit: Retrofit): HomeAPI = retrofit.create(HomeAPI::class.java)
 
-    private fun provideHomeCategoryApiTask(homeAPI: HomeAPI, context: Context): HomeCategoryTask =
-        HomeCategoryTask(homeAPI, context = context)
+    private fun provideHomeCategoryApiTask(homeAPI: HomeAPI, context: Context): GetHomeItemsTask =
+        GetHomeItemsTask(homeAPI, context = context)
 
     private fun provideHomeRepository(
-        homeCategoryTask: HomeCategoryTask,
+        getHomeItemsTask: GetHomeItemsTask,
         homeDAO: FarmaAppDatabase
-    ): HomeRepository = HomeRepository(homeCategoryTask, homeDAO = homeDAO.homeDao())
+    ): HomeRepository = HomeRepository(getHomeItemsTask, homeDAO = homeDAO.homeDao())
 
 
     private fun provideHomeViewModel(
