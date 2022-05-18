@@ -20,7 +20,7 @@ class SingUpTask(private val singUpApi: SingUpApi, context: Context) :
         callback: (ResultTask.OnSuccess<ResponseDTO>?, ResultTask.OnFailure<ResponseBody>?, onShouldLoading: Boolean?) -> Unit,
         errorNetWorkNotAvailable: () -> Unit,
     ) {
-        if (hasNetworkAvailable) {
+        if (verifyIfHasNetworkAvailable()) {
             CoroutineScope(Dispatchers.IO).launch {
                 callback.invoke(null, null, true)
                 val result = e?.let { singUpApi.registerAccount(it) }
@@ -34,5 +34,4 @@ class SingUpTask(private val singUpApi: SingUpApi, context: Context) :
             errorNetWorkNotAvailable.invoke()
         }
     }
-
 }

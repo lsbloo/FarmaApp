@@ -18,18 +18,22 @@ class SettingsTask(private val settingsAPI: SettingsAPI, context: Context) :
         callback: (ResultTask.OnSuccess<GetSettingsDTO>?, ResultTask.OnFailure<ResponseBody>?, onShouldLoading: Boolean?) -> Unit,
         errorNetWorkNotAvailable: () -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            if (hasNetworkAvailable) {
-                callback.invoke(null, null, true)
+        if (verifyIfHasNetworkAvailable()) {
+            callback.invoke(null, null, true)
+            CoroutineScope(Dispatchers.IO).launch {
                 val result = settingsAPI.getDataScreenSettings()
                 if (result.isSuccessful) {
                     callback.invoke(ResultTask.OnSuccess(data = result.body()), null, false)
                 } else {
-                    callback.invoke(null, ResultTask.OnFailure(data = result.errorBody()), false)
+                    callback.invoke(
+                        null,
+                        ResultTask.OnFailure(data = result.errorBody()),
+                        false
+                    )
                 }
-            } else {
-                errorNetWorkNotAvailable.invoke()
             }
+        } else {
+            errorNetWorkNotAvailable.invoke()
         }
     }
 }

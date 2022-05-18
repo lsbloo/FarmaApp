@@ -41,6 +41,7 @@ object Colors {
     val gradientSkyTwo = Color(0XFFcfdef3)
 
     val bluePrimary = Color(0XFF1877F2)
+    val blueSecundary = Color(0XFF0C9BEC)
 
     val black = Color(0XFF000000)
     val blackSecundary = Color(0xFF949292)

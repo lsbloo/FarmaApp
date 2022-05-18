@@ -52,7 +52,7 @@ class ComposableUtils {
         }
 
         @Composable
-        fun setBackHandler(enable: Boolean, onClickBackPressed: (() -> Unit)? = null){
+        fun setBackHandler(enable: Boolean, onClickBackPressed: (() -> Unit)? = null) {
             BackHandler(enabled = enable) {
                 onClickBackPressed?.invoke()
             }
@@ -61,9 +61,14 @@ class ComposableUtils {
 
         @Composable
         fun showSnackBarError(
-            scaffoldState: SnackbarHostState, coroutineScope: CoroutineScope,
-            enable: Boolean, message: String, actionLabel: String,
-            onApply: (() -> Unit)? = null, onActionPerformed: (() -> Unit)? = null
+            scaffoldState: SnackbarHostState,
+            coroutineScope: CoroutineScope,
+            enable: Boolean,
+            message: String,
+            actionLabel: String,
+            onApply: (() -> Unit)? = null,
+            onActionPerformed: (() -> Unit)? = null,
+            durationSnackBarEnum: DurationSnackBarEnum? = null
         ) {
             if (enable) {
                 CustomErrorFeedBack(
@@ -71,7 +76,7 @@ class ComposableUtils {
                     coroutineScope = coroutineScope,
                     message = message,
                     actionLabel = actionLabel,
-                    durationSnackBar = DurationSnackBarEnum.SHORT,
+                    durationSnackBar = durationSnackBarEnum ?: DurationSnackBarEnum.SHORT,
                     actionPerformed = {
                         onActionPerformed?.invoke()
                     }

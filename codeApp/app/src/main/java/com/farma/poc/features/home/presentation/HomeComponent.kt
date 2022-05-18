@@ -2,6 +2,7 @@ package com.farma.poc.features.home.presentation
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -19,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.ExperimentalUnitApi
@@ -26,11 +28,13 @@ import androidx.compose.ui.unit.dp
 import com.farma.poc.R
 import com.farma.poc.core.base.BaseActivity
 import com.farma.poc.core.resources.colors.Colors
+import com.farma.poc.core.resources.fonts.FontsTheme
 import com.farma.poc.core.utils.colors.OutlinedTextFieldColor
 import com.farma.poc.core.utils.components.*
 import com.farma.poc.core.utils.components.CustomAlertDialog.Companion.setupDialogLogout
 import com.farma.poc.core.utils.components.CustomBottomNavigation.Companion.setupBottomNavigationHome
 import com.farma.poc.core.utils.components.CustomCircularImageView.Companion.setupCategories
+import com.farma.poc.core.utils.components.CustomProductView.Companion.setupProductView
 import com.farma.poc.core.utils.composables.ComposableUtils
 import com.farma.poc.features.home.data.models.CategoryDTO
 
@@ -125,7 +129,7 @@ fun bodyContent(homeViewModel: HomeViewModel, context: Context, scaffoldState: S
         .verticalScroll(
             state = rememberScrollState()
         ),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.Start,
         verticalArrangement = object : Arrangement.Vertical {
             var currentOffset = 0
             override fun Density.arrange(totalSize: Int, sizes: IntArray, outPositions: IntArray) {
@@ -140,18 +144,63 @@ fun bodyContent(homeViewModel: HomeViewModel, context: Context, scaffoldState: S
             }
 
         }) {
-
+        Spacer(modifier = Modifier.height(12.dp))
+        CustomTextView().customTextView(
+            text = "Categorias",
+            modifier =
+            Modifier
+                .align(Alignment.Start)
+                .padding(start = 12.dp),
+            color = Colors.whitePrimary,
+            textStyle = FontsTheme(
+                shadow = Shadow(
+                    color = Colors.whitePrimary,
+                    blurRadius = 2F,
+                )
+            ).typography.h2
+        )
+        Spacer(modifier = Modifier.height(8.dp))
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(120.dp)
         ) {
-            itemsIndexed(homeViewModel.getItensCategories(homeViewModel.itemsHome.value)) { index, item ->
+            itemsIndexed(homeViewModel.getItemsCategories()) { index, item ->
                 Box(modifier = Modifier.padding(start = 12.dp, end = 12.dp)) {
-                    setupCategories(textImageView = item.name,
-                        onClickImage = {}, index = index)
+                    setupCategories(
+                        textImageView = item.name,
+                        onClickImage = {}, index = index
+                    )
                 }
-
+            }
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        CustomTextView().customTextView(
+            text = "Destaques da Semana",
+            modifier =
+            Modifier
+                .align(Alignment.Start)
+                .padding(start = 12.dp),
+            color = Colors.whitePrimary,
+            textStyle = FontsTheme(
+                shadow = Shadow(
+                    color = Colors.whitePrimary,
+                    blurRadius = 2F,
+                )
+            ).typography.h2
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(220.dp)
+        ) {
+            itemsIndexed(homeViewModel.getItemsProductHighLight()) { index, item ->
+                Box(modifier = Modifier.padding(start = 12.dp, end = 12.dp)) {
+                    setupProductView(item, index, onCLickProduct = { productId, Index ->
+                        Log.d("ProductClick", "" + productId)
+                    })
+                }
             }
         }
 

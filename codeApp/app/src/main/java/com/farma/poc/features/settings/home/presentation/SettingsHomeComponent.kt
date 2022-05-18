@@ -2,6 +2,7 @@ package com.farma.poc.features.settings.home.presentation
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,8 +12,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -73,7 +76,11 @@ fun settingsComponent(activity: BaseActivity, settingsViewModel: SettingsViewMod
                         )
                     )
             ) {
-                setupBodyContent(activity = activity, settingsViewModel = settingsViewModel)
+                setupBodyContent(
+                    activity = activity,
+                    settingsViewModel = settingsViewModel,
+                    scaffoldState
+                )
             }
         })
     settingsViewModel.getStatusShowBiometric()
@@ -81,7 +88,11 @@ fun settingsComponent(activity: BaseActivity, settingsViewModel: SettingsViewMod
 
 @ExperimentalUnitApi
 @Composable
-fun setupBodyContent(activity: BaseActivity, settingsViewModel: SettingsViewModel) {
+fun setupBodyContent(
+    activity: BaseActivity,
+    settingsViewModel: SettingsViewModel,
+    scaffoldState: ScaffoldState
+) {
     var eventClickLogout = false
 
     with(settingsViewModel) {
@@ -102,6 +113,15 @@ fun setupBodyContent(activity: BaseActivity, settingsViewModel: SettingsViewMode
                 }
             )
         }
+
+        showDefaultErrorNetwork(
+            state = hasNetworkError,
+            courotineScope = rememberCoroutineScope(),
+            scaffoldState = scaffoldState,
+            onApplyCalled = {
+                hasNetworkError.value = false
+                redirectToHome()
+            })
     }
 
     Column(
@@ -299,7 +319,7 @@ fun setupBodyContent(activity: BaseActivity, settingsViewModel: SettingsViewMode
                 ).typography.h3
             )
         }
-
-        settingsViewModel.getDataScreen()
     }
+
+    settingsViewModel.getDataScreen()
 }

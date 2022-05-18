@@ -14,13 +14,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class OnboardingViewModel(private val onboardingRepository: OnboardingRepository, context: Context) :
+class OnboardingViewModel(
+    private val onboardingRepository: OnboardingRepository,
+    context: Context
+) :
     BaseViewModel(context) {
 
     var onboardingDataSet: OnboardingDTO? by mutableStateOf(null)
     var stateViewPageIndex by mutableStateOf(0)
 
     var showErrorNetwork = mutableStateOf(false)
+
     init {
         getOnboardingDataScreen()
     }
@@ -40,22 +44,20 @@ class OnboardingViewModel(private val onboardingRepository: OnboardingRepository
 
                 },
                 onNetworkError = {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        showErrorNetwork.value = true
-                    }
+                    showToastNetworkUnavailable()
                 }
             )
         }
 
     }
 
-    private fun setupDataSet(onRecovery: ((Boolean) -> Unit?)? = null){
+    private fun setupDataSet(onRecovery: ((Boolean) -> Unit?)? = null) {
         CoroutineScope(Dispatchers.Main).launch {
             onboardingRepository.getOnboardingFlow().collect {
                 it?.let { onboardingData ->
                     onboardingDataSet = onboardingData
                     onRecovery?.invoke(true)
-                }?: also {
+                } ?: also {
                     onRecovery?.invoke(false)
                 }
             }
@@ -65,13 +67,13 @@ class OnboardingViewModel(private val onboardingRepository: OnboardingRepository
     private fun trySetupDataWithRecoveryLocal(hasDataRecovery: Boolean) {
         hasDataRecovery.takeIf { !SUCCESS_DATA }.apply {
             setupDataSet()
-        }?: also {
+        } ?: also {
             // show error
         }
     }
 
-    fun animateToPage(index: Int, redirectLogin: (() -> Unit) ? = null) {
-        if(index == 2) {
+    fun animateToPage(index: Int, redirectLogin: (() -> Unit)? = null) {
+        if (index == 2) {
             redirectLogin?.invoke()
         } else {
             stateViewPageIndex = index

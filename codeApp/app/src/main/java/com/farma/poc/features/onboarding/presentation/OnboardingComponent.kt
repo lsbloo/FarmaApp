@@ -63,12 +63,6 @@ fun setupOnboardingScreen(onboardingViewModel: OnboardingViewModel, context: Con
         initialPage = 0
     )
 
-    with(onboardingViewModel) {
-        if(showErrorNetwork.value) {
-            Toast.makeText(context,"Verifique sua conexão com a internet", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     LaunchedEffect(key1 = pageState.currentPage) {
         launch {
             delay(2000)

@@ -1,6 +1,7 @@
 package com.farma.poc.features.settings.home.presentation
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.farma.poc.core.base.BaseViewModel
@@ -13,7 +14,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class SettingsViewModel(private val settingsRepository: SettingsRepository, context: Context) :
+class SettingsViewModel(
+    private val settingsRepository: SettingsRepository,
+    private val context: Context
+) :
     BaseViewModel(context) {
 
     var datasetScreenSettings = mutableStateOf(GetSettingsDTO())
@@ -30,7 +34,7 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository, cont
                 onFailureData = {
                     tryRecoveryDataCached { onRecovery ->
                         if (!onRecovery) {
-                            // show Error
+                            hasNetworkError.value = true
                         }
                     }
                 },
@@ -38,7 +42,11 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository, cont
 
                 },
                 hasErrorNetwork = {
-
+                    tryRecoveryDataCached { onRecovery ->
+                        if (!onRecovery) {
+                            showToastNetworkUnavailable()
+                        }
+                    }
                 }
             )
         }

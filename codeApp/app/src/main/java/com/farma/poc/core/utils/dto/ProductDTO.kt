@@ -1,6 +1,7 @@
 package com.farma.poc.core.utils.dto
 
 import android.os.Parcelable
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.farma.poc.core.base.BaseDTO
@@ -19,5 +20,8 @@ data class ProductDTO(
     val description: String? = null,
     val subCategoryDTO: SubCategoryDTO? = null,
     val quantity: Int? = null,
-    val productId: Long = 0
+    val productId: Long = 0,
+    val image: String? = null,
+    @Embedded(prefix = "drug_")
+    val drug: DrugDTO? = null,
 ): BaseDTO(),Parcelable

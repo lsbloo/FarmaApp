@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.farma.poc.core.base.BaseViewModel
 import com.farma.poc.core.navigation.RouterNavigationEnum
+import com.farma.poc.core.utils.dto.ProductDTO
 import com.farma.poc.features.home.data.models.CategoryDTO
 import com.farma.poc.features.home.data.models.ItemsHomeDTO
 import com.farma.poc.features.home.data.repository.HomeRepository
@@ -30,7 +31,7 @@ class HomeViewModel(private val homeRepository: HomeRepository, context: Context
                 },
                 onFailureError = {
                     getDataCached {
-                        // show Error
+                        showToastNetworkUnavailable()
                     }
                 },
                 errorNetWorkNotAvailablex = {
@@ -39,13 +40,22 @@ class HomeViewModel(private val homeRepository: HomeRepository, context: Context
         }
     }
 
-    fun getItensCategories(itemsHomeDTO: ItemsHomeDTO): ArrayList<CategoryDTO> {
+    fun getItemsCategories(): ArrayList<CategoryDTO> {
         val listCategory = ArrayList<CategoryDTO>()
-        itemsHomeDTO.categories?.forEach {
+        itemsHome.value.categories?.forEach {
             listCategory.add(it)
         }
         return listCategory
     }
+
+    fun getItemsProductHighLight(): ArrayList<ProductDTO> {
+        val productsHighLight = ArrayList<ProductDTO>()
+        itemsHome.value.productsHighLight?.forEach {
+            productsHighLight.add(it)
+        }
+        return productsHighLight
+    }
+
     private fun getDataCached(onFailureRecovery: () -> Unit){
         viewModelScope.launch {
             homeRepository.getItemsHomeCached().collect {
@@ -58,6 +68,7 @@ class HomeViewModel(private val homeRepository: HomeRepository, context: Context
             }
         }
     }
+
     fun redirectToSettings() {
         routerNavigation?.navigateTo(RouterNavigationEnum.SETTINGS)
     }

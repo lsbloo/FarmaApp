@@ -10,7 +10,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 
-class OnboardingTask(private val onboardingAPI: OnboardingAPI, context: Context): BaseNetworkTaskImpl<Any,OnboardingDTO, ResponseBody>(context) {
+class OnboardingTask(private val onboardingAPI: OnboardingAPI, context: Context) :
+    BaseNetworkTaskImpl<Any, OnboardingDTO, ResponseBody>(context) {
 
 
     override suspend fun call(
@@ -18,8 +19,8 @@ class OnboardingTask(private val onboardingAPI: OnboardingAPI, context: Context)
         callback: (ResultTask.OnSuccess<OnboardingDTO>?, ResultTask.OnFailure<ResponseBody>?, onShouldLoading: Boolean?) -> Unit,
         errorNetWorkNotAvailable: () -> Unit,
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            if (hasNetworkAvailable) {
+        if (verifyIfHasNetworkAvailable()) {
+            CoroutineScope(Dispatchers.IO).launch {
                 callback.invoke(null, null, true)
                 val result = onboardingAPI.getOnboarding()
                 result.isSuccessful.let {
@@ -33,10 +34,9 @@ class OnboardingTask(private val onboardingAPI: OnboardingAPI, context: Context)
                         )
                     }
                 }
-            } else {
-                errorNetWorkNotAvailable.invoke()
             }
+        } else {
+            errorNetWorkNotAvailable.invoke()
         }
     }
-
 }

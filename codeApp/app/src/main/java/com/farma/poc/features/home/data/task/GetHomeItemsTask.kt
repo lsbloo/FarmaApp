@@ -20,7 +20,7 @@ class GetHomeItemsTask(private val homeAPI: HomeAPI, context: Context) :
         callback: (ResultTask.OnSuccess<ItemsHomeDTO>?, ResultTask.OnFailure<ResponseBody>?, onShouldLoading: Boolean?) -> Unit,
         errorNetWorkNotAvailable: () -> Unit,
     ) {
-        if (hasNetworkAvailable) {
+        if (verifyIfHasNetworkAvailable()) {
             callback.invoke(null, null, true)
             CoroutineScope(Dispatchers.IO).launch {
                 val result = homeAPI.getItemsHome()

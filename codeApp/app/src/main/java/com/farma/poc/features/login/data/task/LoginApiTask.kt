@@ -22,7 +22,8 @@ class LoginApiTask(private val loginAPI: LoginAPI, context: Context) :
         callback: (ResultTask.OnSuccess<ResponseLoginDTO>?, ResultTask.OnFailure<ResponseBody>?, onShouldLoading: Boolean?) -> Unit,
         errorNetWorkNotAvailable: () -> Unit,
     ) {
-        if(hasNetworkAvailable) {
+
+        if(verifyIfHasNetworkAvailable()) {
             callback.invoke(null, null, true)
             safeLet(e?.email, e?.password, onResult = { email, password ->
                 CoroutineScope(Dispatchers.IO).launch {

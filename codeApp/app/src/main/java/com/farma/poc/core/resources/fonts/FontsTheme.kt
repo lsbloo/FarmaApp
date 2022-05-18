@@ -9,16 +9,24 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.farma.poc.R
 
 interface PropertiesFont {
-    fun setupStyle(shadow: Shadow, fontFamily: FontFamily, fontWeight: FontWeight? = null, color: Color? = null, fontSize: TextUnit? = null): TextStyle
+    fun setupStyle(
+        shadow: Shadow,
+        fontFamily: FontFamily,
+        fontWeight: FontWeight? = null,
+        color: Color? = null,
+        fontSize: TextUnit? = null,
+        textDecoration: TextDecoration? = null
+    ): TextStyle
 }
 
-enum class FontEnum(val textStyle: TextStyle): PropertiesFont {
+enum class FontEnum(val textStyle: TextStyle) : PropertiesFont {
     H1(
         textStyle = TextStyle(
             fontWeight = FontWeight.Bold,
@@ -26,8 +34,16 @@ enum class FontEnum(val textStyle: TextStyle): PropertiesFont {
             letterSpacing = 2.sp,
             textAlign = TextAlign.Left,
             lineHeight = 50.sp,
-    )){
-        override fun setupStyle(shadow: Shadow, fontFamily: FontFamily,fontWeight: FontWeight?,color: Color?, fontSize: TextUnit?): TextStyle {
+        )
+    ) {
+        override fun setupStyle(
+            shadow: Shadow,
+            fontFamily: FontFamily,
+            fontWeight: FontWeight?,
+            color: Color?,
+            fontSize: TextUnit?,
+            textDecoration: TextDecoration?
+        ): TextStyle {
             return TextStyle(
                 fontWeight = textStyle.fontWeight,
                 fontSize = fontSize ?: textStyle.fontSize,
@@ -41,18 +57,27 @@ enum class FontEnum(val textStyle: TextStyle): PropertiesFont {
     },
 
     H2(
-    textStyle = TextStyle(
-        fontWeight = FontWeight.Thin,
-        fontSize = 16.sp,
-        letterSpacing = 2.sp,
-        textAlign = TextAlign.Center,
-        lineHeight = 25.sp,
-    )){
-        override fun setupStyle(shadow: Shadow, fontFamily: FontFamily,fontWeight: FontWeight?,color: Color?, fontSize: TextUnit?): TextStyle {
+        textStyle = TextStyle(
+            fontWeight = FontWeight.Thin,
+            fontSize = 16.sp,
+            letterSpacing = 2.sp,
+            textAlign = TextAlign.Center,
+            lineHeight = 25.sp,
+
+        )
+    ) {
+        override fun setupStyle(
+            shadow: Shadow,
+            fontFamily: FontFamily,
+            fontWeight: FontWeight?,
+            color: Color?,
+            fontSize: TextUnit?,
+            textDecoration: TextDecoration?
+        ): TextStyle {
             return TextStyle(
                 color = color ?: Color.Unspecified,
                 fontWeight = fontWeight ?: textStyle.fontWeight,
-                fontSize =  fontSize ?: textStyle.fontSize,
+                fontSize = fontSize ?: textStyle.fontSize,
                 letterSpacing = textStyle.letterSpacing,
                 textAlign = textStyle.textAlign,
                 lineHeight = textStyle.lineHeight,
@@ -62,24 +87,56 @@ enum class FontEnum(val textStyle: TextStyle): PropertiesFont {
         }
     },
 
-    H4(textStyle = TextStyle(
-        fontWeight = FontWeight.Thin,
-        fontSize = 10.sp,
-        letterSpacing = 1.sp,
-        textAlign = TextAlign.Center
-    )
+    H4(
+        textStyle = TextStyle(
+            fontWeight = FontWeight.Thin,
+            fontSize = 10.sp,
+            letterSpacing = 1.sp,
+            textAlign = TextAlign.Center,
+        )
     ) {
         override fun setupStyle(
             shadow: Shadow,
             fontFamily: FontFamily,
             fontWeight: FontWeight?,
             color: Color?,
-            fontSize: TextUnit?
+            fontSize: TextUnit?,
+            textDecoration: TextDecoration?
         ): TextStyle {
             return TextStyle(
                 color = color ?: Color.Unspecified,
                 fontWeight = fontWeight ?: textStyle.fontWeight,
-                fontSize =  fontSize ?: textStyle.fontSize,
+                fontSize = fontSize ?: textStyle.fontSize,
+                letterSpacing = textStyle.letterSpacing,
+                textAlign = textStyle.textAlign,
+                lineHeight = textStyle.lineHeight,
+                shadow = shadow,
+                fontFamily = fontFamily,
+                textDecoration = textDecoration
+            )
+        }
+    },
+
+    H5(
+        textStyle = TextStyle(
+            fontWeight = FontWeight.Thin,
+            fontSize = 10.sp,
+            letterSpacing = 1.sp,
+            textAlign = TextAlign.Center
+        )
+    ) {
+        override fun setupStyle(
+            shadow: Shadow,
+            fontFamily: FontFamily,
+            fontWeight: FontWeight?,
+            color: Color?,
+            fontSize: TextUnit?,
+            textDecoration: TextDecoration?
+        ): TextStyle {
+            return TextStyle(
+                color = color ?: Color.Unspecified,
+                fontWeight = fontWeight ?: textStyle.fontWeight,
+                fontSize = fontSize ?: textStyle.fontSize,
                 letterSpacing = textStyle.letterSpacing,
                 textAlign = textStyle.textAlign,
                 lineHeight = textStyle.lineHeight,
@@ -87,11 +144,18 @@ enum class FontEnum(val textStyle: TextStyle): PropertiesFont {
                 fontFamily = fontFamily,
             )
         }
+
     }
 
 }
 
-class FontsTheme(shadow: Shadow, fontWeight: FontWeight? = null, color: Color? = null, fontSize: TextUnit? = null) {
+class FontsTheme(
+    shadow: Shadow,
+    fontWeight: FontWeight? = null,
+    color: Color? = null,
+    fontSize: TextUnit? = null,
+    textDecoration: TextDecoration? = null
+) {
 
     private val fonts = FontFamily(
         Font(R.font.roboto_black, weight = FontWeight.Medium),
@@ -128,13 +192,24 @@ class FontsTheme(shadow: Shadow, fontWeight: FontWeight? = null, color: Color? =
             fontFamily = fonts,
             fontWeight = fontWeight,
             fontSize = 14.sp,
-            color = color),
+            color = color
+        ),
 
         h4 = FontEnum.H4.setupStyle(
             shadow = shadow,
             fontFamily = fonts,
             fontWeight = fontWeight,
             fontSize = 12.sp,
-            color = color)
+            color = color,
+            textDecoration = textDecoration
+        ),
+
+        h5 = FontEnum.H5.setupStyle(
+            shadow = shadow,
+            fontFamily = fonts,
+            fontWeight = fontWeight,
+            fontSize = 6.sp,
+            color = color
+        )
     )
 }

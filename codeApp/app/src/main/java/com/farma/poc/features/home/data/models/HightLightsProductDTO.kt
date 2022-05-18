@@ -14,5 +14,5 @@ data class HightLightsProductDTO(
     @PrimaryKey
     val id: Long? = null,
     @TypeConverters(GeneralTypeConverter::class)
-    val productsHightLight: List<ProductDTO>? = null
+    val productsHighLight: List<ProductDTO>? = null
 ): Parcelable

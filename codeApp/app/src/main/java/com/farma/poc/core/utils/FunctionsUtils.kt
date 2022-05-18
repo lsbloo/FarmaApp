@@ -1,5 +1,12 @@
 package com.farma.poc.core.utils
 
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.StrikethroughSpan
+import java.text.NumberFormat
+import java.util.*
+
 
 fun safeLet(
     param1: String? = null,
@@ -36,4 +43,16 @@ fun varArgLet(
 
 ) {
    onResult.invoke(params, params.size)
+}
+
+
+fun convertDoubleToMonetaryValue(value: Double): String {
+    val locale = Locale("pt", "BR")
+    return NumberFormat.getCurrencyInstance(locale).format(value)
+}
+
+fun setSpannableString(value: String): String {
+    val spannable = SpannableString(value)
+    spannable.setSpan(StrikethroughSpan(),0,value.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+    return spannable.toString()
 }

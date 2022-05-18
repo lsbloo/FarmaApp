@@ -25,6 +25,10 @@
     <string name="error_login_request">Não foi possivel realizar o login</string>
     <string name="error_login_labels">Preencha os campos corretamente!</string>
     <string name="error_singup_request">Não foi possivel criar sua conta, tente novamente!</string>
+    <string name="service_unavailable_network">Serviço Indisponivel</string>
+    <string name="try_again">Tente Novamente</string>
+    <string name="network_unavailable">Verifique sua conexão com a internet</string>
+
 
     <string name="label_bottom_navigation_start">Início</string>
     <string name="label_bottom_navigation_help">Ajuda</string>
