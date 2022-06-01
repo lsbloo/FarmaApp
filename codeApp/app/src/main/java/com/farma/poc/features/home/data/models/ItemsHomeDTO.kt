@@ -13,6 +13,7 @@ import kotlinx.parcelize.Parcelize
 data class ItemsHomeDTO(
     val categories: List<CategoryDTO>? = null,
     val productsHighLight: List<ProductDTO>? = null,
+    val highLights: List<ProductDTO>? = null,
     @PrimaryKey
     val id: Long = 1,
 ) : Parcelable {

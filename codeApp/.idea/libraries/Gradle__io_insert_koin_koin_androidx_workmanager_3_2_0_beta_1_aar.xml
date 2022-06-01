@@ -1,9 +1,10 @@
 <component name="libraryTable">
   <library name="Gradle: io.insert-koin:koin-androidx-workmanager:3.2.0-beta-1@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b2d3956fb667cea9fb8c04cc6e7e26c3/transformed/jetified-koin-androidx-workmanager-3.2.0-beta-1/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b2d3956fb667cea9fb8c04cc6e7e26c3/transformed/jetified-koin-androidx-workmanager-3.2.0-beta-1/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b2d3956fb667cea9fb8c04cc6e7e26c3/transformed/jetified-koin-androidx-workmanager-3.2.0-beta-1/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/8b239ee270354df09285b827bfd9cbce/transformed/jetified-koin-androidx-workmanager-3.2.0-beta-1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/8b239ee270354df09285b827bfd9cbce/transformed/jetified-koin-androidx-workmanager-3.2.0-beta-1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/8b239ee270354df09285b827bfd9cbce/transformed/jetified-koin-androidx-workmanager-3.2.0-beta-1/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.insert-koin/koin-androidx-workmanager/3.2.0-beta-1/6a3a47d3d7ec0bf8260b0a660853c94f44c6d57a/koin-androidx-workmanager-3.2.0-beta-1-javadoc.jar!/" />

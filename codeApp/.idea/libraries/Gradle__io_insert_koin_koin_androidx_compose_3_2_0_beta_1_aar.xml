@@ -1,9 +1,10 @@
 <component name="libraryTable">
   <library name="Gradle: io.insert-koin:koin-androidx-compose:3.2.0-beta-1@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/032a25c9abe67d940b869a9f411212e4/transformed/jetified-koin-androidx-compose-3.2.0-beta-1/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/032a25c9abe67d940b869a9f411212e4/transformed/jetified-koin-androidx-compose-3.2.0-beta-1/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/032a25c9abe67d940b869a9f411212e4/transformed/jetified-koin-androidx-compose-3.2.0-beta-1/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/6dc97ca302dc0adc3e413e5695fbf3c0/transformed/jetified-koin-androidx-compose-3.2.0-beta-1/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/6dc97ca302dc0adc3e413e5695fbf3c0/transformed/jetified-koin-androidx-compose-3.2.0-beta-1/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/6dc97ca302dc0adc3e413e5695fbf3c0/transformed/jetified-koin-androidx-compose-3.2.0-beta-1/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.insert-koin/koin-androidx-compose/3.2.0-beta-1/35b20e082a65f2665b037d57cd1c6157e6216d0f/koin-androidx-compose-3.2.0-beta-1-javadoc.jar!/" />

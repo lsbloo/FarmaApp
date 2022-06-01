@@ -32,6 +32,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.farma.poc.R
 import com.farma.poc.core.resources.colors.Colors
 import com.farma.poc.core.resources.fonts.FontsTheme
@@ -68,7 +69,8 @@ fun setupOnboardingScreen(onboardingViewModel: OnboardingViewModel, context: Con
             delay(2000)
             with(pageState) {
                 if (onboardingViewModel.stateViewPageIndex != 2 && currentPage != 1) {
-                    val target = if (currentPage < onboardingViewModel.stateViewPageIndex) currentPage + 1 else 0
+                    val target =
+                        if (currentPage < onboardingViewModel.stateViewPageIndex) currentPage + 1 else 0
 
                     animateScrollToPage(
                         page = target,
@@ -103,7 +105,8 @@ fun setupOnboardingScreen(onboardingViewModel: OnboardingViewModel, context: Con
                         .fillMaxSize()
                         .verticalScroll(
                             rememberScrollState()
-                        ).padding(start = 12.dp, end = 12.dp),
+                        )
+                        .padding(start = 12.dp, end = 12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = remember {
                         object : Arrangement.Vertical {
@@ -129,15 +132,20 @@ fun setupOnboardingScreen(onboardingViewModel: OnboardingViewModel, context: Con
                     }
                 ) {
                     Spacer(modifier = Modifier.height(60.dp))
-                    Image(
-                        painter = painterResource(id = R.drawable.logo_farma),
-                        contentDescription = "",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(244.dp)
-                            .clip(CircleShape)
-                            .background(color = Colors.blackBackGroundPrimaryTheme)
-                    )
+                    if(onboardingViewModel.imagesOnboarding.size != 0) {
+                        var getIndexPathImage = if(index == 1) 0 else 1
+                        Image(
+                            painter = rememberAsyncImagePainter(
+                                onboardingViewModel.imagesOnboarding[getIndexPathImage]
+                            ),
+                            contentDescription = "",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(244.dp)
+                                .clip(CircleShape)
+                                .background(color = Colors.blackBackGroundPrimaryTheme)
+                        )
+                    }
                     Spacer(modifier = Modifier.height(48.dp))
                     onboardingDataScreen.onboardingScreen?.get(index)?.title?.let {
                         CustomTextView().customTextView(

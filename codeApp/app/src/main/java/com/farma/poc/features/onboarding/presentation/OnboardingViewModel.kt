@@ -1,18 +1,20 @@
 package com.farma.poc.features.onboarding.presentation
 
 import android.content.Context
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.farma.poc.core.base.BaseViewModel
+import com.farma.poc.core.firebase.downloadUriImageFirebase
 import com.farma.poc.core.navigation.RouterNavigationEnum
 import com.farma.poc.features.onboarding.data.models.OnboardingDTO
 import com.farma.poc.features.onboarding.data.repository.OnboardingRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class OnboardingViewModel(
     private val onboardingRepository: OnboardingRepository,
@@ -24,6 +26,8 @@ class OnboardingViewModel(
     var stateViewPageIndex by mutableStateOf(0)
 
     var showErrorNetwork = mutableStateOf(false)
+
+    var imagesOnboarding = mutableListOf<Uri>()
 
     init {
         getOnboardingDataScreen()
@@ -55,13 +59,26 @@ class OnboardingViewModel(
         CoroutineScope(Dispatchers.Main).launch {
             onboardingRepository.getOnboardingFlow().collect {
                 it?.let { onboardingData ->
-                    onboardingDataSet = onboardingData
-                    onRecovery?.invoke(true)
+                    runBlocking {
+                        onboardingData.onboardingScreen?.forEach { items ->
+                            downloadUriImageFirebase(items.image, onSuccess = {
+                                imagesOnboarding.add(it)
+                            }, onFailure = {})
+                        }
+                        onboardingDataSet = onboardingData
+                        onRecovery?.invoke(true)
+                    }
                 } ?: also {
                     onRecovery?.invoke(false)
                 }
             }
         }
+    }
+
+    fun getImageOnboarding(path: String, onSuccess: (Uri) -> Unit) {
+        downloadUriImageFirebase(pathString = path, onSuccess = {
+            onSuccess.invoke(it)
+        }, onFailure = {})
     }
 
     private fun trySetupDataWithRecoveryLocal(hasDataRecovery: Boolean) {

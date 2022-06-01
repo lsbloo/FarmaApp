@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "556183802952",
+    "project_id": "farmadelivery-8a5e5",
+    "storage_bucket": "farmadelivery-8a5e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556183802952:android:f4d3531dd0d5f44c38347d",
+        "android_client_info": {
+          "package_name": "com.farma.poc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "556183802952-lgnri0bo4undcshurvu1aomued99i4a8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.farma.poc",
+            "certificate_hash": "526a81f57bfca20d9d9d4a04c26482535ed35b00"
+          }
+        },
+        {
+          "client_id": "556183802952-u1ssr95f8cnqijnljlnkkal18rq39qq7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdAdZFB_pPaiVqd5XotcahZecO4Gn1ipw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "556183802952-u1ssr95f8cnqijnljlnkkal18rq39qq7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

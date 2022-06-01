@@ -208,7 +208,7 @@ class FontsTheme(
             shadow = shadow,
             fontFamily = fonts,
             fontWeight = fontWeight,
-            fontSize = 6.sp,
+            fontSize = 10.sp,
             color = color
         )
     )

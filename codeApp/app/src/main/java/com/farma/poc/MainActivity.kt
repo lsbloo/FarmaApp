@@ -1,8 +1,6 @@
 package com.farma.poc
 
-import android.hardware.biometrics.BiometricManager
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
@@ -10,6 +8,7 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import com.farma.poc.core.animation.TransitionComponents
 import com.farma.poc.core.base.BaseActivity
+import com.farma.poc.core.firebase.downloadFileImageFirebase
 import com.farma.poc.core.navigation.RouterNavigationEnum
 import com.farma.poc.core.navigation.RouterNavigationManager
 import com.farma.poc.core.resources.colors.Colors.colorBackGroundPrimaryTheme
@@ -45,6 +44,15 @@ class MainActivity : BaseActivity() {
     @ExperimentalUnitApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        downloadFileImageFirebase("", onFailure = {}, onSuccess = {})
+    }
+
+    @ExperimentalPagerApi
+    @ExperimentalAnimationApi
+    @ExperimentalMaterialApi
+    @ExperimentalUnitApi
+    override fun onResume() {
+        super.onResume()
         setContent {
             setSystemUiControllerWithColorStatusBar(color = colorBackGroundPrimaryTheme)
             FarmaAppTheme {

@@ -5,8 +5,11 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -34,8 +37,10 @@ import com.farma.poc.core.utils.components.*
 import com.farma.poc.core.utils.components.CustomAlertDialog.Companion.setupDialogLogout
 import com.farma.poc.core.utils.components.CustomBottomNavigation.Companion.setupBottomNavigationHome
 import com.farma.poc.core.utils.components.CustomCircularImageView.Companion.setupCategories
+import com.farma.poc.core.utils.components.CustomHighLightProductView.Companion.setHighLightProductView
 import com.farma.poc.core.utils.components.CustomProductView.Companion.setupProductView
 import com.farma.poc.core.utils.composables.ComposableUtils
+import com.farma.poc.core.utils.dto.ProductDTO
 import com.farma.poc.features.home.data.models.CategoryDTO
 
 
@@ -43,7 +48,7 @@ import com.farma.poc.features.home.data.models.CategoryDTO
 @ExperimentalUnitApi
 @Composable
 fun homeComponent(activity: BaseActivity, homeViewModel: HomeViewModel) {
-
+    homeViewModel.getItemsHome()
     val scaffoldState = rememberScaffoldState()
 
     ComposableUtils.setSystemUiControllerWithColorStatusBar(
@@ -79,6 +84,7 @@ fun homeComponent(activity: BaseActivity, homeViewModel: HomeViewModel) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
                     .background(
                         brush = Brush.verticalGradient(
                             colors = listOf<Color>(
@@ -122,13 +128,8 @@ fun homeComponent(activity: BaseActivity, homeViewModel: HomeViewModel) {
 @ExperimentalUnitApi
 @Composable
 fun bodyContent(homeViewModel: HomeViewModel, context: Context, scaffoldState: ScaffoldState) {
-
-
     Column(modifier = Modifier
-        .fillMaxSize()
-        .verticalScroll(
-            state = rememberScrollState()
-        ),
+        .fillMaxSize(),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = object : Arrangement.Vertical {
             var currentOffset = 0
@@ -146,6 +147,47 @@ fun bodyContent(homeViewModel: HomeViewModel, context: Context, scaffoldState: S
         }) {
         Spacer(modifier = Modifier.height(12.dp))
         CustomTextView().customTextView(
+            text = "Destaques",
+            modifier =
+            Modifier
+                .align(Alignment.Start)
+                .padding(start = 12.dp),
+            color = Colors.whitePrimary,
+            textStyle = FontsTheme(
+                shadow = Shadow(
+                    color = Colors.whitePrimary,
+                    blurRadius = 2F,
+                )
+            ).typography.h2
+        )
+        Spacer(modifier = Modifier.height(6.dp))
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+        ) {
+            itemsIndexed(homeViewModel.getHighLights()) { index, item ->
+                Box(modifier = Modifier.padding(start = 12.dp, end = 12.dp)) {
+                    setHighLightProductView(
+                        productDTO = item,
+                        index = index,
+                        image = if (homeViewModel.imagesHighLights.size != 0) {
+                            homeViewModel.getCurrentHighLightImage(item.name)
+                        } else null,
+                        onCLickProduct = { _, _ ->
+                            Log.d("CLICK_DESTAQUE", "DESTAQUE CLICADO")
+                            Toast.makeText(
+                                context,
+                                R.string.function_not_implemented,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    )
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        CustomTextView().customTextView(
             text = "Categorias",
             modifier =
             Modifier
@@ -159,7 +201,7 @@ fun bodyContent(homeViewModel: HomeViewModel, context: Context, scaffoldState: S
                 )
             ).typography.h2
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(6.dp))
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
@@ -169,7 +211,16 @@ fun bodyContent(homeViewModel: HomeViewModel, context: Context, scaffoldState: S
                 Box(modifier = Modifier.padding(start = 12.dp, end = 12.dp)) {
                     setupCategories(
                         textImageView = item.name,
-                        onClickImage = {}, index = index
+                        image = if (homeViewModel.imagesCategories.size != 0) {
+                            homeViewModel.getCurrentCategorieImage(item.name)
+                        } else null,
+                        onClickImage = {
+                            Toast.makeText(
+                                context,
+                                R.string.function_not_implemented,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }, index = index
                     )
                 }
             }
@@ -189,21 +240,31 @@ fun bodyContent(homeViewModel: HomeViewModel, context: Context, scaffoldState: S
                 )
             ).typography.h2
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(6.dp))
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(220.dp)
+                .height(260.dp)
         ) {
             itemsIndexed(homeViewModel.getItemsProductHighLight()) { index, item ->
                 Box(modifier = Modifier.padding(start = 12.dp, end = 12.dp)) {
-                    setupProductView(item, index, onCLickProduct = { productId, Index ->
-                        Log.d("ProductClick", "" + productId)
-                    })
+                    setupProductView(item,
+                        index,
+                        image = if (homeViewModel.imagesProductsHighLights.size != 0) {
+                            homeViewModel.getCurrentProductHighLightImage(item.name)
+                        } else null,
+                        onCLickProduct = { productId, Index ->
+                            Log.d("ProductClick", "" + productId)
+                            Toast.makeText(
+                                context,
+                                R.string.function_not_implemented,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        })
                 }
             }
         }
-
+        Spacer(modifier = Modifier.height(12.dp))
         Box(
             Modifier
                 .fillMaxWidth()
@@ -226,6 +287,4 @@ fun bodyContent(homeViewModel: HomeViewModel, context: Context, scaffoldState: S
                 })
         }
     }
-
-    homeViewModel.getItemsHome()
 }

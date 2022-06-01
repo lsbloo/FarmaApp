@@ -42,6 +42,7 @@ object Colors {
 
     val bluePrimary = Color(0XFF1877F2)
     val blueSecundary = Color(0XFF0C9BEC)
+    val blueThree = Color(0xFF7581EA)
 
     val black = Color(0XFF000000)
     val blackSecundary = Color(0xFF949292)

@@ -1,5 +1,6 @@
 package com.farma.poc.core.utils.components
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,6 +22,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.farma.poc.R
 import com.farma.poc.core.resources.colors.Colors
 import com.farma.poc.core.resources.fonts.FontsTheme
@@ -31,6 +33,7 @@ import com.farma.poc.core.utils.setSpannableString
 class CustomProductView(
     val productDTO: ProductDTO,
     val index: Int = 0,
+    val image: Uri? = null,
     val onCLickProduct: ((Long, Int) -> Unit)? = null
 ) {
 
@@ -39,22 +42,32 @@ class CustomProductView(
     fun setup() {
         Box(
             modifier = Modifier
-                .height(220.dp)
+                .height(260.dp)
                 .width(160.dp)
                 .background(color = Colors.whitePrimary, shape = RoundedCornerShape(4.dp))
         ) {
+            Spacer(modifier = Modifier.height(4.dp))
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.SpaceEvenly
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.logo_farma),
-                    contentDescription = "",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(48.dp)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+                if (image == null) {
+                    Image(
+                        painter = painterResource(id = R.drawable.logo_farma),
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.size(48.dp)
+                    )
+                } else {
+                    Image(
+                        painter = rememberAsyncImagePainter(model = image),
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.size(48.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.height(2.dp))
                 productDTO.name?.let { productName ->
                     Text(
                         text = productName,
@@ -62,15 +75,15 @@ class CustomProductView(
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(start = 8.dp),
                         style = FontsTheme(
-                            fontWeight = FontWeight.SemiBold,
+                            fontWeight = FontWeight.Black,
                             shadow = Shadow(
                                 color = Colors.whitePrimary,
                                 blurRadius = 2F,
                             )
-                        ).typography.h4
+                        ).typography.h3
                     )
                 }
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(4.dp))
                 productDTO.drug?.let { drugDTO ->
                     drugDTO.manufacturer?.let { manufacturer ->
                         Text(
@@ -89,7 +102,7 @@ class CustomProductView(
                             ).typography.h5
                         )
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
                     drugDTO.apresentation?.let { apresentation ->
                         Text(
                             text = apresentation,
@@ -108,7 +121,7 @@ class CustomProductView(
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(4.dp))
                 productDTO.maxValue?.let { maxValue ->
                     Text(
                         text = convertDoubleToMonetaryValue(maxValue),
@@ -145,7 +158,7 @@ class CustomProductView(
                         ).typography.h4
                     )
                 }
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(4.dp))
                 CustomCircularButton().apply {
                     customCircularButton(
                         content = {
@@ -191,10 +204,12 @@ class CustomProductView(
         fun setupProductView(
             productDTO: ProductDTO,
             index: Int = 0,
+            image: Uri? = null,
             onCLickProduct: ((Long, Int) -> Unit)? = null
         ) = CustomProductView(
             productDTO = productDTO,
             index = index,
+            image = image,
             onCLickProduct = onCLickProduct
         ).setup()
     }

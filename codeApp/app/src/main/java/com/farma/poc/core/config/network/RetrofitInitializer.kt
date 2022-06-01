@@ -2,7 +2,7 @@ package com.farma.poc.core.config.network
 
 
 import android.app.Application
-import com.farma.poc.core.config.constants.ConfigApplicationConstants.BASE_URL_MOCK
+import com.farma.poc.BuildConfig
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -38,7 +38,7 @@ object RetrofitInitializer {
         }
 
         fun provideSetupRetrofit(factory: Gson, client: OkHttpClient): Retrofit {
-            return Retrofit.Builder().baseUrl(BASE_URL_MOCK).addConverterFactory(GsonConverterFactory.create())
+            return Retrofit.Builder().baseUrl(BuildConfig.BASE_URL).addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
         }

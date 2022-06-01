@@ -1,11 +1,10 @@
 package com.farma.poc.features.splash.presentation
 
 import android.content.Context
-import android.opengl.Visibility
+import android.net.Uri
 import android.os.Handler
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.farma.poc.core.base.BaseViewModel
 import com.farma.poc.core.navigation.RouterNavigationEnum
@@ -14,6 +13,7 @@ import com.farma.poc.features.splash.constants.SplashConstants.Companion.TIME_TO
 class SplashViewModel(context: Context) : BaseViewModel(context) {
 
     var visibilityImageLogo by mutableStateOf(false)
+    var dataImage: Uri? = null
 
     fun redirectToOnboarding(onNavigateCalled: (() -> Unit)? = null) {
         Handler().postDelayed(
@@ -24,12 +24,13 @@ class SplashViewModel(context: Context) : BaseViewModel(context) {
         ,TIME_TO_REDIRECT_ONBOARDING)
     }
 
-    fun changeVisibilityImageLogo(visibility: Boolean){
-        visibilityImageLogo = visibility
+    fun setImageSplashScreen(uri : Uri) {
+        visibilityImageLogo = true
+        dataImage = uri
     }
 
 
     companion object {
-        const val TIME_ANIMATION_CROSS_FADE_TWEEN = 1500
+        const val TIME_ANIMATION_CROSS_FADE_TWEEN = 2500
     }
 }

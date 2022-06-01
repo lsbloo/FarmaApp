@@ -88,6 +88,10 @@ class SettingsViewModel(
         logoutAppEvent.value = logoutClick
     }
 
+    fun redirectToLogin() {
+        routerNavigation?.navigatePop(RouterNavigationEnum.LOGIN)
+    }
+
     fun redirectToHome() {
         routerNavigation?.navigatePop(RouterNavigationEnum.HOME)
     }

@@ -107,7 +107,9 @@ fun setupBodyContent(
                     logoutAppEvent.value = false
                 },
                 onClickConfirmButton = {
-                    activity.finish()
+                    dismissDialogLogout.value = false
+                    logoutAppEvent.value = false
+                    redirectToLogin()
                 }, onDismiss = {
                     false
                 }

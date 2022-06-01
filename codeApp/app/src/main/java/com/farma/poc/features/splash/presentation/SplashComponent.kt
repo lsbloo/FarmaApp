@@ -2,6 +2,7 @@ package com.farma.poc.features.splash.presentation
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -19,7 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.farma.poc.R
+import com.farma.poc.core.firebase.downloadUriImageFirebase
 import com.farma.poc.core.resources.colors.Colors
 import com.farma.poc.core.utils.composables.ComposableUtils
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -60,6 +63,9 @@ fun screenSplash(splashViewModel: SplashViewModel, context: Context) {
 @ExperimentalUnitApi
 @Composable
 fun viewImageLogoApp(splashViewModel: SplashViewModel) {
+    downloadUriImageFirebase(onSuccess = {
+        splashViewModel.setImageSplashScreen(it)
+    }, onFailure = {})
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -71,13 +77,13 @@ fun viewImageLogoApp(splashViewModel: SplashViewModel) {
         ) { visibility ->
             AnimatedVisibility(visible = visibility) {
                 Image(
-                    painter = painterResource(id = R.drawable.logo_farma), contentDescription = "",
+                    painter = rememberAsyncImagePainter(splashViewModel.dataImage,),
+                    contentDescription = "",
                     modifier = Modifier
                         .width(245.dp)
                         .height(264.dp)
                 )
             }
-            splashViewModel.changeVisibilityImageLogo(true)
         }
     }
 

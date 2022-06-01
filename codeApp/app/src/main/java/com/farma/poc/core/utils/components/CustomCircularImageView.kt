@@ -1,7 +1,9 @@
 package com.farma.poc.core.utils.components
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -16,13 +18,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.farma.poc.R
 import com.farma.poc.core.resources.colors.Colors
 import com.farma.poc.core.resources.fonts.FontsTheme
 
 class CustomCircularImageView(
     private val textImageView: String? = null,
-    private val image: Int = 0,
+    private val image: Uri? = null,
     private val onClickImage: ((Int) -> Unit)? = null,
     private val index: Int
 ) {
@@ -37,9 +40,9 @@ class CustomCircularImageView(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if(image != 0) {
+            if(image != null) {
                 Image(
-                    painter = painterResource(id = image),
+                    painter = rememberAsyncImagePainter(image),
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -87,7 +90,7 @@ class CustomCircularImageView(
         @Composable
         fun setupCategories(
             textImageView: String? = null,
-            image: Int = 0,
+            image: Uri? = null,
             onClickImage: ((Int) -> Unit)? = null,
             index: Int
         ) = CustomCircularImageView(
