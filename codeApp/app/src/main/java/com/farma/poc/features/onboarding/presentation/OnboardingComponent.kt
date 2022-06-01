@@ -133,7 +133,11 @@ fun setupOnboardingScreen(onboardingViewModel: OnboardingViewModel, context: Con
                 ) {
                     Spacer(modifier = Modifier.height(60.dp))
                     if(onboardingViewModel.imagesOnboarding.size != 0) {
-                        var getIndexPathImage = if(index == 1) 0 else 1
+                        var getIndexPathImage = if(onboardingViewModel.imagesOnboarding.size == 1) {
+                            0
+                        } else {
+                            index
+                        }
                         Image(
                             painter = rememberAsyncImagePainter(
                                 onboardingViewModel.imagesOnboarding[getIndexPathImage]

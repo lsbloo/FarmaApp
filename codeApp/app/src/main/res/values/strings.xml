@@ -2,6 +2,12 @@
     <string name="app_name">FarmaApp</string>
 
 
+    <!-- HOME ITEMS-->
+    <string name="highlight">Destaques</string>
+    <string name="product_highlight">Destaques da Semana</string>
+    <string name="categories">Categorias</string>
+
+
     <string name="label_email">Email</string>
     <string name="label_password">Senha</string>
     <string name="label_forgot_pass">Esqueceu a senha?</string>

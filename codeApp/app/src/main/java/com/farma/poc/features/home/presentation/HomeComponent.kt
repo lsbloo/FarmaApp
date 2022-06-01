@@ -147,7 +147,7 @@ fun bodyContent(homeViewModel: HomeViewModel, context: Context, scaffoldState: S
         }) {
         Spacer(modifier = Modifier.height(12.dp))
         CustomTextView().customTextView(
-            text = "Destaques",
+            text = context.getString(R.string.highlight),
             modifier =
             Modifier
                 .align(Alignment.Start)
@@ -188,7 +188,7 @@ fun bodyContent(homeViewModel: HomeViewModel, context: Context, scaffoldState: S
         }
         Spacer(modifier = Modifier.height(12.dp))
         CustomTextView().customTextView(
-            text = "Categorias",
+            text = context.getString(R.string.categories),
             modifier =
             Modifier
                 .align(Alignment.Start)
@@ -227,7 +227,7 @@ fun bodyContent(homeViewModel: HomeViewModel, context: Context, scaffoldState: S
         }
         Spacer(modifier = Modifier.height(12.dp))
         CustomTextView().customTextView(
-            text = "Destaques da Semana",
+            text = context.getString(R.string.product_highlight),
             modifier =
             Modifier
                 .align(Alignment.Start)

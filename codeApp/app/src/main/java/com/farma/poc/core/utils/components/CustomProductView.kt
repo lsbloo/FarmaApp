@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -46,12 +47,23 @@ class CustomProductView(
                 .width(160.dp)
                 .background(color = Colors.whitePrimary, shape = RoundedCornerShape(4.dp))
         ) {
-            Spacer(modifier = Modifier.height(4.dp))
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly
-            ) {
+                verticalArrangement = object : Arrangement.Vertical {
+                    var currentOffset = 0
+                    override fun Density.arrange(totalSize: Int, sizes: IntArray, outPositions: IntArray) {
+                        sizes.forEachIndexed { index, size ->
+                            if (index == sizes.lastIndex) {
+                                outPositions[index] = totalSize - (size + 50)
+                            } else {
+                                outPositions[index] = currentOffset
+                                currentOffset += size
+                            }
+                        }
+                    }
+                }) {
+                Spacer(modifier = Modifier.height(24.dp))
                 if (image == null) {
                     Image(
                         painter = painterResource(id = R.drawable.logo_farma),
@@ -67,7 +79,7 @@ class CustomProductView(
                         modifier = Modifier.size(48.dp)
                     )
                 }
-                Spacer(modifier = Modifier.height(2.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 productDTO.name?.let { productName ->
                     Text(
                         text = productName,
@@ -83,26 +95,8 @@ class CustomProductView(
                         ).typography.h3
                     )
                 }
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(12.dp))
                 productDTO.drug?.let { drugDTO ->
-                    drugDTO.manufacturer?.let { manufacturer ->
-                        Text(
-                            text = manufacturer,
-                            color = Colors.black,
-                            textAlign = TextAlign.Left,
-                            modifier = Modifier
-                                .padding(start = 8.dp, end = 56.dp)
-                                .width(80.dp),
-                            style = FontsTheme(
-                                fontWeight = FontWeight.W300,
-                                shadow = Shadow(
-                                    color = Colors.whitePrimary,
-                                    blurRadius = 2F,
-                                )
-                            ).typography.h5
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(4.dp))
                     drugDTO.apresentation?.let { apresentation ->
                         Text(
                             text = apresentation,
@@ -121,7 +115,7 @@ class CustomProductView(
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(14.dp))
                 productDTO.maxValue?.let { maxValue ->
                     Text(
                         text = convertDoubleToMonetaryValue(maxValue),
@@ -140,7 +134,7 @@ class CustomProductView(
                         ).typography.h4
                     )
                 }
-                Spacer(modifier = Modifier.height(2.dp))
+                Spacer(modifier = Modifier.height(4.dp))
                 productDTO.minValue?.let { minValue ->
                     Text(
                         text = convertDoubleToMonetaryValue(minValue),

@@ -32,6 +32,8 @@ class HomeViewModel(private val homeRepository: HomeRepository, context: Context
 
     fun getItemsHome() {
         imagesCategories.clear()
+        imagesHighLights.clear()
+        imagesProductsHighLights.clear()
         viewModelScope.launch {
             homeRepository.getItemsHome(
                 onSuccessData = { items ->
