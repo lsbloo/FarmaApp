@@ -64,25 +64,30 @@ fun setupOnboardingScreen(onboardingViewModel: OnboardingViewModel, context: Con
         initialPage = 0
     )
 
-    LaunchedEffect(key1 = pageState.currentPage) {
-        launch {
-            delay(2000)
-            with(pageState) {
-                if (onboardingViewModel.stateViewPageIndex != 2 && currentPage != 1) {
-                    val target =
-                        if (currentPage < onboardingViewModel.stateViewPageIndex) currentPage + 1 else 0
+    with(onboardingViewModel) {
+        if(stateViewPageIndex != 0) {
+            LaunchedEffect(key1 = pageState.currentPage) {
+                launch {
+                    delay(1000)
+                    with(pageState) {
+                        if (stateViewPageIndex != 2 && currentPage != 1) {
+                            val target =
+                                if (currentPage < stateViewPageIndex) currentPage + 1 else 0
 
-                    animateScrollToPage(
-                        page = target,
-                        animationSpec = tween(
-                            durationMillis = 200,
-                            easing = FastOutSlowInEasing
-                        )
-                    )
+                            animateScrollToPage(
+                                page = target,
+                                animationSpec = tween(
+                                    durationMillis = 200,
+                                    easing = FastOutSlowInEasing
+                                )
+                            )
+                        }
+                    }
                 }
             }
         }
     }
+
 
     var labelButton: String? = null
     HorizontalPager(state = pageState) { index ->
