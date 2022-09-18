@@ -1,5 +1,6 @@
 package com.farmawebservice.delivery.products.model;
 
+import com.farmawebservice.delivery.shop.model.ProductShop;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,4 +25,5 @@ public class Product {
 
     @OneToOne
     private Drug drug;
+
 }

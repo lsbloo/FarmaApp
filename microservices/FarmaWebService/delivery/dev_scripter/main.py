@@ -14,7 +14,7 @@ if __name__ == '__main__':
     print()
     print('SETTER VARIABLES - CARREGUE AS VARIAVEIS DE AMBIENTE')
     print()
-    print('Example Usage: python3 main.py <token_acess_endpoint>')
+    print('Example Usage: python main.py <token_acess_endpoint>')
     print()
 
 

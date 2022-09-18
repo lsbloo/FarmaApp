@@ -12,6 +12,6 @@ public interface OnboardingRepository extends CrudRepository<OnboardingDTO, Inte
 
 
 
-    @Query(value = "select item_onboardingdtolist_id from onboardingdto_item_onboardingdtolist where onboardingdto_id=?1", nativeQuery = true)
+    @Query(value = "select onboarding_screen_id from onboardingdto_onboarding_screen where onboardingdto_id=?1", nativeQuery = true)
     List<Integer> getIdsFromItemOnboarding(Integer onboardingId);
 }

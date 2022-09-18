@@ -27,12 +27,13 @@ public class AuthenticatorController {
         AuthSuccessulResponseDTO authSuccessulResponseDTO = new AuthSuccessulResponseDTO();
         authenticatorService.authenticateUser(loginRequestDTO, new NetworkHandlerEvent() {
             @Override
-            public void onResult(MessageResponseDTO response) {}
+            public void onResult(MessageResponseDTO response) {
+            }
+
             @Override
             public void onResult(AuthSuccessulResponseDTO response) {
-                authSuccessulResponseDTO.setEmail(response.getEmail());
                 authSuccessulResponseDTO.setToken(response.getToken());
-                authSuccessulResponseDTO.setRoles(response.getRoles());
+                authSuccessulResponseDTO.setType("Bearer ");
             }
         });
         return ResponseEntity.accepted().body(authSuccessulResponseDTO);
@@ -44,15 +45,16 @@ public class AuthenticatorController {
         authenticatorService.createUser(createAccountDTO, new NetworkHandlerEvent() {
             @Override
             public void onResult(MessageResponseDTO response) {
-                messageResponseDTO.setMessage(response.getMessage());
                 messageResponseDTO.setIsError(response.getIsError());
+                messageResponseDTO.setMessageClientResponseDTO(response.getMessageClientResponseDTO());
             }
 
             @Override
-            public void onResult(AuthSuccessulResponseDTO response) {}
+            public void onResult(AuthSuccessulResponseDTO response) {
+            }
         });
 
-        if(messageResponseDTO.getIsError()) {
+        if (messageResponseDTO.getIsError()) {
             return ResponseEntity.badRequest().body(messageResponseDTO);
         } else {
             return ResponseEntity.accepted().body(messageResponseDTO);

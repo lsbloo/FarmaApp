@@ -10,13 +10,11 @@ import java.util.List;
 public class AuthSuccessulResponseDTO {
 
     private String token;
-    private String email;
-    private List<String> roles;
+    private String type;
 
-    public AuthSuccessulResponseDTO(String token, String email, List<String> roles) {
+    public AuthSuccessulResponseDTO(String token, String type) {
        this.token = token;
-       this.email = email;
-       this.roles = roles;
+       this.type=type;
    }
    public AuthSuccessulResponseDTO(){}
 }

@@ -1,8 +1,11 @@
 package com.farmawebservice.delivery.products.dto;
 
+import com.farmawebservice.delivery.categories.model.Category;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.OneToOne;
 
 @NoArgsConstructor
 @Getter
@@ -60,4 +63,8 @@ public class ProductDTO {
     private String status_type;
     private String band_color;
     private String pmc_20;
+
+
+    @OneToOne
+    private Category categoryProduct;
 }
