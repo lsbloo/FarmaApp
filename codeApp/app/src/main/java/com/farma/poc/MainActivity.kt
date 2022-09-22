@@ -13,18 +13,18 @@ import com.farma.poc.core.navigation.RouterNavigationEnum
 import com.farma.poc.core.navigation.RouterNavigationManager
 import com.farma.poc.core.resources.colors.Colors.colorBackGroundPrimaryTheme
 import com.farma.poc.core.utils.composables.ComposableUtils.Companion.setSystemUiControllerWithColorStatusBar
-import com.farma.poc.features.home.presentation.HomeViewModel
-import com.farma.poc.features.home.presentation.homeComponent
-import com.farma.poc.features.login.presentation.LoginViewModel
-import com.farma.poc.features.login.presentation.screenLogin
-import com.farma.poc.features.onboarding.presentation.OnboardingViewModel
-import com.farma.poc.features.onboarding.presentation.setupOnboardingScreen
-import com.farma.poc.features.settings.home.presentation.SettingsViewModel
-import com.farma.poc.features.settings.home.presentation.settingsComponent
-import com.farma.poc.features.singup.presentation.SingUpViewModel
-import com.farma.poc.features.singup.presentation.screenSingUp
-import com.farma.poc.features.splash.presentation.SplashViewModel
-import com.farma.poc.features.splash.presentation.screenSplash
+import com.farma.poc.featuresApp.compose.home.presentation.HomeViewModel
+import com.farma.poc.featuresApp.compose.home.presentation.homeComponent
+import com.farma.poc.featuresApp.compose.login.presentation.LoginViewModel
+import com.farma.poc.featuresApp.compose.login.presentation.screenLogin
+import com.farma.poc.featuresApp.compose.onboarding.presentation.OnboardingViewModel
+import com.farma.poc.featuresApp.compose.onboarding.presentation.setupOnboardingScreen
+import com.farma.poc.featuresApp.compose.settings.home.presentation.SettingsViewModel
+import com.farma.poc.featuresApp.compose.settings.home.presentation.settingsComponent
+import com.farma.poc.featuresApp.compose.singup.presentation.SingUpViewModel
+import com.farma.poc.featuresApp.compose.singup.presentation.screenSingUp
+import com.farma.poc.featuresApp.compose.splash.presentation.SplashViewModel
+import com.farma.poc.featuresApp.compose.splash.presentation.screenSplash
 import com.farma.poc.ui.theme.FarmaAppTheme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -35,7 +35,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 class MainActivity : BaseActivity() {
 
     companion object {
-        private const val DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING = 1000
+        private const val DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING = 500
     }
 
     @ExperimentalPagerApi
@@ -117,9 +117,8 @@ class MainActivity : BaseActivity() {
 
 
                         TransitionComponents(
-                            RouterNavigationEnum.HOME,
-                            RouterNavigationEnum.SINGUP,
-                            DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING
+                            initialRoute = RouterNavigationEnum.HOME,
+                            timeDurationTween = DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING
                         ).setupComponentWithAnimation(
                             this, onCallComponentScreen = {
                                 homeComponent(
@@ -130,9 +129,8 @@ class MainActivity : BaseActivity() {
                         )
 
                         TransitionComponents(
-                            RouterNavigationEnum.SETTINGS,
-                            RouterNavigationEnum.SINGUP,
-                            DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING
+                            initialRoute = RouterNavigationEnum.SETTINGS,
+                            timeDurationTween = DURATION_ANIMATION_SPEC_TRANSITION_SPLASH_TO_ONBOARDING
                         ).setupComponentWithAnimation(
                             this, onCallComponentScreen = {
                                 settingsComponent(

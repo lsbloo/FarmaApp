@@ -12,17 +12,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.ExperimentalUnitApi
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.farma.poc.R
 import com.farma.poc.core.resources.colors.Colors
 import com.farma.poc.core.resources.fonts.FontsTheme
-import com.farma.poc.features.settings.home.data.model.GetSettingsDTO
+import com.farma.poc.featuresApp.compose.settings.home.data.model.GetSettingsDTO
 
 class CustomItemsSettings(
     private val itemsSettings: @Composable () -> Unit

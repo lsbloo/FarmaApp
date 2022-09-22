@@ -50,6 +50,14 @@ public class WebClientBuilder {
         }
     }
 
+    public String sendMethodPost(String resource, Object data) {
+        if (data == null) {
+            return this.client.post().uri(resource).retrieve().bodyToMono(String.class).block();
+        } else {
+            return this.client.post().uri(resource).bodyValue(data).retrieve().bodyToMono(String.class).block();
+        }
+    }
+
 
     public String sendMethodGet(String resource, Object data) {
         return this.client.get().uri(resource).retrieve().bodyToMono(String.class).block();

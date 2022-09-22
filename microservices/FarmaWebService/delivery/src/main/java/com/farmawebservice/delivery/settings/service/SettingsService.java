@@ -29,6 +29,9 @@ public class SettingsService extends BaseService {
     @Value(value = "${settings.labelVersionApp}")
     private String labelVersionApp;
 
+    @Value(value = "${settings.labelBiometric}")
+    private String labelBiometric;
+
     public SettingsLabelDTO getSettingsDataByUser(String accessToken) {
         String response = getAuthClient().sendMethodPost(RESOURCE_OBTAIN_NAME_USER, null, accessToken);
         SettingsLabelDTO settingsLabelDTO = null;
@@ -44,7 +47,9 @@ public class SettingsService extends BaseService {
                     labelCloseAccount,
                     labelButtonLoggout,
                     labelVersionApp,
-                    responseDTO.getResponseDTO());
+                    responseDTO.getResponseDTO(),
+                    labelBiometric
+            );
         }
         return settingsLabelDTO;
     }

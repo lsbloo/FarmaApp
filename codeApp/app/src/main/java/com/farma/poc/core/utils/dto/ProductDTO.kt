@@ -5,7 +5,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.farma.poc.core.base.BaseDTO
-import com.farma.poc.features.home.data.models.SubCategoryDTO
+import com.farma.poc.featuresApp.compose.home.data.models.SubCategoryDTO
 import kotlinx.parcelize.Parcelize
 
 @Entity

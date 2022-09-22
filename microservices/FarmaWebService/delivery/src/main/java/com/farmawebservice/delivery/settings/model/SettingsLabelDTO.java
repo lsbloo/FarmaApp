@@ -17,8 +17,10 @@ public class SettingsLabelDTO {
     private String labelButtonLoggout;
     private String labelVersionApp;
     private String nameUser;
+    private String labelBiometric;
 
-    public SettingsLabelDTO(String labelOrder, String labelInfoUser, String labelAsks, String labelMethodPayment, String labelAddress, String labelCloseAccount, String labelButtonLoggout, String labelVersionApp, String nameUser) {
+    public SettingsLabelDTO(String labelOrder, String labelInfoUser, String labelAsks, String labelMethodPayment, String labelAddress, String labelCloseAccount, String labelButtonLoggout, String labelVersionApp, String nameUser,
+                            String labelBiometric) {
         this.labelOrder = labelOrder;
         this.labelInfoUser = labelInfoUser;
         this.labelAsks = labelAsks;
@@ -28,5 +30,6 @@ public class SettingsLabelDTO {
         this.labelButtonLoggout = labelButtonLoggout;
         this.labelVersionApp = labelVersionApp;
         this.nameUser = nameUser;
+        this.labelBiometric = labelBiometric;
     }
 }

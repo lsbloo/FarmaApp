@@ -1,6 +1,7 @@
 package com.farmawebservice.delivery.base
 
-open class BaseDTO {
+import java.io.Serializable
 
+open class BaseDTO : Serializable {
     var client_id_token = ""
 }

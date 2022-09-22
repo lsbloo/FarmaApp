@@ -4,11 +4,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.NavOptions
-import androidx.navigation.navOptions
-import com.farma.poc.MainActivity
 import com.farma.poc.core.animation.TransitionComponents
-import com.farma.poc.features.splash.presentation.screenSplash
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 
 class RouterNavigationManager(

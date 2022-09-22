@@ -3,6 +3,7 @@ package com.farma.poc.core.animation
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import com.farma.poc.core.navigation.RouterNavigationEnum
@@ -10,7 +11,7 @@ import com.google.accompanist.navigation.animation.composable
 
 class TransitionComponents(
     private val initialRoute: RouterNavigationEnum,
-    private val destinationRoute: RouterNavigationEnum,
+    private val destinationRoute: RouterNavigationEnum? = null,
     private val timeDurationTween: Int
 ) {
     @ExperimentalAnimationApi
@@ -19,9 +20,8 @@ class TransitionComponents(
             composable(route = initialRoute.name,
                 enterTransition = {
                     when (initialState.destination.route) {
-                        destinationRoute.name ->
-                            slideIntoContainer(
-                                AnimatedContentScope.SlideDirection.Left,
+                        destinationRoute?.name ->
+                            slideInHorizontally(
                                 animationSpec = tween(timeDurationTween)
                             )
                         else -> null
@@ -29,7 +29,7 @@ class TransitionComponents(
                 },
                 exitTransition = {
                     when (targetState.destination.route) {
-                        destinationRoute.name ->
+                        destinationRoute?.name ->
                             slideOutOfContainer(
                                 AnimatedContentScope.SlideDirection.Left,
                                 animationSpec = tween(timeDurationTween)
@@ -39,9 +39,8 @@ class TransitionComponents(
                 },
                 popEnterTransition = {
                     when (initialState.destination.route) {
-                        destinationRoute.name ->
-                            slideIntoContainer(
-                                AnimatedContentScope.SlideDirection.Right,
+                        destinationRoute?.name ->
+                            slideInHorizontally(
                                 animationSpec = tween(timeDurationTween)
                             )
                         else -> null
@@ -49,7 +48,7 @@ class TransitionComponents(
                 },
                 popExitTransition = {
                     when (targetState.destination.route) {
-                        destinationRoute.name ->
+                        destinationRoute?.name ->
                             slideOutOfContainer(
                                 AnimatedContentScope.SlideDirection.Right,
                                 animationSpec = tween(timeDurationTween)

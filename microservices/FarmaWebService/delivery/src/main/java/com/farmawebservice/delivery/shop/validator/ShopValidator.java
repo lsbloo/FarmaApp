@@ -2,13 +2,11 @@ package com.farmawebservice.delivery.shop.validator;
 
 
 import com.farmawebservice.delivery.base.validator.core.Validator;
+import com.farmawebservice.delivery.categories.model.Category;
 import com.farmawebservice.delivery.shop.model.ProductShop;
 import com.farmawebservice.delivery.shop.model.ShopProductHighLight;
 import com.farmawebservice.delivery.shop.model.ShopStore;
-import com.farmawebservice.delivery.shop.model.dto.ShopProductDTO;
-import com.farmawebservice.delivery.shop.model.dto.ShopProductHighLightDTO;
-import com.farmawebservice.delivery.shop.model.dto.ShopStoreDTO;
-import com.farmawebservice.delivery.shop.model.dto.ShopStoreProductDTO;
+import com.farmawebservice.delivery.shop.model.dto.*;
 import com.farmawebservice.delivery.shop.repository.ProductShopRepository;
 import com.farmawebservice.delivery.shop.repository.ShopProductHighLightRepository;
 import com.farmawebservice.delivery.shop.repository.ShopRepository;
@@ -32,6 +30,36 @@ public class ShopValidator {
 
     @Autowired
     private ShopProductHighLightRepository shopProductHighLightRepository;
+
+
+    public Validator<ShopCategoryDTO> validateIfHasCategoryByShop() {
+        return (result, shopCategory) -> {
+            ShopStore shopStore1 = this.shopRepository.findByClientIdToken(shopCategory.getClient_id_token());
+            if (shopStore1.getCategoryList().size() >= 1) {
+                for (Category category : shopStore1.getCategoryList()) {
+                    if (category.getName().equals(shopCategory.getCategory().getName())) {
+                        result.error("Has Category inserted with name");
+                        result.setResourceMessage("Has Category inserted with name", true);
+                    } else {
+                        result.ok();
+                    }
+                }
+            }
+        };
+    }
+
+    public Validator<ShopCategoryDTO> validateIfHasACategoryByShop() {
+        return (result, shopCategory) -> {
+            ShopStore shopStore1 = this.shopRepository.findByClientIdToken(shopCategory.getClient_id_token());
+            if (shopStore1.getCategoryList().size() >= 1) {
+                for (Category category : shopStore1.getCategoryList()) {
+                    if (category.getId() == Integer.parseInt(shopCategory.getCategory_id().toString())) {
+                        result.ok();
+                    }
+                }
+            }
+        };
+    }
 
     public Validator<ShopStoreProductDTO> validateShopStoreHaveShopProducts() {
         return (result, shopStore) -> {

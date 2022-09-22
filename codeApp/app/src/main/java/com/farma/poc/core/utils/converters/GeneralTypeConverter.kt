@@ -2,11 +2,11 @@ package com.farma.poc.core.utils.converters
 
 import androidx.room.TypeConverter
 import com.farma.poc.core.utils.dto.ProductDTO
-import com.farma.poc.features.home.data.models.CategoryDTO
-import com.farma.poc.features.onboarding.data.models.ItensOboardingDTO
-import com.farma.poc.features.home.data.models.HightLightsProductDTO
-import com.farma.poc.features.home.data.models.ItemsHomeDTO
-import com.farma.poc.features.home.data.models.SubCategoryDTO
+import com.farma.poc.featuresApp.compose.home.data.models.CategoryDTO
+import com.farma.poc.featuresApp.compose.onboarding.data.models.ItensOboardingDTO
+import com.farma.poc.featuresApp.compose.home.data.models.HightLightsProductDTO
+import com.farma.poc.featuresApp.compose.home.data.models.ItemsHomeDTO
+import com.farma.poc.featuresApp.compose.home.data.models.SubCategoryDTO
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type

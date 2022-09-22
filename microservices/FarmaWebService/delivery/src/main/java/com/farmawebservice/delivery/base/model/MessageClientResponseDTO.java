@@ -11,7 +11,7 @@ public class MessageClientResponseDTO {
     private String title;
     private String description;
     private Integer httpStatusCode;
-    private String responseDTO;
+    public String responseDTO;
 
     public MessageClientResponseDTO(String title, String description, Integer httpStatusCode, String responseDTO) {
         setTitle(title);

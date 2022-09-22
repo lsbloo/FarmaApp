@@ -1,4 +1,4 @@
-package com.farma.poc.core.config.data
+package com.farma.poc.core.base
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -13,4 +13,8 @@ public interface FarmaWebRepository {
     void saveShopProductHighLight(Long shop_store_id, Long product_highlight_shop_id);
 
     void deleteShopProductHighLight(Long shop_store_id, Long product_highlight_shop_id);
+
+    void saveShopCategoryProduct(Long shop_store_id, Long category_list_id);
+
+    void deleteShopCategoryProduct(Long shop_store_id, Long category_list_id);
 }

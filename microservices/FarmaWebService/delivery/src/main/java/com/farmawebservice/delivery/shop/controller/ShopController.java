@@ -3,6 +3,7 @@ package com.farmawebservice.delivery.shop.controller;
 
 import com.farmawebservice.delivery.address.model.dto.AddressDTO;
 import com.farmawebservice.delivery.base.validator.resource.ResourceMessage;
+import com.farmawebservice.delivery.shop.model.dto.ShopCategoryDTO;
 import com.farmawebservice.delivery.shop.model.dto.ShopStoreDTO;
 import com.farmawebservice.delivery.shop.model.dto.ShopStoreProductDTO;
 import com.farmawebservice.delivery.shop.service.ShopService;
@@ -25,7 +26,7 @@ public class ShopController {
     private ShopService shopService;
 
     @DeleteMapping("/products/highlight")
-    @ApiOperation(value = "delete shopProductsHighLight by user", notes = "")
+    @ApiOperation(value = "delete shopProductsHighLight by shop", notes = "")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully deleted shopProductsHighLight"),
             @ApiResponse(code = 404, message = "Not found"),
@@ -45,7 +46,7 @@ public class ShopController {
     }
 
     @PostMapping("/products/highlight")
-    @ApiOperation(value = "create shopProductsHighLight by user", notes = "")
+    @ApiOperation(value = "create shopProductsHighLight by shop", notes = "")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully created shopProductsHighLight"),
             @ApiResponse(code = 404, message = "Not found"),
@@ -66,7 +67,7 @@ public class ShopController {
 
 
     @DeleteMapping("/products")
-    @ApiOperation(value = "delete shopProducts by user", notes = "")
+    @ApiOperation(value = "delete shopProducts by shop", notes = "")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully delete shopProduct"),
             @ApiResponse(code = 404, message = "Not found"),
@@ -88,7 +89,7 @@ public class ShopController {
 
 
     @GetMapping("/products")
-    @ApiOperation(value = "recovery shopProducts by user", notes = "")
+    @ApiOperation(value = "recovery shopProducts by shop", notes = "")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully recovery shopProducts"),
             @ApiResponse(code = 404, message = "Not found"),
@@ -112,7 +113,7 @@ public class ShopController {
 
 
     @PostMapping
-    @ApiOperation(value = "create shopStore by user", notes = "")
+    @ApiOperation(value = "create shopStore by shop", notes = "")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully create shopStore"),
             @ApiResponse(code = 404, message = "Not found"),
@@ -133,7 +134,7 @@ public class ShopController {
 
 
     @PostMapping("/products")
-    @ApiOperation(value = "create shopStore Products by user", notes = "")
+    @ApiOperation(value = "create shopStore Products by shop", notes = "")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully create shopStore Products"),
             @ApiResponse(code = 404, message = "Not found"),
@@ -149,6 +150,47 @@ public class ShopController {
             }
         } else {
             return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(MessageResponseDTO.build("ShopStore dont created", ResourceMessage.GENERIC_ERROR, HttpServletResponse.SC_BAD_REQUEST));
+        }
+    }
+
+    @PostMapping("/products/categories")
+    @ApiOperation(value = "create a Category Product by shop", notes = "")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully create a Category Product"),
+            @ApiResponse(code = 404, message = "Not found"),
+            @ApiResponse(code = 500, message = "Error Internal")
+    })
+    public ResponseEntity<MessageResponseDTO> createShopProductsCategory(@RequestBody ShopCategoryDTO shopStoreDTO) {
+        ResourceMessage resourceMessage = this.shopService.createShopProductCategory(shopStoreDTO);
+        if (resourceMessage != null) {
+            if (resourceMessage.getIsError()) {
+                return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(MessageResponseDTO.build("ShopCategoryProduct don't created", resourceMessage.getMessageValidator(), HttpServletResponse.SC_BAD_REQUEST));
+            } else {
+                return ResponseEntity.status(HttpServletResponse.SC_ACCEPTED).body(MessageResponseDTO.build("ShopCategoryProduct Created", resourceMessage.getMessageValidator(), HttpServletResponse.SC_ACCEPTED));
+            }
+        } else {
+            return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(MessageResponseDTO.build("ShopCategoryProduct don't created", ResourceMessage.GENERIC_ERROR, HttpServletResponse.SC_BAD_REQUEST));
+        }
+    }
+
+
+    @DeleteMapping("/products/categories")
+    @ApiOperation(value = "create a Category Product by shop", notes = "")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully delete a Category Product"),
+            @ApiResponse(code = 404, message = "Not found"),
+            @ApiResponse(code = 500, message = "Error Internal")
+    })
+    public ResponseEntity<MessageResponseDTO> deleteShopProductsCategory(@RequestBody ShopCategoryDTO shopStoreDTO) {
+        ResourceMessage resourceMessage = this.shopService.deleteShopProductCategory(shopStoreDTO);
+        if (resourceMessage != null) {
+            if (resourceMessage.getIsError()) {
+                return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(MessageResponseDTO.build("ShopCategoryProduct don't deleted", resourceMessage.getMessageValidator(), HttpServletResponse.SC_BAD_REQUEST));
+            } else {
+                return ResponseEntity.status(HttpServletResponse.SC_ACCEPTED).body(MessageResponseDTO.build("ShopCategoryProduct deleted", resourceMessage.getMessageValidator(), HttpServletResponse.SC_ACCEPTED));
+            }
+        } else {
+            return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(MessageResponseDTO.build("ShopCategoryProduct don't deleted", ResourceMessage.GENERIC_ERROR, HttpServletResponse.SC_BAD_REQUEST));
         }
     }
 

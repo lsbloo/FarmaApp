@@ -25,8 +25,22 @@ SECRET_KEY = 'django-insecure-cx_@n+vsl#dyv1bpp&*)ewp(^@yk4@*y!2h=^h*3n*q)ww_ilu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://127.0.0.1', 'http://localhost', "*"]
 
+import platform
+import os
+
+WINDOWS = platform.system() == "Windows"
+
+if WINDOWS:
+    # the below needs to change for linux
+    GDAL_LIBRARY_PATH = r'C:\OSGeo4W\bin\gdal303.dll'
+    GEOS_LIBRARY_PATH = r'C:\OSGeo4W\bin\geos_c.dll'
+    OSGEO4W = r"C:\OSGeo4W"
+    os.environ['OSGEO4W_ROOT'] = OSGEO4W
+    os.environ['GDAL_DATA'] = "C:\Program Files\GDAL\gdal-data"  # OSGEO4W + r"\share\gdal"
+    os.environ['PROJ_LIB'] = OSGEO4W + r"\share\proj"
+    os.environ['PATH'] = OSGEO4W + r"\bin;" + os.environ['PATH']
 
 # Application definition
 
@@ -37,6 +51,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'geoLocator',
+    'django.contrib.gis'
 ]
 
 MIDDLEWARE = [
@@ -75,9 +92,13 @@ WSGI_APPLICATION = 'GeoLocatorWebService.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'geolocatordatabase',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
+        'HOST': '127.0.0.1', 
+        'PORT': '5432',
+    },
 }
 
 
@@ -121,3 +142,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# API MANAGEMENT

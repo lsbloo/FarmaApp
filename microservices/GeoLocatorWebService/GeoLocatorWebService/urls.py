@@ -15,7 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import include
+from rest_framework import routers
+from geoLocator.views import GeoLocatorCalcZoneViewSet
+from geoLocator.views import calcZone
+
+router = routers.DefaultRouter()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include(router.urls)),
+    path('', include('rest_framework.urls', namespace='rest_framework')),
+    path('calc/zone', calcZone, name='CalcZone')
 ]

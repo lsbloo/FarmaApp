@@ -13,4 +13,6 @@ public class ShopProductHighLightDTO {
     private Double maxValue;
     private Double minValue;
     private Integer amount;
+    private String image;
+    private Boolean isHighLightOnly;
 }

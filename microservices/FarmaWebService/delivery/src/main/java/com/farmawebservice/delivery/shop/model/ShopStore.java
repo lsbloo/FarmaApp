@@ -1,6 +1,7 @@
 package com.farmawebservice.delivery.shop.model;
 
 
+import com.farmawebservice.delivery.categories.model.Category;
 import com.farmawebservice.delivery.deliveryzone.model.DeliveryZone;
 import com.farmawebservice.delivery.products.model.Product;
 import lombok.Getter;
@@ -37,4 +38,6 @@ public class ShopStore {
     @OneToMany(fetch = FetchType.LAZY)
     public List<ShopProductHighLight> shopProductHighLights;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    public List<Category> categoryList;
 }

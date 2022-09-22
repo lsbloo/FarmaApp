@@ -22,6 +22,7 @@ public class Product {
     private Double maxValue;
     private Double minValue;
     private String description;
+    private String image;
 
     @OneToOne
     private Drug drug;
