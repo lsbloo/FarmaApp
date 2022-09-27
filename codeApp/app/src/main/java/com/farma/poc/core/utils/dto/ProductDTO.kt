@@ -12,16 +12,16 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ProductDTO(
     @PrimaryKey(autoGenerate = true)
-    val id: Long? = null,
-    val name: String? = null,
-    val value: Double? = null,
-    val maxValue: Double? = null,
-    val minValue: Double? = null,
-    val description: String? = null,
-    val subCategoryDTO: SubCategoryDTO? = null,
-    val quantity: Int? = null,
-    val productId: Long = 0,
-    val image: String? = null,
+    var id: Long? = null,
+    var name: String? = null,
+    var value: Double? = null,
+    var maxValue: Double? = null,
+    var minValue: Double? = null,
+    var description: String? = null,
+    var subCategoryDTO: SubCategoryDTO? = null,
+    var quantity: Int? = null,
+    var productId: Long = 0,
+    var image: String? = null,
     @Embedded(prefix = "drug_")
-    val drug: DrugDTO? = null,
+    var drug: DrugDTO? = null,
 ): BaseDTO(),Parcelable

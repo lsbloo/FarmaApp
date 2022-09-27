@@ -17,8 +17,8 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
-    private String urlImage;
-    private CategoryTypes type;
+    public String name;
+    public String urlImage;
+    public CategoryTypes type;
 
 }

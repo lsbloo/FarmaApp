@@ -3,7 +3,7 @@ package com.farma.poc.featuresApp.compose.singup.constants
 class SingUpConstants {
 
     companion object API {
-        const val SING_UP_ENDPOINT = "bff/api/singup"
+        const val SING_UP_ENDPOINT = "/api/auth/singup"
     }
 
 

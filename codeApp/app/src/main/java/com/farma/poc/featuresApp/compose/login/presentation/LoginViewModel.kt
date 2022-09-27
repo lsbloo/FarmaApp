@@ -146,14 +146,14 @@ class LoginViewModel(
         email: String,
         onRedirect: (() -> Unit)? = null
     ) {
-        safeLet(data?.bearerToken, data?.dataExpires, onResult = { bearerToken, dataExpires ->
+        safeLet(data?.bearerToken, data?.type, onResult = { bearerToken, dataType ->
             setupAcronymnUserAuthenticated { firstLetter ->
                 viewModelScope.launch {
                     getDataStoreConfig().apply {
                         setSharedEmailUser(email)
                         setAcronymUserFlow(firstLetter)
                         setSharedTokenSession(bearerToken)
-                        setSharedTimeSession(dataExpires)
+                        setTypeToken(dataType)
                     }
                 }
 

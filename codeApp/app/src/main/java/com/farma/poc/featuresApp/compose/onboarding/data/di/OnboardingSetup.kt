@@ -6,6 +6,7 @@ import com.farma.poc.featuresApp.compose.onboarding.data.api.OnboardingAPI
 import com.farma.poc.featuresApp.compose.onboarding.data.repository.OnboardingRepository
 import com.farma.poc.featuresApp.compose.onboarding.data.task.OnboardingTask
 import com.farma.poc.featuresApp.compose.onboarding.presentation.OnboardingViewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
@@ -34,7 +35,7 @@ object OnboardingSetup {
     ) = OnboardingViewModel(onboardingRepository = onboardingRepository, context = context)
 
     fun setupOnboarding() = module {
-        single { provideOnboardingAPI(get()) }
+        single { provideOnboardingAPI(get(named("noAuth"))) }
         single { provideOnboardingTask(get(),get()) }
         single { provideOnboardingRepository(get(), get()) }
         single { provideOnboardingViewModel(get(),get()) }

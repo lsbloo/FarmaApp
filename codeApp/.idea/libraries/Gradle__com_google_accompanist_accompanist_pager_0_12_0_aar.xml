@@ -2,8 +2,9 @@
   <library name="Gradle: com.google.accompanist:accompanist-pager:0.12.0@aar">
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b023b937b73d372cbb1129bdc3a342c9/transformed/jetified-accompanist-pager-0.12.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/fb14b1bfee91bd52b30640b8e935ea4f/transformed/jetified-accompanist-pager-0.12.0/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/fb14b1bfee91bd52b30640b8e935ea4f/transformed/jetified-accompanist-pager-0.12.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/3445dde9e8f83e2240e0dd75f3a93008/transformed/jetified-accompanist-pager-0.12.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/fb14b1bfee91bd52b30640b8e935ea4f/transformed/jetified-accompanist-pager-0.12.0/AndroidManifest.xml" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/fb14b1bfee91bd52b30640b8e935ea4f/transformed/jetified-accompanist-pager-0.12.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>

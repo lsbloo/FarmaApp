@@ -11,11 +11,10 @@ android {
 
     defaultConfig {
         applicationId "com.farma.poc"
-        minSdk 23
+        minSdk 24
         targetSdk 32
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
@@ -32,7 +31,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField 'String', 'BASE_URL', "\"https://private-0e35c-farmaapp.apiary-mock.com/\""
+            buildConfigField 'String', 'BASE_URL_AUTHENTICATION', "\"http://192.168.0.8:8084/\""
+            buildConfigField 'String', 'BASE_URL_DELIVERY', "\"http://192.168.0.8:8083/\""
             buildConfigField 'String', 'URL_FIREBASE_STORAGE', "\"gs://farmadelivery-8a5e5.appspot.com\""
         }
     }
@@ -40,9 +40,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
-        useIR = true
     }
     buildFeatures {
         compose true
@@ -78,6 +78,7 @@ dependencies {
 
     // Koin Core features
     implementation "io.insert-koin:koin-core:$koin_version"
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     // Koin Test features
     testImplementation "io.insert-koin:koin-test:$koin_version"
     // Koin main features for Android

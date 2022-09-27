@@ -9,10 +9,10 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "categories")
 @Parcelize
 data class CategoryDTO(
-    val name: String? = null,
-    val urlImage: String? = null,
+    var name: String? = null,
+    var urlImage: String? = null,
     @PrimaryKey
-    val id: Long? = null,
-    val subCategories: List<SubCategoryDTO>? = null,
-    val products: List<ProductDTO>? = null,
+    var id: Long? = null,
+    var subCategories: List<SubCategoryDTO>? = null,
+    var products: List<ProductDTO>? = null,
 ): Parcelable

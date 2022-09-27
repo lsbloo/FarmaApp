@@ -6,12 +6,15 @@ import android.widget.Toast
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.farma.poc.R
 import com.farma.poc.core.navigation.RouterNavigation
 import com.farma.poc.core.store.DataStoreConfig
 import com.farma.poc.core.utils.composables.ComposableUtils
 import com.farma.poc.core.utils.enums.DurationSnackBarEnum
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 open class BaseViewModel(private val context: Context) : ViewModel() {
 
@@ -54,4 +57,20 @@ open class BaseViewModel(private val context: Context) : ViewModel() {
             .show()
     }
 
+
+    fun getClientToken(onResult: (String) -> Unit) {
+        viewModelScope.launch {
+            getDataStoreConfig().sharedClientTokenFlow.collect {
+                onResult.invoke(it)
+            }
+        }
+    }
+
+    fun getAccessToken(onResult: (String) -> Unit) {
+        viewModelScope.launch {
+            getDataStoreConfig().sharedTokenSessionFlow.collect {
+                onResult.invoke(it)
+            }
+        }
+    }
 }

@@ -10,6 +10,7 @@ import com.farma.poc.featuresApp.compose.home.data.di.HomeSetup
 import com.farma.poc.featuresApp.compose.login.data.di.LoginSetup
 import com.farma.poc.featuresApp.compose.settings.home.data.di.SettingsSetup
 import com.farma.poc.featuresApp.compose.singup.data.di.SingUpSetup
+import com.farma.poc.featuresApp.compose.address.data.di.AddressSetup
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -35,7 +36,8 @@ class MainApplication : Application() {
                     LoginSetup.setupLogin(),
                     HomeSetup.setupHome(),
                     SingUpSetup.setupSingUp(),
-                    SettingsSetup.setup()
+                    SettingsSetup.setup(),
+                    AddressSetup.setupAddress()
                 )
             )
         }

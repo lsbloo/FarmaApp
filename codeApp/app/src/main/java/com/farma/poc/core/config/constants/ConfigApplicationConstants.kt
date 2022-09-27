@@ -10,7 +10,7 @@ object ConfigApplicationConstants {
 
     // DATABASE_NAME
     const val NAME_DATABASE = "farma_db.db"
-    const val VERSION_DATABASE = 28
+    const val VERSION_DATABASE = 30
 
 
     internal object Shared {
@@ -19,6 +19,7 @@ object ConfigApplicationConstants {
         const val SHARED_ACRONYM_USER_SESSION = "SHARED_ACRONYM_USER_SESSION"
         const val SHARED_BIOMETRIC_USER = "SHARED_BIOMETRIC_USER"
         const val SHARED_EMAIL_USER = "SHARED_EMAIL_USER"
+        const val SHARED_CLIENT_TOKEN_USER = "CLIENT_TOKEN"
     }
 
     internal object PREFERENCES_SECURITY {

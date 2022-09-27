@@ -5,8 +5,8 @@
     </ANNOTATIONS>
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/0c3d77c82bcfadfc6743ca631c2cb633/transformed/biometric-1.2.0-alpha04/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/0c3d77c82bcfadfc6743ca631c2cb633/transformed/biometric-1.2.0-alpha04/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/0c3d77c82bcfadfc6743ca631c2cb633/transformed/biometric-1.2.0-alpha04/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/0c3d77c82bcfadfc6743ca631c2cb633/transformed/biometric-1.2.0-alpha04/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

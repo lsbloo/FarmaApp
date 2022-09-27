@@ -10,6 +10,7 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -37,8 +38,14 @@ object RetrofitInitializer {
             return GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create()
         }
 
-        fun provideSetupRetrofit(factory: Gson, client: OkHttpClient): Retrofit {
-            return Retrofit.Builder().baseUrl(BuildConfig.BASE_URL).addConverterFactory(GsonConverterFactory.create())
+        fun provideSetupAuthRetrofit(factory: Gson, client: OkHttpClient): Retrofit {
+            return Retrofit.Builder().baseUrl(BuildConfig.BASE_URL_AUTHENTICATION).addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build()
+        }
+
+        fun provideSetupDeliveryRetrofit(factory: Gson, client: OkHttpClient): Retrofit {
+            return Retrofit.Builder().baseUrl(BuildConfig.BASE_URL_DELIVERY).addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
         }
@@ -46,7 +53,8 @@ object RetrofitInitializer {
         single { provideCache(androidApplication()) }
         single { provideHttpClient(get()) }
         single { provideGson() }
-        single { provideSetupRetrofit(get(), get()) }
+        single<Retrofit>(named("auth")){ provideSetupAuthRetrofit(get(), get()) }
+        single<Retrofit>(named("noAuth")){ provideSetupDeliveryRetrofit(get(), get()) }
     }
 
 }

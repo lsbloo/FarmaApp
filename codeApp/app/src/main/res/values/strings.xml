@@ -28,7 +28,7 @@
 
     <!-- Messages Warning -->
     <string name="function_not_implemented">Funcionalidade não implementada!</string>
-    <string name="error_login_request">Não foi possivel realizar o login</string>
+    <string name="error_login_request">Não foi possivel realizar o login, tente novamente!</string>
     <string name="error_login_labels">Preencha os campos corretamente!</string>
     <string name="error_singup_request">Não foi possivel criar sua conta, tente novamente!</string>
     <string name="service_unavailable_network">Serviço Indisponivel</string>

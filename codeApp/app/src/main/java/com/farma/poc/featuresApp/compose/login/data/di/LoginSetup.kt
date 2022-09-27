@@ -9,6 +9,7 @@ import com.farma.poc.featuresApp.compose.login.data.task.LoginApiTask
 import com.farma.poc.featuresApp.compose.login.presentation.LoginViewModel
 import com.farma.poc.featuresApp.compose.login.validators.LoginValidatorImpl
 import com.farma.poc.featuresApp.compose.login.validators.interfaces.LoginValidator
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
@@ -37,8 +38,9 @@ object LoginSetup {
 
     fun setupLogin() = module {
         single {
-            provideLoginApi(get())
+            provideLoginApi(get(named("auth")))
         }
+
         single {
             provideLoginApiTask(get(),get())
         }

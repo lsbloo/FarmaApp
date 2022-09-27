@@ -6,6 +6,7 @@ import com.farma.poc.featuresApp.compose.home.data.api.HomeAPI
 import com.farma.poc.featuresApp.compose.home.data.repository.HomeRepository
 import com.farma.poc.featuresApp.compose.home.data.task.GetHomeItemsTask
 import com.farma.poc.featuresApp.compose.home.presentation.HomeViewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
@@ -31,7 +32,7 @@ object HomeSetup {
     fun setupHome() = module {
 
         single {
-            provideHomeApi(get())
+            provideHomeApi(get(named("noAuth")))
         }
         single { provideHomeCategoryApiTask(get(),get()) }
         single { provideHomeRepository(get(),get()) }

@@ -21,7 +21,7 @@ public class ShopStore {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
 
-    private String name;
+    public String name;
 
     private String cnpj;
 

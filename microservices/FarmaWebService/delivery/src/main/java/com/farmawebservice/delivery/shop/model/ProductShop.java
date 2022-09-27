@@ -2,11 +2,9 @@ package com.farmawebservice.delivery.shop.model;
 
 import com.farmawebservice.delivery.products.model.Product;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Setter

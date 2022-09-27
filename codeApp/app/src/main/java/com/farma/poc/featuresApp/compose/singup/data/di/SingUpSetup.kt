@@ -8,6 +8,7 @@ import com.farma.poc.featuresApp.compose.singup.data.task.SingUpTask
 import com.farma.poc.featuresApp.compose.singup.presentation.SingUpViewModel
 import com.farma.poc.featuresApp.compose.singup.validators.SingUpValidatorImpl
 import com.farma.poc.featuresApp.compose.singup.validators.interfaces.SingUpValidator
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
@@ -31,7 +32,7 @@ object SingUpSetup {
 
     fun setupSingUp() = module {
 
-        single { provideApi(get()) }
+        single { provideApi(get(named("auth"))) }
         single { provideTask(get(), get()) }
         single { provideRepository(get()) }
         single { provideViewModel(get(), get(), provideValidator()) }

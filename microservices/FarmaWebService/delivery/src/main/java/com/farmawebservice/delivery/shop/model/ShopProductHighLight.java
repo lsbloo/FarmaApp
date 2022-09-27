@@ -23,7 +23,7 @@ public class ShopProductHighLight {
     private Double minValue;
     private Integer amount;
     private String image;
-    private Boolean isHighLightOnly;
+    public Boolean isHighLightOnly;
 
     @OneToOne(fetch = FetchType.EAGER)
     private Product product;

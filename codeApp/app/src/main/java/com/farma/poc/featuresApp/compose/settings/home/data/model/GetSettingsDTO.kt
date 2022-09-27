@@ -9,17 +9,17 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity
 data class GetSettingsDTO(
-    val labelButtonLogout: String? = null,
-    val labelVersionApp: String? = null,
-    val nameUser: String? = null,
-    val labelOrder: String? = null,
-    val labelInfoUser: String? = null,
-    val labelAsks: String? = null,
-    val labelMethodPayment: String? = null,
-    val labelAddress: String? = null,
-    val labelCloseAccount: String? = null,
-    val genre: String? = null,
-    val labelBiometric: String? = null,
+    var labelButtonLogout: String? = null,
+    var labelVersionApp: String? = null,
+    var nameUser: String? = null,
+    var labelOrder: String? = null,
+    var labelInfoUser: String? = null,
+    var labelAsks: String? = null,
+    var labelMethodPayment: String? = null,
+    var labelAddress: String? = null,
+    var labelCloseAccount: String? = null,
+    var genre: String? = null,
+    var labelBiometric: String? = null,
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 1
+    var id: Long = 1
 ) : Parcelable

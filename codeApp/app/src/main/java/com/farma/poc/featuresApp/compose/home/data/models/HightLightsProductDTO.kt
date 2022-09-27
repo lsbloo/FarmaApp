@@ -12,7 +12,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class HightLightsProductDTO(
     @PrimaryKey
-    val id: Long? = null,
+    var id: Long? = null,
     @TypeConverters(GeneralTypeConverter::class)
-    val productsHighLight: List<ProductDTO>? = null
+    var productsHighLight: List<ProductDTO>? = null
 ): Parcelable

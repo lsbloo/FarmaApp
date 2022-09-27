@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.farma.poc.core.base.BaseViewModel
 import com.farma.poc.core.navigation.RouterNavigationEnum
+import com.farma.poc.core.utils.dto.MessageClientResponseDTO
 import com.farma.poc.core.utils.safeLet
 import com.farma.poc.core.utils.typeValidator.PojoValidator
 import com.farma.poc.featuresApp.compose.singup.data.repository.SingUpRepository
@@ -64,7 +65,8 @@ class SingUpViewModel(
                                         isErrorName.value = it
                                     }
 
-                                    messageErrorEmailValidator.value = validator.dataMessages?.first()?.second.toString()
+                                    messageErrorEmailValidator.value =
+                                        validator.dataMessages?.first()?.second.toString()
 
                                     validator.dataMessages?.first()?.third?.let {
                                         isErrorEmail.value = it
@@ -83,14 +85,15 @@ class SingUpViewModel(
                                         isErrorPassword.value = it
                                     }
                                 } else {
-                                    CoroutineScope(Dispatchers.IO).launch {
+                                    viewModelScope.launch {
                                         singUpRepository.registerAccount(
                                             email = email,
                                             password = password,
                                             name = name,
                                             cpf = cpf,
-                                            onSuccessData = { _ ->
+                                            onSuccessData = { data ->
                                                 shouldDialogSuccessfulRegister.value = true
+                                                saveDataSingUp(data.messageClientResponseDTO)
                                             },
                                             onFailureError = { _ ->
                                                 showErrorFeedBack.value = true
@@ -111,6 +114,20 @@ class SingUpViewModel(
             })
 
     }
+
+
+    private fun saveDataSingUp(messageClientResponseDTO: MessageClientResponseDTO?) {
+        messageClientResponseDTO?.let {
+            getDataStoreConfig().apply{
+                viewModelScope.launch {
+                    setClientIdToken(it.responseDTO)
+                }
+            }
+
+        }
+
+    }
+
 
     fun backToNavigate() {
         viewModelScope.launch {

@@ -9,5 +9,5 @@ abstract class BaseEntity {}
 @Entity
 data class Person(
     @PrimaryKey(autoGenerate = true)
-    val id: Int? = 0,
-    val name:String?= null): BaseEntity()
+    var id: Int? = 0,
+    var name:String?= null): BaseEntity()

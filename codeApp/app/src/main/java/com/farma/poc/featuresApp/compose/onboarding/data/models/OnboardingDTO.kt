@@ -9,6 +9,6 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "onboarding")
 data class OnboardingDTO(
     @PrimaryKey(autoGenerate = false)
-    val id: Int? = 1,
-    val onboardingScreen: List<ItensOboardingDTO>? = null,
+    var id: Int? = 1,
+    var onboardingScreen: List<ItensOboardingDTO>? = null,
 ) : Parcelable

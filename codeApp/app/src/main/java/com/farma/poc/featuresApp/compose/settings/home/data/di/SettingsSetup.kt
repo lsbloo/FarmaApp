@@ -7,6 +7,7 @@ import com.farma.poc.featuresApp.compose.settings.home.data.dao.SettingsDAO
 import com.farma.poc.featuresApp.compose.settings.home.data.repository.SettingsRepository
 import com.farma.poc.featuresApp.compose.settings.home.data.task.SettingsTask
 import com.farma.poc.featuresApp.compose.settings.home.presentation.SettingsViewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
@@ -35,7 +36,7 @@ object SettingsSetup {
 
     fun setup() = module {
         single {
-            provideSettingsApi(get())
+            provideSettingsApi(get(named("noAuth")))
         }
         single {
             provideSettingsTask(get(), get())

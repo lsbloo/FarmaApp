@@ -9,10 +9,10 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity
 data class ItemsHomeDTO(
-    val categories: List<CategoryDTO>? = null,
-    val productsHighLight: List<ProductDTO>? = null,
-    val highLights: List<ProductDTO>? = null,
+    var categories: List<CategoryDTO>? = null,
+    var productsHighLight: List<ProductDTO>? = null,
+    var highLights: List<ProductDTO>? = null,
     @PrimaryKey
-    val id: Long = 1,
+    var id: Long = 1,
 ) : Parcelable {
 }

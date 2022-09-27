@@ -4,7 +4,7 @@ class OnboardingConstants {
 
     class API {
         companion object {
-            const val ENDPOINT_GET_ONBOARDING = "/bff/api/onboarding"
+            const val ENDPOINT_GET_ONBOARDING = "/onboarding/all"
         }
     }
 }
