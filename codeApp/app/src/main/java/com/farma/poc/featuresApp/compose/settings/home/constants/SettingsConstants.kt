@@ -5,6 +5,6 @@ class SettingsConstants {
 
 
     object API {
-        const val GET_DATA_SETTINGS = "/bff/api/settings"
+        const val GET_DATA_SETTINGS = "/settings"
     }
 }

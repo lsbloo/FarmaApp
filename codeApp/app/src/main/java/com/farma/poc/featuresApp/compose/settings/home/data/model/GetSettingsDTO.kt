@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity
 data class GetSettingsDTO(
-    var labelButtonLogout: String? = null,
+    var labelButtonLoggout: String? = null,
     var labelVersionApp: String? = null,
     var nameUser: String? = null,
     var labelOrder: String? = null,

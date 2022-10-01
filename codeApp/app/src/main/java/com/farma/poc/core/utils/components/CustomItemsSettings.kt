@@ -55,6 +55,10 @@ class CustomItemsSettings(
                     onCLickInfoUser?.invoke()
                 }).setup()
                 Spacer(modifier = Modifier.height(12.dp))
+                ItemSettings(data.labelAddress, onClickButton = {
+                    onClickAddress?.invoke()
+                }).setup()
+                Spacer(modifier = Modifier.height(12.dp))
                 ItemSettings(data.labelAsks, onClickButton = {
                     onClickAsks?.invoke()
                 }).setup()
@@ -62,10 +66,6 @@ class CustomItemsSettings(
                 ItemSettings(data.labelMethodPayment, onClickButton = {
                     onCLickMethodPayment?.invoke()
                 }).setup()
-                Spacer(modifier = Modifier.height(12.dp))
-                ItemSettings(data.labelAddress, onClickButton = {
-                    onClickAddress?.invoke()
-                })
                 Spacer(modifier = Modifier.height(12.dp))
                 ItemSettings(
                     data.labelBiometric,
@@ -95,7 +95,6 @@ class ItemSettings(
     @ExperimentalUnitApi
     @Composable
     fun setup() {
-
         val modifierItemSettings = if (onClickButton != null) {
             Modifier
                 .fillMaxSize()

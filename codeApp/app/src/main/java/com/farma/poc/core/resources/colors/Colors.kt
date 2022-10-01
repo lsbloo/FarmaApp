@@ -49,4 +49,8 @@ object Colors {
 
     val blackBackGroundPrimaryTheme = Color(0xFF282828)
 
+    val greenPrimary = Color(0XFF42A600)
+
+
+
 }

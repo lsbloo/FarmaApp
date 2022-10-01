@@ -6,18 +6,18 @@ import androidx.room.PrimaryKey
 import com.farma.poc.core.base.BaseDTO
 import kotlinx.parcelize.Parcelize
 
-@Entity(tableName = "categories")
+@Entity(tableName = "addresses")
 @Parcelize
 class AddressDTO(
-    private var cep: String? = null,
-    private var latitude: Double? = null,
-    private var longitude: Double? = null,
-    private var number: String? = null,
-    private var state: String? = null,
-    private var city: String? = null,
-    private var street: String? = null,
+    var cep: String? = null,
+    var latitude: Double? = null,
+    var longitude: Double? = null,
+    var number: String? = null,
+    var state: String? = null,
+    var city: String? = null,
+    var street: String? = null,
 
     @PrimaryKey(autoGenerate = true)
-    private var id: Long? = null,
+    var id: Long? = null,
 ) : BaseDTO(), Parcelable {
 }

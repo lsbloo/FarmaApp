@@ -1,15 +1,21 @@
 package com.farma.poc.featuresApp.compose.address.data.di
 
 import android.content.Context
+import com.farma.poc.core.config.data.FarmaAppDatabase
+import com.farma.poc.core.utils.typeValidator.PojoValidator
 import com.farma.poc.featuresApp.compose.address.data.api.AddressAPI
 import com.farma.poc.featuresApp.compose.address.data.dao.AddressDAO
 import com.farma.poc.featuresApp.compose.address.data.repository.AddressRepository
 import com.farma.poc.featuresApp.compose.address.data.task.CreateAddressTask
+import com.farma.poc.featuresApp.compose.address.data.task.GetLatLngAddressTask
 import com.farma.poc.featuresApp.compose.address.presentation.AddressViewModel
+import com.farma.poc.featuresApp.compose.address.validators.AddressValidatorImpl
+import com.farma.poc.featuresApp.compose.address.validators.interfaces.AddressValidator
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
+import kotlin.math.sin
 
 object AddressSetup {
 
@@ -19,19 +25,42 @@ object AddressSetup {
     private fun provideCreateAddressTask(addressAPI: AddressAPI, context: Context) =
         CreateAddressTask(addressAPI, context)
 
-    private fun provideAddressRepository(createAddressTask: CreateAddressTask, addressDAO: AddressDAO) =
-        AddressRepository(createAddressTask, addressDAO)
+    private fun provideGetGeoLocateTask(addressAPI: AddressAPI, context: Context) =
+        GetLatLngAddressTask(addressAPI, context)
 
-    private fun provideAddressViewModel(context: Context, addressRepository: AddressRepository) =
-        AddressViewModel(context, addressRepository)
+    private fun provideAddressRepository(
+        createAddressTask: CreateAddressTask,
+        geoLocateTask: GetLatLngAddressTask,
+        databaseInstance: FarmaAppDatabase
+    ) =
+        AddressRepository(createAddressTask, geoLocateTask, databaseInstance.addressDao())
+
+    private fun provideAddressViewModel(context: Context, addressRepository: AddressRepository, addressValidator: AddressValidator<PojoValidator>) =
+        AddressViewModel(context, addressRepository,addressValidator)
+
+    private fun provideAddressValidator() = AddressValidatorImpl<PojoValidator>()
 
     fun setupAddress() = module {
-
         single {
             provideAPI(get(named("noAuth")))
+
+        }
+
+        single {
+            provideAddressValidator() as AddressValidator<PojoValidator>
+        }
+
+        single {
             provideCreateAddressTask(get(), androidContext())
-            provideAddressRepository(get(),get())
-            provideAddressViewModel(get(), get())
+        }
+        single {
+            provideGetGeoLocateTask(get(), androidContext())
+        }
+        single {
+            provideAddressRepository(get(), get(), get())
+        }
+        single {
+            provideAddressViewModel(get(), get(),get())
         }
 
     }

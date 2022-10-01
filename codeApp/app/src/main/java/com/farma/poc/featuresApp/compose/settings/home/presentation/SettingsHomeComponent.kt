@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
@@ -180,9 +181,8 @@ fun setupBodyContent(
             settingsViewModel.datasetScreenSettings.value.nameUser?.let {
                 CustomTextView().customTextView(
                     text = it,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 40.dp),
+                    textAlign = TextAlign.Left,
+                    modifier = Modifier.fillMaxWidth().padding(top = 30.dp),
                     color = Colors.whitePrimary,
                     textStyle = FontsTheme(
                         shadow = Shadow(
@@ -208,11 +208,6 @@ fun setupBodyContent(
         setupItemsSettingsScreen(
             data = settingsViewModel.datasetScreenSettings.value,
             onClickAddress = {
-                Toast.makeText(
-                    activity,
-                    activity.getString(R.string.function_not_implemented),
-                    Toast.LENGTH_SHORT
-                ).show()
                 settingsViewModel.redirectAddress()
             },
             onClickAsks = {
@@ -265,7 +260,7 @@ fun setupBodyContent(
             customCircularButton(
                 content = {
                     CustomTextView().apply {
-                        settingsViewModel.datasetScreenSettings.value.labelButtonLogout?.let {
+                        settingsViewModel.datasetScreenSettings.value.labelButtonLoggout?.let {
                             customTextView(
                                 text = it,
                                 upperCase = false,

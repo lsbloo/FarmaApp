@@ -34,6 +34,7 @@ public class AuthenticatorController {
             public void onResult(AuthSuccessulResponseDTO response) {
                 authSuccessulResponseDTO.setToken(response.getToken());
                 authSuccessulResponseDTO.setType("Bearer ");
+                authSuccessulResponseDTO.setClientIdToken(response.getClientIdToken());
             }
         });
         return ResponseEntity.accepted().body(authSuccessulResponseDTO);

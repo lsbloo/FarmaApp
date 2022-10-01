@@ -33,7 +33,7 @@ class TopBarDefault(
         TopAppBar(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(75.dp)
+                .height(70.dp)
                 .background(backGroundColor)
                 .shadow(elevation = 8.dp, shape = RoundedCornerShape(2.dp)),
             backgroundColor = backGroundColor, elevation = 4.dp,
@@ -50,7 +50,7 @@ class TopBarDefault(
                     }
 
             )
-            Spacer(modifier = Modifier.width(80.dp))
+            Spacer(modifier = Modifier.width(60.dp))
             imageSupportText?.let {
                 Image(
                     painter = painterResource(id = it), contentDescription = "",
@@ -66,7 +66,7 @@ class TopBarDefault(
                     text = textTopBar,
                     upperCase = false,
                     modifier =
-                    Modifier.padding(12.dp),
+                    Modifier.padding(6.dp),
                     color = Colors.whitePrimary,
                     textStyle =
                     FontsTheme(

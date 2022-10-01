@@ -37,6 +37,9 @@ public class UserAuth implements UserDetails  {
 
     private boolean isActivated;
 
+    @Column(name = "client_id_token")
+    private String client_id_token;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

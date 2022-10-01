@@ -3,6 +3,7 @@ package com.farmawebservice.delivery.settings.controller;
 import com.farmawebservice.delivery.settings.model.SettingsLabelDTO;
 import com.farmawebservice.delivery.settings.service.SettingsService;
 import com.farmawebservice.delivery.util.messages.dtos.MessageResponseDTO;
+import com.google.gson.Gson;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -41,7 +42,7 @@ public class SettingsController {
                     "OK",
                     "settings data has found",
                     HttpServletResponse.SC_ACCEPTED,
-                    settingsLabelDTO
+                    new Gson().toJson(settingsLabelDTO)
             ));
         } else {
             return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(MessageResponseDTO.build(

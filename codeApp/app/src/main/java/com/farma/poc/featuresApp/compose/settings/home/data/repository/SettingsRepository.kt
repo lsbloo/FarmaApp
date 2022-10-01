@@ -17,9 +17,11 @@ class SettingsRepository(
         onSuccessData: (GetSettingsDTO?) -> Unit,
         onFailureData: (ResponseBody?) -> Unit,
         onShouldLoader: (Boolean) -> Unit,
-        hasErrorNetwork: () -> Unit
+        hasErrorNetwork: () -> Unit,
+        tokenAccess: String
     ) {
         settingsTask.call(
+            e = tokenAccess,
             callback = { onSuccess, onFailure, onShouldLoading ->
                 onSuccess?.data?.let {
                     settingsDAO.insertSettings(it)
@@ -41,7 +43,8 @@ class SettingsRepository(
         )
     }
 
-    suspend fun getSettingsDataCached() = settingsDAO.getSettingsFlow(SINGLE_ID_SETTINGS).onStart { delay(1000) }
+    suspend fun getSettingsDataCached() =
+        settingsDAO.getSettingsFlow(SINGLE_ID_SETTINGS).onStart { delay(1000) }
 
 
     companion object {

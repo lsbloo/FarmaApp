@@ -57,6 +57,10 @@ open class BaseViewModel(private val context: Context) : ViewModel() {
             .show()
     }
 
+    fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT)
+            .show()
+    }
 
     fun getClientToken(onResult: (String) -> Unit) {
         viewModelScope.launch {
@@ -66,9 +70,27 @@ open class BaseViewModel(private val context: Context) : ViewModel() {
         }
     }
 
+    fun getBearerToken(onResult: (String) -> Unit) {
+        viewModelScope.launch {
+            getDataStoreConfig().sharedTokenSessionFlow.collect { accessToken ->
+                getDataStoreConfig().sharedTimeSessionFlow.collect { typeToken ->
+                    onResult.invoke(typeToken + accessToken)
+                }
+            }
+        }
+    }
+
     fun getAccessToken(onResult: (String) -> Unit) {
         viewModelScope.launch {
             getDataStoreConfig().sharedTokenSessionFlow.collect {
+                onResult.invoke(it)
+            }
+        }
+    }
+
+    fun getTypeAccessToken(onResult: (String) -> Unit) {
+        viewModelScope.launch {
+            getDataStoreConfig().sharedTimeSessionFlow.collect {
                 onResult.invoke(it)
             }
         }

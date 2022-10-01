@@ -10,7 +10,7 @@ object ConfigApplicationConstants {
 
     // DATABASE_NAME
     const val NAME_DATABASE = "farma_db.db"
-    const val VERSION_DATABASE = 30
+    const val VERSION_DATABASE = 35
 
 
     internal object Shared {

@@ -77,7 +77,7 @@ public class AuthenticatorService extends BaseService {
                     this.roleRepository.getRoleById(id_role).getName()
             );
         }
-        networkHandlerEvent.onResult(new AuthSuccessulResponseDTO(jwt,"Bearer "));
+        networkHandlerEvent.onResult(new AuthSuccessulResponseDTO(jwt, "Bearer ", this.userRepository.findByEmail(loginRequestDTO.getEmail()).get().getClient_id_token()));
     }
 
     public PasswordEncoder passwordEncoder() {
@@ -125,7 +125,8 @@ public class AuthenticatorService extends BaseService {
         String s = CLIENT_ID_PARSE + responseDTO.getResponseDTO();
         String encoded = Base64.getEncoder().
                 encodeToString(s.getBytes(StandardCharsets.UTF_8));
-
+        userAuth.setClient_id_token(encoded);
+        this.userRepository.updateUser(userAuth.getClient_id_token(), userAuth.getId());
         responseDTO.setResponseDTO(encoded);
         return responseDTO;
     }

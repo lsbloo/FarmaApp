@@ -3,6 +3,7 @@ package com.farma.poc.featuresApp.compose.login.data.di
 import android.content.Context
 import com.farma.poc.core.config.data.FarmaAppDatabase
 import com.farma.poc.core.utils.typeValidator.PojoValidator
+import com.farma.poc.featuresApp.compose.address.data.repository.AddressRepository
 import com.farma.poc.featuresApp.compose.login.data.api.LoginAPI
 import com.farma.poc.featuresApp.compose.login.data.repository.LoginRepository
 import com.farma.poc.featuresApp.compose.login.data.task.LoginApiTask
@@ -29,8 +30,18 @@ object LoginSetup {
         return LoginRepository(loginApiTask = loginApiTask, loginDAO = databaseInstance.loginDao())
     }
 
-    private fun provideLoginViewModel(loginRepository: LoginRepository, context: Context, loginValidator: LoginValidator<PojoValidator>): LoginViewModel {
-        return LoginViewModel(loginRepository = loginRepository, loginValidator,context)
+    private fun provideLoginViewModel(
+        loginRepository: LoginRepository,
+        addressRepository: AddressRepository,
+        context: Context,
+        loginValidator: LoginValidator<PojoValidator>
+    ): LoginViewModel {
+        return LoginViewModel(
+            loginRepository = loginRepository,
+            addressRepository = addressRepository,
+            loginValidator,
+            context
+        )
     }
 
     private fun provideLoginValidator() = LoginValidatorImpl<PojoValidator>()
@@ -42,11 +53,11 @@ object LoginSetup {
         }
 
         single {
-            provideLoginApiTask(get(),get())
+            provideLoginApiTask(get(), get())
         }
 
         single { provideLoginRepository(get(), get()) }
-        single { provideLoginViewModel(get(),get(),provideLoginValidator()) }
+        single { provideLoginViewModel(get(), get(), get(),provideLoginValidator()) }
     }
 
 }

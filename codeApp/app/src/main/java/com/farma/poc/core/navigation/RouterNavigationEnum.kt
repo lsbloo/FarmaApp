@@ -6,5 +6,7 @@ enum class RouterNavigationEnum(route: String) {
     LOGIN(route = "/login"),
     HOME(route = "/home"),
     SINGUP(route = "/singup"),
-    SETTINGS(route = "/settings")
+    SETTINGS(route = "/settings"),
+    ADDRESS(route = "/address"),
+    LIST_ADDRESS(route = "/list_address")
 }

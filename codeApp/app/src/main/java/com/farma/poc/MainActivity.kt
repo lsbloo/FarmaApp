@@ -13,6 +13,8 @@ import com.farma.poc.core.navigation.RouterNavigationEnum
 import com.farma.poc.core.navigation.RouterNavigationManager
 import com.farma.poc.core.resources.colors.Colors.colorBackGroundPrimaryTheme
 import com.farma.poc.core.utils.composables.ComposableUtils.Companion.setSystemUiControllerWithColorStatusBar
+import com.farma.poc.featuresApp.compose.address.presentation.AddressViewModel
+import com.farma.poc.featuresApp.compose.address.presentation.screenAddress
 import com.farma.poc.featuresApp.compose.home.presentation.HomeViewModel
 import com.farma.poc.featuresApp.compose.home.presentation.homeComponent
 import com.farma.poc.featuresApp.compose.login.presentation.LoginViewModel
@@ -63,6 +65,7 @@ class MainActivity : BaseActivity() {
                 val singUpViewModel = getViewModel<SingUpViewModel>()
                 val homeViewModel = getViewModel<HomeViewModel>()
                 val settingsViewModel = getViewModel<SettingsViewModel>()
+                val addressViewModel = getViewModel<AddressViewModel>()
 
                 Surface(color = colorBackGroundPrimaryTheme) {
                     val navController = rememberAnimatedNavController()
@@ -77,6 +80,7 @@ class MainActivity : BaseActivity() {
                         singUpViewModel.setNavigation(routerNavigationManager)
                         homeViewModel.setNavigation(routerNavigationManager)
                         settingsViewModel.setNavigation(routerNavigationManager)
+                        addressViewModel.setNavigation(routerNavigationManager)
 
                         TransitionComponents(
                             RouterNavigationEnum.SPLASH,
@@ -139,6 +143,13 @@ class MainActivity : BaseActivity() {
                                 )
                             }
                         )
+
+                        composable(route = RouterNavigationEnum.ADDRESS.name) {
+                            screenAddress(
+                                context = this@MainActivity,
+                                addressViewModel = addressViewModel
+                            )
+                        }
 
                         composable(route = RouterNavigationEnum.SINGUP.name) {
                             screenSingUp(

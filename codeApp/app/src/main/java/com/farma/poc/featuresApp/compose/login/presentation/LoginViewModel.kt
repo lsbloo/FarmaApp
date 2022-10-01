@@ -19,6 +19,7 @@ import com.farma.poc.core.config.biometric.TypeAuthentication
 import com.farma.poc.core.navigation.RouterNavigationEnum
 import com.farma.poc.core.utils.safeLet
 import com.farma.poc.core.utils.typeValidator.PojoValidator
+import com.farma.poc.featuresApp.compose.address.data.repository.AddressRepository
 import com.farma.poc.featuresApp.compose.login.data.models.ResponseLoginDTO
 import com.farma.poc.featuresApp.compose.login.data.repository.LoginRepository
 import com.farma.poc.featuresApp.compose.login.validators.interfaces.LoginValidator
@@ -28,6 +29,7 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val loginRepository: LoginRepository,
+    private val addressRepository: AddressRepository,
     private val loginValidator: LoginValidator<PojoValidator>,
     context: Context
 ) :
@@ -125,7 +127,13 @@ class LoginViewModel(
                             data = data,
                             email = email,
                             onRedirect = {
-                                redirectHomeApp()
+                                validateIfHasAddress { hasAddress ->
+                                    if (hasAddress) {
+                                        redirectHomeApp()
+                                    } else {
+                                        redirectToAddressPage()
+                                    }
+                                }
                             }
                         )
                     }
@@ -138,6 +146,12 @@ class LoginViewModel(
                     showLoadingLogin.postValue(it)
                 }
             )
+        }
+    }
+
+    private fun redirectToAddressPage() {
+        viewModelScope.launch {
+            routerNavigation?.navigateTo(RouterNavigationEnum.ADDRESS)
         }
     }
 
@@ -154,6 +168,7 @@ class LoginViewModel(
                         setAcronymUserFlow(firstLetter)
                         setSharedTokenSession(bearerToken)
                         setTypeToken(dataType)
+                        setClientIdToken(data?.clientIdToken)
                     }
                 }
 
@@ -251,6 +266,19 @@ class LoginViewModel(
     private fun redirectHomeApp() {
         viewModelScope.launch {
             routerNavigation?.navigateTo(RouterNavigationEnum.HOME)
+        }
+    }
+
+
+    private fun validateIfHasAddress(hasAddresses: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            addressRepository.getAllAddresses().let { addressesList ->
+                if (addressesList?.size == 0) {
+                    hasAddresses.invoke(false)
+                } else {
+                    hasAddresses.invoke(true)
+                }
+            }
         }
     }
 

@@ -33,11 +33,11 @@ class MainApplication : Application() {
                     BaseViewModelModule.setupBaseViewModel(),
                     SplashSetup.setupSplash(),
                     OnboardingSetup.setupOnboarding(),
+                    AddressSetup.setupAddress(),
                     LoginSetup.setupLogin(),
                     HomeSetup.setupHome(),
                     SingUpSetup.setupSingUp(),
-                    SettingsSetup.setup(),
-                    AddressSetup.setupAddress()
+                    SettingsSetup.setup()
                 )
             )
         }

@@ -8,6 +8,12 @@ group = 'com.poc'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+jar {
+	manifest  {
+		attributes 'Main-Class': 'com.poc.FarmaLoginService.FarmaLoginServiceApplication'
+	}
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor

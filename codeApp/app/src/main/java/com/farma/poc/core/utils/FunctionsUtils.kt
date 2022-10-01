@@ -1,11 +1,17 @@
 package com.farma.poc.core.utils
 
-import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StrikethroughSpan
+import java.text.Normalizer
 import java.text.NumberFormat
 import java.util.*
+
+fun String.removeAcents(): String {
+    var strNoAccent = Normalizer.normalize(this, Normalizer.Form.NFD)
+    strNoAccent = strNoAccent.replace("[^\\p{ASCII}]".toRegex(), "")
+    return strNoAccent
+}
 
 
 fun safeLet(
@@ -30,7 +36,23 @@ fun safeLet(
     onFailure: (() -> Unit)? = null
 ) {
     if (!param1.isNullOrEmpty() && !param2.isNullOrEmpty() && !param3.isNullOrEmpty() && !param4.isNullOrEmpty()) {
-        onResult?.invoke(param1, param2,param3,param4)
+        onResult?.invoke(param1, param2, param3, param4)
+    } else {
+        onFailure?.invoke()
+    }
+}
+
+fun safeLet(
+    param1: String? = null,
+    param2: String? = null,
+    param3: String? = null,
+    param4: String? = null,
+    param5: String? = null,
+    onResult: ((String, String, String, String, String) -> Unit)? = null,
+    onFailure: (() -> Unit)? = null
+) {
+    if (!param1.isNullOrEmpty() && !param2.isNullOrEmpty() && !param3.isNullOrEmpty() && !param4.isNullOrEmpty() && !param5.isNullOrEmpty()) {
+        onResult?.invoke(param1, param2, param3, param4, param5)
     } else {
         onFailure?.invoke()
     }
@@ -39,10 +61,8 @@ fun safeLet(
 fun varArgLet(
     vararg params: Boolean,
     onResult: (params: BooleanArray, length: Int) -> Unit,
-
-
 ) {
-   onResult.invoke(params, params.size)
+    onResult.invoke(params, params.size)
 }
 
 
@@ -53,6 +73,6 @@ fun convertDoubleToMonetaryValue(value: Double): String {
 
 fun setSpannableString(value: String): String {
     val spannable = SpannableString(value)
-    spannable.setSpan(StrikethroughSpan(),0,value.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+    spannable.setSpan(StrikethroughSpan(), 0, value.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
     return spannable.toString()
 }

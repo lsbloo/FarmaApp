@@ -1,12 +1,14 @@
 <resources>
     <string name="app_name">FarmaApp</string>
 
-
+    <string name="add_address">Adicionar Endereço</string>
     <!-- HOME ITEMS-->
     <string name="highlight">Destaques</string>
     <string name="product_highlight">Destaques da Semana</string>
     <string name="categories">Categorias</string>
 
+
+    <string name="label_button_add">Adicionar</string>
 
     <string name="label_email">Email</string>
     <string name="label_password">Senha</string>
@@ -34,6 +36,7 @@
     <string name="service_unavailable_network">Serviço Indisponivel</string>
     <string name="try_again">Tente Novamente</string>
     <string name="network_unavailable">Verifique sua conexão com a internet</string>
+    <string name="error_address_request">Não foi possivel criar seu endereço, tente novamente!</string>
 
 
     <string name="label_bottom_navigation_start">Início</string>
@@ -61,4 +64,15 @@
     <string name="label_description_dialog_logout">Deseja realizar o logout da sua conta?</string>
     <string name="label_confirm_button_dialog_logout">Sair</string>
     <string name="label_dismiss_button_dialog_logoutt">Fechar</string>
+
+
+    <!-- Screen Address -->
+    <string name="label_title_address_page">Digite as informações do endereço de entrega que você deseja usar para recebimento de pedidos</string>
+    <string name="placeholder_address_street_page">Nome da Rua</string>
+    <string name="placeholder_address_district_page">Bairro</string>
+    <string name="placeholder_address_number_page">Número da Rua</string>
+    <string name="placeholder_address_city_page">Cidade/Estado</string>
+    <string name="placeholder_address_description_page">Descrição</string>
+    <string name="address_created_success">Endereço cadastrado!</string>
+
 </resources>

@@ -22,31 +22,34 @@ class SettingsViewModel(
     var hasFlagShowBiometric = mutableStateOf(false)
 
     fun getDataScreen() {
-        viewModelScope.launch {
-            settingsRepository.getSettingsDataScreen(
-                onSuccessData = {
-                    if (it != null) {
-                        datasetScreenSettings.value = it
-                    }
-                },
-                onFailureData = {
-                    tryRecoveryDataCached { onRecovery ->
-                        if (!onRecovery) {
-                            hasNetworkError.value = true
+            getBearerToken {
+                viewModelScope.launch {
+                settingsRepository.getSettingsDataScreen(
+                    tokenAccess = it,
+                    onSuccessData = {
+                        if (it != null) {
+                            datasetScreenSettings.value = it
                         }
-                    }
-                },
-                onShouldLoader = {
+                    },
+                    onFailureData = {
+                        tryRecoveryDataCached { onRecovery ->
+                            if (!onRecovery) {
+                                hasNetworkError.value = true
+                            }
+                        }
+                    },
+                    onShouldLoader = {
 
-                },
-                hasErrorNetwork = {
-                    tryRecoveryDataCached { onRecovery ->
-                        if (!onRecovery) {
-                            showToastNetworkUnavailable()
+                    },
+                    hasErrorNetwork = {
+                        tryRecoveryDataCached { onRecovery ->
+                            if (!onRecovery) {
+                                showToastNetworkUnavailable()
+                            }
                         }
                     }
-                }
-            )
+                )
+            }
         }
     }
 
@@ -112,7 +115,7 @@ class SettingsViewModel(
     }
 
     fun redirectAddress() {
-
+        routerNavigation?.navigateTo(RouterNavigationEnum.ADDRESS)
     }
 
 }

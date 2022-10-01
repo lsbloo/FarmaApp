@@ -19,5 +19,7 @@ data class ResponseLoginDTO(
     @SerializedName("type")
     var type: String? = null,
     @ColumnInfo(name = "data_expires")
-    var dataExpires: String? = null
+    var dataExpires: String? = null,
+    @SerializedName("clientIdToken")
+    var clientIdToken: String? = null,
 ): BaseDTO(),Parcelable
