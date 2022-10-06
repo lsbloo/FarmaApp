@@ -29,6 +29,7 @@ object Colors {
     val dimGray = Color(0xFF808080)
     val dimGrayTwo = Color(0xFF838383)
     val dimGrayThree = Color(0xFF708090)
+    val dimGrayFour = Color(0Xff989898)
 
     val gradientShifter = Color(0XFFbc4e9c)
     val gradientShiftertwo = Color(0XFFF80759)

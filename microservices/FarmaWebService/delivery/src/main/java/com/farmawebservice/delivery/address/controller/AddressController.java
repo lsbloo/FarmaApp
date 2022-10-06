@@ -5,8 +5,10 @@ import com.farmawebservice.delivery.address.model.Address;
 import com.farmawebservice.delivery.address.model.dto.AddressDTO;
 import com.farmawebservice.delivery.address.model.dto.DAddressDTO;
 import com.farmawebservice.delivery.address.service.AddressService;
+import com.farmawebservice.delivery.base.model.MessageClientResponseDTO;
 import com.farmawebservice.delivery.base.validator.resource.ResourceMessage;
 import com.farmawebservice.delivery.util.messages.dtos.MessageResponseDTO;
+import com.google.gson.Gson;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -47,8 +49,8 @@ public class AddressController {
             @ApiResponse(code = 404, message = "Not found"),
             @ApiResponse(code = 500, message = "Error Internal")
     })
-    public ResponseEntity<MessageResponseDTO> deleteAddressByUser(@RequestBody DAddressDTO dto) {
-        if (this.addressService.deleteAddressByUser(dto)) {
+    public ResponseEntity<MessageResponseDTO> deleteAddressByUser(@RequestParam("client_id_token") String token, @RequestParam("address_id") Long id) {
+        if (this.addressService.deleteAddressByUser(token, id)) {
             return ResponseEntity.status(HttpServletResponse.SC_ACCEPTED).body(MessageResponseDTO.build("Address Deleted", "Successful", HttpServletResponse.SC_ACCEPTED));
         } else {
             return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(MessageResponseDTO.build("Address dont delete", ResourceMessage.GENERIC_ERROR, HttpServletResponse.SC_BAD_REQUEST));
@@ -78,13 +80,31 @@ public class AddressController {
             @ApiResponse(code = 404, message = "Not found"),
             @ApiResponse(code = 500, message = "Error Internal")
     })
-    public ResponseEntity<MessageResponseDTO> recoveryAllAddressByUser(@RequestBody DAddressDTO dto) {
-        List<Address> addressList = this.addressService.getAllAddressUserById(dto);
+    public ResponseEntity<MessageResponseDTO> recoveryAllAddressByUser(@RequestParam("client_id_token") String token) {
+        List<Address> addressList = this.addressService.getAllAddressUserById(token);
         if (addressList != null && addressList.size() != 0) {
-            return ResponseEntity.status(HttpServletResponse.SC_ACCEPTED).body(MessageResponseDTO.build("Address recovery", "Successful", HttpServletResponse.SC_ACCEPTED, addressList));
+            return ResponseEntity.status(HttpServletResponse.SC_ACCEPTED).body(MessageResponseDTO.build("Address recovery", "Successful", HttpServletResponse.SC_ACCEPTED,
+                    new Gson().toJson(addressList)));
         } else {
             return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(MessageResponseDTO.build("Don't get address", ResourceMessage.GENERIC_ERROR, HttpServletResponse.SC_BAD_REQUEST));
         }
     }
 
+    @GetMapping("/select")
+    @ApiOperation(value = "get all address by user", notes = "")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully recovery"),
+            @ApiResponse(code = 404, message = "Not found"),
+            @ApiResponse(code = 500, message = "Error Internal")
+    })
+    public ResponseEntity<MessageClientResponseDTO> selectAddressPrincipalByUser(@RequestParam("address_id") Long address_id,
+                                                                                 @RequestParam("is_principal") Boolean value,
+                                                                                 @RequestParam("client_id_token") String client_id_token) {
+        MessageClientResponseDTO responseDTO = this.addressService.selectAddressToPrincipal(address_id, value, client_id_token);
+        if (responseDTO != null) {
+            return ResponseEntity.status(responseDTO.getHttpStatusCode()).body(responseDTO);
+        } else {
+            return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(null);
+        }
+    }
 }

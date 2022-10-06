@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.farma.poc.core.base.BaseDTO
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "addresses")
@@ -16,8 +17,12 @@ class AddressDTO(
     var state: String? = null,
     var city: String? = null,
     var street: String? = null,
-
+    var description: String? = null,
+    var isPrincipal: Boolean? = null,
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null,
-) : BaseDTO(), Parcelable {
+    var address_id: Long? = null,
+) : BaseDTO(), Parcelable {}
+fun AddressDTO.setAddressId(id: Long) {
+    this.address_id = id
 }

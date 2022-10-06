@@ -138,6 +138,9 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     implementation("io.coil-kt:coil-compose:2.0.0-rc01")
 
+    // BottomNavigation
+    implementation "androidx.navigation:navigation-compose:$bottom_navigation"
+
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'

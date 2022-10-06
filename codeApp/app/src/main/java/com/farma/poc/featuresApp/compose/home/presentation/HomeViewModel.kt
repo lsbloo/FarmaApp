@@ -9,6 +9,8 @@ import com.farma.poc.core.base.BaseViewModel
 import com.farma.poc.core.firebase.downloadUriImageFirebase
 import com.farma.poc.core.navigation.RouterNavigationEnum
 import com.farma.poc.core.utils.dto.ProductDTO
+import com.farma.poc.featuresApp.compose.address.data.repository.AddressRepository
+import com.farma.poc.featuresApp.compose.address.presentation.AddressViewModel
 import com.farma.poc.featuresApp.compose.home.data.models.CategoryDTO
 import com.farma.poc.featuresApp.compose.home.data.models.ItemsHomeDTO
 import com.farma.poc.featuresApp.compose.home.data.repository.HomeRepository
@@ -16,7 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.ArrayList
 
-class HomeViewModel(private val homeRepository: HomeRepository, context: Context) :
+class HomeViewModel(private val homeRepository: HomeRepository,context: Context) :
     BaseViewModel(context) {
 
     var itemsHome = mutableStateOf(ItemsHomeDTO())

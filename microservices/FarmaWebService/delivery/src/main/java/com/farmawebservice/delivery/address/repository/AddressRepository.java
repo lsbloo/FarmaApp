@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface AddressRepository extends CrudRepository<Address, Long> {
@@ -23,4 +24,13 @@ public interface AddressRepository extends CrudRepository<Address, Long> {
     @Query(nativeQuery = true, value = "DELETE FROM userx_user_addresses where userx_id=?1 and user_addresses_id=?2")
     void deleteAddress(Long user_id, Long user_address_id);
 
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE address set is_principal=?1 where id=?2")
+    void updateAddressToPrincipal(boolean isPrincipal, Long id);
+
+    @Query(value = "select * from address where is_principal=true",nativeQuery = true)
+    List<Address> getAllAddressPrincipal();
 }
+

@@ -4,10 +4,7 @@ package com.farmawebservice.delivery.address.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -31,5 +28,8 @@ public class Address {
     private Double longitude;
 
     private String city;
+
+    @Column(name="is_principal")
+    private boolean isPrincipal;
 
 }

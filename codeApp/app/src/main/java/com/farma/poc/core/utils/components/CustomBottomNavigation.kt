@@ -1,11 +1,20 @@
 package com.farma.poc.core.utils.components
 
 import android.content.Context
+import android.graphics.Color
+import androidx.compose.animation.core.SpringSpec
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.ContentAlpha.medium
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.platform.LocalConfiguration
@@ -82,11 +91,14 @@ class ButtonNavigation(
 
     @ExperimentalUnitApi
     @Composable
-    fun setup() {
+    fun setup(
+    ) {
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 4.dp, end = 4.dp),
+
         ) {
             Column(modifier = Modifier
                 .fillMaxSize()

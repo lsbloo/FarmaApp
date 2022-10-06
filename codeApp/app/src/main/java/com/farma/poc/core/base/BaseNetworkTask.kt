@@ -42,4 +42,9 @@ abstract class BaseNetworkTaskImpl<E,T,R> (private val context: Context): BaseNe
             return false
         }
     }
+
+
+    object HttpStatusResponse {
+        const val BAD_REQUEST = 400
+    }
 }

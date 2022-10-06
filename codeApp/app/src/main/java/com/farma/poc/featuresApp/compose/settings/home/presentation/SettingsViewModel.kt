@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.farma.poc.core.base.BaseViewModel
 import com.farma.poc.core.config.constants.ConfigApplicationConstants
+import com.farma.poc.core.config.constants.ConfigApplicationConstants.DataProviderActionsRedirect.REDIRECT_ACTION_SETTINGS_TO_ADDRESS
+import com.farma.poc.core.config.data.provider.OnDataProviderSettingsNavigation
 import com.farma.poc.core.navigation.RouterNavigationEnum
 import com.farma.poc.featuresApp.compose.settings.home.data.model.GetSettingsDTO
 import com.farma.poc.featuresApp.compose.settings.home.data.repository.SettingsRepository
@@ -22,8 +24,8 @@ class SettingsViewModel(
     var hasFlagShowBiometric = mutableStateOf(false)
 
     fun getDataScreen() {
-            getBearerToken {
-                viewModelScope.launch {
+        getBearerToken {
+            viewModelScope.launch {
                 settingsRepository.getSettingsDataScreen(
                     tokenAccess = it,
                     onSuccessData = {
@@ -115,7 +117,12 @@ class SettingsViewModel(
     }
 
     fun redirectAddress() {
-        routerNavigation?.navigateTo(RouterNavigationEnum.ADDRESS)
+        routerNavigation?.navigateToWithArgs(
+            RouterNavigationEnum.LIST_ADDRESS, dataProvider = OnDataProviderSettingsNavigation(
+                REDIRECT_ACTION_SETTINGS_TO_ADDRESS,
+                true
+            )
+        )
     }
 
 }

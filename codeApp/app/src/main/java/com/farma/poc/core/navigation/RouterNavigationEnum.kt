@@ -8,5 +8,6 @@ enum class RouterNavigationEnum(route: String) {
     SINGUP(route = "/singup"),
     SETTINGS(route = "/settings"),
     ADDRESS(route = "/address"),
-    LIST_ADDRESS(route = "/list_address")
+    LIST_ADDRESS(route = "/list_address"),
+    DETAIL_ADDRESS(route = "/detail_address")
 }

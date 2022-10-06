@@ -267,6 +267,7 @@ fun bodyContent(homeViewModel: HomeViewModel, context: Context, scaffoldState: S
                 )
                 .background(color = Colors.blackSecundary)
         ) {
+
             setupBottomNavigationHome(
                 context = context,
                 onClickStart = {

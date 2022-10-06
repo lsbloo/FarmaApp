@@ -19,6 +19,7 @@ import com.farma.poc.core.config.biometric.TypeAuthentication
 import com.farma.poc.core.navigation.RouterNavigationEnum
 import com.farma.poc.core.utils.safeLet
 import com.farma.poc.core.utils.typeValidator.PojoValidator
+import com.farma.poc.featuresApp.compose.address.data.models.AddressDTO
 import com.farma.poc.featuresApp.compose.address.data.repository.AddressRepository
 import com.farma.poc.featuresApp.compose.login.data.models.ResponseLoginDTO
 import com.farma.poc.featuresApp.compose.login.data.repository.LoginRepository
@@ -272,11 +273,22 @@ class LoginViewModel(
 
     private fun validateIfHasAddress(hasAddresses: (Boolean) -> Unit) {
         viewModelScope.launch {
-            addressRepository.getAllAddresses().let { addressesList ->
-                if (addressesList?.size == 0) {
-                    hasAddresses.invoke(false)
-                } else {
-                    hasAddresses.invoke(true)
+            getClientToken {
+                viewModelScope.launch {
+                    addressRepository.getAddresses(
+                        onSuccessData = { dataAddress ->
+                            dataAddress?.let {
+                                if (it.isEmpty()) {
+                                    hasAddresses.invoke(false)
+                                } else {
+                                    hasAddresses.invoke(true)
+                                }
+                            }?: also {
+                                hasAddresses.invoke(false)
+                            }
+                        }, onShowLoading = {}, errorNetWorkNotAvailablex = {},
+                        address = AddressDTO().apply { client_id_token = it }
+                    )
                 }
             }
         }

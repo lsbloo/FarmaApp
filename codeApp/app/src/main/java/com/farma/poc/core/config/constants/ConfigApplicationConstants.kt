@@ -7,10 +7,11 @@ object ConfigApplicationConstants {
 
     // DATA STORE NAME
     const val DATA_STORE_NAME = "farmaappsettings"
+    const val DATA_STORE_SHARED_NAME="farmaappshareddata"
 
     // DATABASE_NAME
     const val NAME_DATABASE = "farma_db.db"
-    const val VERSION_DATABASE = 35
+    const val VERSION_DATABASE = 38
 
 
     internal object Shared {
@@ -20,6 +21,12 @@ object ConfigApplicationConstants {
         const val SHARED_BIOMETRIC_USER = "SHARED_BIOMETRIC_USER"
         const val SHARED_EMAIL_USER = "SHARED_EMAIL_USER"
         const val SHARED_CLIENT_TOKEN_USER = "CLIENT_TOKEN"
+        const val SHARED_ADDRESS_DETAIL = "ADDRESS_DETAIL_SELECTED"
+        const val SHARED_ADDRESS_DETAIL_PRINCIPAL = "ADDRESS_DETAIL_SELECTED_PRINCIPAL"
+    }
+
+    internal object DataProviderActionsRedirect {
+        const val REDIRECT_ACTION_SETTINGS_TO_ADDRESS = "REDIRECT_ACTION_SETTINGS_TO_ADDRESS"
     }
 
     internal object PREFERENCES_SECURITY {

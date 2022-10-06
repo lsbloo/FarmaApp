@@ -2,6 +2,8 @@
     <string name="app_name">FarmaApp</string>
 
     <string name="add_address">Adicionar Endereço</string>
+    <string name="list_address">Endereços de Entrega</string>
+    <string name="address_detail">Definir Endereço Principal</string>
     <!-- HOME ITEMS-->
     <string name="highlight">Destaques</string>
     <string name="product_highlight">Destaques da Semana</string>

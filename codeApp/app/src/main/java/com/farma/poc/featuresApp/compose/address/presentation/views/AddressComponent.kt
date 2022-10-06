@@ -1,4 +1,4 @@
-package com.farma.poc.featuresApp.compose.address.presentation
+package com.farma.poc.featuresApp.compose.address.presentation.views
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -28,6 +28,7 @@ import com.farma.poc.core.resources.fonts.FontsTheme
 import com.farma.poc.core.utils.colors.OutlinedTextFieldColor
 import com.farma.poc.core.utils.components.*
 import com.farma.poc.core.utils.composables.ComposableUtils
+import com.farma.poc.featuresApp.compose.address.presentation.AddressViewModel
 import com.farma.poc.featuresApp.compose.singup.presentation.bodyContent
 
 
@@ -48,7 +49,7 @@ fun screenAddress(context: Context, addressViewModel: AddressViewModel) {
                 R.drawable.ic_arrow_back,
                 textTopBar = context.getString(R.string.add_address),
                 onCLickImageLeft = {
-                    //singUpViewModel.backToNavigate()
+                    addressViewModel.redirectToSettings()
                 }
             ).apply {
                 setupTopBar()
@@ -84,7 +85,7 @@ fun screenAddress(context: Context, addressViewModel: AddressViewModel) {
     ComposableUtils.setBackHandler(
         enable = false,
         onClickBackPressed = {
-            //singUpViewModel.backToNavigate()
+            addressViewModel.redirectToSettings()
         }
     )
 }
@@ -378,8 +379,7 @@ fun bodyContent(
             isError = false,
             onValueChange = { newValue ->
                 edittextDescription = newValue
-                if (newValue.isNullOrEmpty()) {
-                }
+                if (newValue.isNullOrEmpty()) { }
             },
             colorsTextField = OutlinedTextFieldColor.getDefaultTextFieldOutlinedColor(),
             placeholder = {

@@ -14,7 +14,9 @@ import com.farma.poc.core.navigation.RouterNavigationManager
 import com.farma.poc.core.resources.colors.Colors.colorBackGroundPrimaryTheme
 import com.farma.poc.core.utils.composables.ComposableUtils.Companion.setSystemUiControllerWithColorStatusBar
 import com.farma.poc.featuresApp.compose.address.presentation.AddressViewModel
-import com.farma.poc.featuresApp.compose.address.presentation.screenAddress
+import com.farma.poc.featuresApp.compose.address.presentation.views.screenAddress
+import com.farma.poc.featuresApp.compose.address.presentation.views.screenAddressDetail
+import com.farma.poc.featuresApp.compose.address.presentation.views.screenListAddress
 import com.farma.poc.featuresApp.compose.home.presentation.HomeViewModel
 import com.farma.poc.featuresApp.compose.home.presentation.homeComponent
 import com.farma.poc.featuresApp.compose.login.presentation.LoginViewModel
@@ -73,7 +75,7 @@ class MainActivity : BaseActivity() {
                         navController = navController,
                         startDestination = RouterNavigationEnum.SPLASH.name
                     ) {
-                        val routerNavigationManager = RouterNavigationManager(navController, this)
+                        val routerNavigationManager = RouterNavigationManager(navController, this, this@MainActivity)
                         splashViewModel.setNavigation(routerNavigationManager)
                         loginViewModel.setNavigation(routerNavigationManager)
                         onboardingViewModel.setNavigation(routerNavigationManager)
@@ -81,6 +83,7 @@ class MainActivity : BaseActivity() {
                         homeViewModel.setNavigation(routerNavigationManager)
                         settingsViewModel.setNavigation(routerNavigationManager)
                         addressViewModel.setNavigation(routerNavigationManager)
+                        addressViewModel.observeAsActionRedirect()
 
                         TransitionComponents(
                             RouterNavigationEnum.SPLASH,
@@ -146,6 +149,20 @@ class MainActivity : BaseActivity() {
 
                         composable(route = RouterNavigationEnum.ADDRESS.name) {
                             screenAddress(
+                                context = this@MainActivity,
+                                addressViewModel = addressViewModel
+                            )
+                        }
+
+                        composable(route = RouterNavigationEnum.LIST_ADDRESS.name) {
+                            screenListAddress(
+                                context = this@MainActivity,
+                                addressViewModel = addressViewModel
+                            )
+                        }
+
+                        composable(route = RouterNavigationEnum.DETAIL_ADDRESS.name) {
+                            screenAddressDetail(
                                 context = this@MainActivity,
                                 addressViewModel = addressViewModel
                             )

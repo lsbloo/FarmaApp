@@ -2,6 +2,7 @@ package com.farma.poc.featuresApp.compose.home.data.di
 
 import android.content.Context
 import com.farma.poc.core.config.data.FarmaAppDatabase
+import com.farma.poc.featuresApp.compose.address.presentation.AddressViewModel
 import com.farma.poc.featuresApp.compose.home.data.api.HomeAPI
 import com.farma.poc.featuresApp.compose.home.data.repository.HomeRepository
 import com.farma.poc.featuresApp.compose.home.data.task.GetHomeItemsTask
@@ -26,7 +27,7 @@ object HomeSetup {
     private fun provideHomeViewModel(
         homeRepository: HomeRepository,
         context: Context
-    ): HomeViewModel = HomeViewModel(homeRepository = homeRepository, context)
+    ): HomeViewModel = HomeViewModel(homeRepository = homeRepository,context)
 
 
     fun setupHome() = module {

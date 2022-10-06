@@ -7,15 +7,19 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.TopAppBar
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.farma.poc.R
 import com.farma.poc.core.resources.colors.Colors
 import com.farma.poc.core.resources.fonts.FontsTheme
 
@@ -24,7 +28,8 @@ class TopBarDefault(
     private val imageLeft: Int,
     private val imageSupportText: Int? = null,
     private val textTopBar: String,
-    private val onCLickImageLeft: (() -> Unit)? = null
+    private val onCLickImageLeft: (() -> Unit)? = null,
+    private val buttonRight: ButtonRight? = null
 ) {
 
     @ExperimentalUnitApi
@@ -50,7 +55,7 @@ class TopBarDefault(
                     }
 
             )
-            Spacer(modifier = Modifier.width(60.dp))
+            Spacer(modifier = Modifier.width(55.dp))
             imageSupportText?.let {
                 Image(
                     painter = painterResource(id = it), contentDescription = "",
@@ -77,6 +82,28 @@ class TopBarDefault(
                     ).typography.h2,
                 )
             }
+            buttonRight?.let { Spacer(modifier = Modifier.width(20.dp))
+               it.setup()
+            }
         }
+    }
+}
+
+class ButtonRight(var icon: Int, var onClick: () -> Unit) {
+
+    @Composable
+    fun setup() {
+            Spacer(modifier = Modifier.width(30.dp))
+            Image(
+                painter = painterResource(id = icon),
+                contentDescription = "",
+                modifier = Modifier
+                    .width(30.dp)
+                    .height(30.dp)
+                    .clickable {
+                        onClick.invoke()
+                    }
+
+            )
     }
 }

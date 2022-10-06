@@ -2,6 +2,7 @@ package com.farma.poc.core.utils.converters
 
 import androidx.room.TypeConverter
 import com.farma.poc.core.utils.dto.ProductDTO
+import com.farma.poc.featuresApp.compose.address.data.models.AddressDTO
 import com.farma.poc.featuresApp.compose.home.data.models.CategoryDTO
 import com.farma.poc.featuresApp.compose.onboarding.data.models.ItensOboardingDTO
 import com.farma.poc.featuresApp.compose.home.data.models.HightLightsProductDTO
@@ -14,6 +15,19 @@ import java.lang.reflect.Type
 
 class GeneralTypeConverter {
     private val gson: Gson = Gson()
+
+
+    @TypeConverter
+    fun saveAddressDTO(addressDTO: AddressDTO): String {
+        return gson.toJson(addressDTO)
+    }
+
+    @TypeConverter
+    fun restoreAddressDTO(data: String): AddressDTO? {
+        if (data == null) return null
+        val type: Type = object : TypeToken<AddressDTO>() {}.type
+        return gson.fromJson(data, type)
+    }
 
 
     @TypeConverter

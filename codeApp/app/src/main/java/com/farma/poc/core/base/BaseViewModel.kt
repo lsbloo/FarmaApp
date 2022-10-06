@@ -12,13 +12,24 @@ import com.farma.poc.core.navigation.RouterNavigation
 import com.farma.poc.core.store.DataStoreConfig
 import com.farma.poc.core.utils.composables.ComposableUtils
 import com.farma.poc.core.utils.enums.DurationSnackBarEnum
+import com.farma.poc.featuresApp.compose.address.data.models.AddressDTO
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 
 open class BaseViewModel(private val context: Context) : ViewModel() {
 
+    fun transformCollectToAddressDTO(data: String): AddressDTO {
+        return Gson().fromJson(data, AddressDTO::class.java)
+    }
+
     var routerNavigation: RouterNavigation? = null
+
+    val gson
+    get() = Gson()
 
     fun setNavigation(navController: RouterNavigation) {
         this.routerNavigation = navController
@@ -64,7 +75,7 @@ open class BaseViewModel(private val context: Context) : ViewModel() {
 
     fun getClientToken(onResult: (String) -> Unit) {
         viewModelScope.launch {
-            getDataStoreConfig().sharedClientTokenFlow.collect {
+            getDataStoreConfig().sharedClientTokenFlow.take(1).collect {
                 onResult.invoke(it)
             }
         }
@@ -72,8 +83,8 @@ open class BaseViewModel(private val context: Context) : ViewModel() {
 
     fun getBearerToken(onResult: (String) -> Unit) {
         viewModelScope.launch {
-            getDataStoreConfig().sharedTokenSessionFlow.collect { accessToken ->
-                getDataStoreConfig().sharedTimeSessionFlow.collect { typeToken ->
+            getDataStoreConfig().sharedTokenSessionFlow.take(1).collect { accessToken ->
+                getDataStoreConfig().sharedTimeSessionFlow.take(1).collect { typeToken ->
                     onResult.invoke(typeToken + accessToken)
                 }
             }
@@ -82,7 +93,7 @@ open class BaseViewModel(private val context: Context) : ViewModel() {
 
     fun getAccessToken(onResult: (String) -> Unit) {
         viewModelScope.launch {
-            getDataStoreConfig().sharedTokenSessionFlow.collect {
+            getDataStoreConfig().sharedTokenSessionFlow.take(1).collect {
                 onResult.invoke(it)
             }
         }
@@ -90,9 +101,15 @@ open class BaseViewModel(private val context: Context) : ViewModel() {
 
     fun getTypeAccessToken(onResult: (String) -> Unit) {
         viewModelScope.launch {
-            getDataStoreConfig().sharedTimeSessionFlow.collect {
+            getDataStoreConfig().sharedTimeSessionFlow.take(1).collect {
                 onResult.invoke(it)
             }
         }
     }
+
+
+    object HTTPStatusResponse {
+        const val STATUS_ACCEPTED = 202L
+    }
+
 }

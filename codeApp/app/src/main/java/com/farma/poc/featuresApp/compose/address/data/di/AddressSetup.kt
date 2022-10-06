@@ -6,8 +6,7 @@ import com.farma.poc.core.utils.typeValidator.PojoValidator
 import com.farma.poc.featuresApp.compose.address.data.api.AddressAPI
 import com.farma.poc.featuresApp.compose.address.data.dao.AddressDAO
 import com.farma.poc.featuresApp.compose.address.data.repository.AddressRepository
-import com.farma.poc.featuresApp.compose.address.data.task.CreateAddressTask
-import com.farma.poc.featuresApp.compose.address.data.task.GetLatLngAddressTask
+import com.farma.poc.featuresApp.compose.address.data.task.*
 import com.farma.poc.featuresApp.compose.address.presentation.AddressViewModel
 import com.farma.poc.featuresApp.compose.address.validators.AddressValidatorImpl
 import com.farma.poc.featuresApp.compose.address.validators.interfaces.AddressValidator
@@ -25,18 +24,42 @@ object AddressSetup {
     private fun provideCreateAddressTask(addressAPI: AddressAPI, context: Context) =
         CreateAddressTask(addressAPI, context)
 
+    private fun provideDeleteAddressTask(addressAPI: AddressAPI, context: Context) =
+        DeleteAddressTask(addressAPI, context)
+
+    private fun provideSelectAddressTask(addressAPI: AddressAPI, context: Context) =
+        SelectAddressPrincipalTask(addressAPI, context)
+
     private fun provideGetGeoLocateTask(addressAPI: AddressAPI, context: Context) =
         GetLatLngAddressTask(addressAPI, context)
+
+    private fun provideGetAddressListTask(addressAPI: AddressAPI, context: Context) =
+        GetAddressListTask(addressAPI, context)
+
 
     private fun provideAddressRepository(
         createAddressTask: CreateAddressTask,
         geoLocateTask: GetLatLngAddressTask,
+        getAddressListTask: GetAddressListTask,
+        deleteAddressTask: DeleteAddressTask,
+        selectAddressPrincipalTask: SelectAddressPrincipalTask,
         databaseInstance: FarmaAppDatabase
     ) =
-        AddressRepository(createAddressTask, geoLocateTask, databaseInstance.addressDao())
+        AddressRepository(
+            createAddressTask,
+            geoLocateTask,
+            getAddressListTask,
+            deleteAddressTask,
+            selectAddressPrincipalTask,
+            databaseInstance.addressDao()
+        )
 
-    private fun provideAddressViewModel(context: Context, addressRepository: AddressRepository, addressValidator: AddressValidator<PojoValidator>) =
-        AddressViewModel(context, addressRepository,addressValidator)
+    private fun provideAddressViewModel(
+        context: Context,
+        addressRepository: AddressRepository,
+        addressValidator: AddressValidator<PojoValidator>
+    ) =
+        AddressViewModel(context, addressRepository, addressValidator)
 
     private fun provideAddressValidator() = AddressValidatorImpl<PojoValidator>()
 
@@ -49,6 +72,16 @@ object AddressSetup {
         single {
             provideAddressValidator() as AddressValidator<PojoValidator>
         }
+        single {
+            provideGetAddressListTask(get(), androidContext())
+        }
+        single {
+            provideSelectAddressTask(get(),androidContext())
+        }
+
+        single {
+            provideDeleteAddressTask(get(), androidContext())
+        }
 
         single {
             provideCreateAddressTask(get(), androidContext())
@@ -56,11 +89,13 @@ object AddressSetup {
         single {
             provideGetGeoLocateTask(get(), androidContext())
         }
+
         single {
-            provideAddressRepository(get(), get(), get())
+            provideAddressRepository(get(), get(), get(), get(),get(),get())
         }
+
         single {
-            provideAddressViewModel(get(), get(),get())
+            provideAddressViewModel(get(), get(), get())
         }
 
     }
