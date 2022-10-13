@@ -34,9 +34,9 @@ public class ShopValidator {
 
     public Validator<ShopCategoryDTO> validateIfHasCategoryByShop() {
         return (result, shopCategory) -> {
-            ShopStore shopStore1 = this.shopRepository.findByClientIdToken(shopCategory.getClient_id_token());
-            if (shopStore1.getCategoryList().size() >= 1) {
-                for (Category category : shopStore1.getCategoryList()) {
+            List<ShopStore> shopStore1 = this.shopRepository.findByClientIdToken(shopCategory.getClient_id_token());
+            if (shopStore1.get(0).getCategoryList().size() >= 1) {
+                for (Category category : shopStore1.get(0).getCategoryList()) {
                     if (category.getName().equals(shopCategory.getCategory().getName())) {
                         result.error("Has Category inserted with name");
                         result.setResourceMessage("Has Category inserted with name", true);
@@ -50,9 +50,9 @@ public class ShopValidator {
 
     public Validator<ShopCategoryDTO> validateIfHasACategoryByShop() {
         return (result, shopCategory) -> {
-            ShopStore shopStore1 = this.shopRepository.findByClientIdToken(shopCategory.getClient_id_token());
-            if (shopStore1.getCategoryList().size() >= 1) {
-                for (Category category : shopStore1.getCategoryList()) {
+            List<ShopStore> shopStore1 = this.shopRepository.findByClientIdToken(shopCategory.getClient_id_token());
+            if (shopStore1.get(0).getCategoryList().size() >= 1) {
+                for (Category category : shopStore1.get(0).getCategoryList()) {
                     if (category.getId() == Integer.parseInt(shopCategory.getCategory_id().toString())) {
                         result.ok();
                     }
@@ -63,7 +63,7 @@ public class ShopValidator {
 
     public Validator<ShopStoreProductDTO> validateShopStoreHaveShopProducts() {
         return (result, shopStore) -> {
-            ShopStore shopStore1 = this.shopRepository.findByClientIdToken(shopStore.getClient_id_token());
+            List<ShopStore> shopStore1 = this.shopRepository.findByClientIdToken(shopStore.getClient_id_token());
             if (shopStore1 != null) {
                 result.ok();
                 result.setResourceMessage("ShopStore found", false);
@@ -77,7 +77,7 @@ public class ShopValidator {
     public Validator<ShopStoreDTO> validateIfExists() {
         return (result, shopStore) -> {
             try {
-                ShopStore shopStore1 = this.shopRepository.findByClientIdToken(shopStore.getClient_id_token());
+                List<ShopStore> shopStore1 = this.shopRepository.findByClientIdToken(shopStore.getClient_id_token());
                 if (shopStore1 != null) {
                     result.error();
                     result.setResourceMessage("Shop Store has created by user", true);
@@ -96,7 +96,7 @@ public class ShopValidator {
     public Validator<ShopStoreProductDTO> validateIfExistsShopProductHighLight() {
         return (result, shopStoreProductDTO) -> {
             try {
-                ShopStore shopStore1 = this.shopRepository.findByClientIdToken(shopStoreProductDTO.getClient_id_token());
+                List<ShopStore> shopStore1 = this.shopRepository.findByClientIdToken(shopStoreProductDTO.getClient_id_token());
                 if (shopStore1 != null) {
 
                     List<Long> shopProductsId = new ArrayList<Long>();
@@ -126,7 +126,7 @@ public class ShopValidator {
     public Validator<ShopStoreProductDTO> validateIfExistsShopProduct() {
         return (result, shopStoreProductDTO) -> {
             try {
-                ShopStore shopStore1 = this.shopRepository.findByClientIdToken(shopStoreProductDTO.getClient_id_token());
+                List<ShopStore> shopStore1 = this.shopRepository.findByClientIdToken(shopStoreProductDTO.getClient_id_token());
                 if (shopStore1 != null) {
 
                     List<Long> shopProductsId = new ArrayList<Long>();

@@ -43,8 +43,7 @@ public class BaseService {
     }
 
     public User authenticateUserClient(UserRepository userRepository) {
-        userRepository.findByUserAuthId(getClientId(clientId));
-        return userRepository.findByUserAuthId(getClientId(clientId));
+        return userRepository.findById(getClientId(clientId)).get();
     }
 
     public void setClientId(String clientId) {

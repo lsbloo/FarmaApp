@@ -5,8 +5,10 @@ import com.farmawebservice.delivery.shop.model.ShopStore;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ShopRepository extends CrudRepository<ShopStore, Long>, FarmaWebRepository {
 
-    ShopStore findByClientIdToken(String clientIdToken);
+    List<ShopStore> findByClientIdToken(String clientIdToken);
 }

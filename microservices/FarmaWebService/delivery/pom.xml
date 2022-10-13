@@ -13,9 +13,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>delivery</name>
 	<description>WebService for delivery of products/drugs</description>
+	<packaging>jar</packaging>
 	<properties>
 		<java.version>11</java.version>
 		<kotlin-version>1.6.10</kotlin-version>
+		<mainClass>com.farmawebservice.delivery.DeliveryApplication</mainClass>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -147,8 +149,6 @@
 	</dependencies>
 
 	<build>
-		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

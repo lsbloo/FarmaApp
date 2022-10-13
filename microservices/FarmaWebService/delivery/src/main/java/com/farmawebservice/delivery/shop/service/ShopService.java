@@ -62,9 +62,9 @@ public class ShopService extends BaseService {
             ).validate(dto);
 
             if (result.ok()) {
-                ShopStore shopStore = this.shopRepository.findByClientIdToken(dto.getClient_id_token());
+                List<ShopStore> shopStore = this.shopRepository.findByClientIdToken(dto.getClient_id_token());
 
-                this.productShopRepository.deleteShopProduct(shopStore.getId(), Long.parseLong(dto.getProducts_shop_id()));
+                this.productShopRepository.deleteShopProduct(shopStore.get(0).getId(), Long.parseLong(dto.getProducts_shop_id()));
 
                 this.productShopRepository.delete(
                         this.productShopRepository.findById(Long.parseLong(dto.getProducts_shop_id())).get()
@@ -86,9 +86,9 @@ public class ShopService extends BaseService {
             ).validate(dto);
 
             if (result.ok()) {
-                ShopStore shopStore = this.shopRepository.findByClientIdToken(dto.getClient_id_token());
+                List<ShopStore> shopStore = this.shopRepository.findByClientIdToken(dto.getClient_id_token());
 
-                this.shopProductHighLightRepository.deleteShopProductHighLight(shopStore.getId(), Long.parseLong(dto.getProducts_shop_highlight_id()));
+                this.shopProductHighLightRepository.deleteShopProductHighLight(shopStore.get(0).getId(), Long.parseLong(dto.getProducts_shop_highlight_id()));
 
                 this.shopProductHighLightRepository.delete(
                         this.shopProductHighLightRepository.findById(Long.parseLong(dto.getProducts_shop_highlight_id())).get()
@@ -111,8 +111,8 @@ public class ShopService extends BaseService {
             ).validate(dto);
 
             if (result.ok()) {
-                ShopStore shopStore = this.shopRepository.findByClientIdToken(dto.getClient_id_token());
-                List<ProductShop> productShopList = shopStore.getProductsShop();
+                List<ShopStore> shopStore = this.shopRepository.findByClientIdToken(dto.getClient_id_token());
+                List<ProductShop> productShopList = shopStore.get(0).getProductsShop();
                 ShopProductResponseDTO responseDTO = new ShopProductResponseDTO();
                 List<ProductDTO> productDTOList = new ArrayList<>();
                 for (ProductShop productShop : productShopList) {
@@ -126,8 +126,8 @@ public class ShopService extends BaseService {
                     productDTOList.add(productDTO);
                 }
                 responseDTO.setProductList(productDTOList);
-                responseDTO.setCnpj(shopStore.getCnpj());
-                responseDTO.setName(shopStore.getName());
+                responseDTO.setCnpj(shopStore.get(0).getCnpj());
+                responseDTO.setName(shopStore.get(0).getName());
 
                 return result.setResourceMessage("Products Found", false,
                         responseDTO);
@@ -146,13 +146,13 @@ public class ShopService extends BaseService {
             ).validate(dto);
 
             if (result.ok()) {
-                ShopStore shop = this.shopRepository.findByClientIdToken(dto.getClient_id_token());
+                List<ShopStore> shop = this.shopRepository.findByClientIdToken(dto.getClient_id_token());
 
                 Category category = new Category();
                 category.setName(dto.getCategory().getName());
                 category.setType(dto.getCategory().getType());
                 category.setUrlImage(dto.getCategory().getUrlImage());
-                this.shopRepository.saveShopCategoryProduct(shop.getId(), Long.parseLong(this.categoriesRepository.save(category).getId().toString()));
+                this.shopRepository.saveShopCategoryProduct(shop.get(0).getId(), Long.parseLong(this.categoriesRepository.save(category).getId().toString()));
                 return result.setResourceMessage("Category Has Create", false,
                         category);
             } else {
@@ -173,9 +173,9 @@ public class ShopService extends BaseService {
 
             if (result.ok()) {
                 try {
-                    ShopStore shop = this.shopRepository.findByClientIdToken(dto.getClient_id_token());
+                    List<ShopStore> shop = this.shopRepository.findByClientIdToken(dto.getClient_id_token());
                     Category category = this.categoriesRepository.findById(Integer.parseInt(dto.getCategory_id().toString())).get();
-                    this.shopRepository.deleteShopCategoryProduct(shop.getId(), Long.parseLong(category.getId().toString()));
+                    this.shopRepository.deleteShopCategoryProduct(shop.get(0).getId(), Long.parseLong(category.getId().toString()));
                     this.categoriesRepository.delete(category);
                     return result.setResourceMessage("Category Has Deleted", false,
                             category);
@@ -251,9 +251,9 @@ public class ShopService extends BaseService {
             productShopList.add(this.shopProductHighLightRepository.save(productShop));
         }
 
-        ShopStore shop = this.shopRepository.findByClientIdToken(shopStoreDTO.getClient_id_token());
+        List<ShopStore> shop = this.shopRepository.findByClientIdToken(shopStoreDTO.getClient_id_token());
         for (ShopProductHighLight p1 : productShopList) {
-            this.productShopRepository.saveShopProductHighLight(shop.getId(), p1.getId());
+            this.productShopRepository.saveShopProductHighLight(shop.get(0).id, p1.getId());
         }
     }
 
@@ -270,9 +270,9 @@ public class ShopService extends BaseService {
             productShopList.add(this.productShopRepository.save(productShop));
         }
 
-        ShopStore shop = this.shopRepository.findByClientIdToken(shopStoreDTO.getClient_id_token());
+        List<ShopStore> shop = this.shopRepository.findByClientIdToken(shopStoreDTO.getClient_id_token());
         for (ProductShop p1 : productShopList) {
-            this.productShopRepository.saveShopProduct(shop.getId(), p1.getId());
+            this.productShopRepository.saveShopProduct(shop.get(0).getId(), p1.getId());
         }
     }
 

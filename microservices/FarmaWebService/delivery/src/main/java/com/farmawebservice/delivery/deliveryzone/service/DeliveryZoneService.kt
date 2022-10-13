@@ -48,7 +48,7 @@ class DeliveryZoneService(
                     this.isError = false
                     this.messageValidator = resultShopExists.resourceMessage.messageValidator
                     this.descriptionValidator = "All DeliveryZones recovery"
-                    this.responseDTO = shop.deliveryZones
+                    this.responseDTO = shop.first().deliveryZones
                 }
             } else {
                 return ResourceMessage().apply {
@@ -72,7 +72,7 @@ class DeliveryZoneService(
                 val deliveryZone = this.deliveryZoneRepository.findById(dto.id_delivery_zone)
                 if (deliveryZone.isPresent) {
                     val shop = this.shopRepository.findByClientIdToken(dto.client_id_token)
-                    this.deliveryZoneRepository.deleteShopDeliveryZone(shop.id, dto.id_delivery_zone)
+                    this.deliveryZoneRepository.deleteShopDeliveryZone(shop.first().id, dto.id_delivery_zone)
                     this.deliveryZoneRepository.delete(deliveryZone.get())
                     return ResourceMessage().apply {
                         this.isError = false
@@ -96,11 +96,6 @@ class DeliveryZoneService(
         setClientId(dto.client_id_token)
 
         authClientId(dto)?.let {
-            val resultShopExists = ValidatorBuilder<BaseDTO>().apply(
-                    this.deliveryZoneValidator.validateIfShopStoreExists()
-            ).validate(dto)
-
-            if (resultShopExists.ok()) {
                 val resultHasDeliveryZone = ValidatorBuilder<DeliveryZoneDTO>().apply(
                         this.deliveryZoneValidator.validateIfHasDeliveryZoneForShopStore()
 
@@ -118,7 +113,7 @@ class DeliveryZoneService(
 
                     val shop = this.shopRepository.findByClientIdToken(dto.client_id_token)
 
-                    this.deliveryZoneRepository.saveShopDeliveryZone(shop.id, dZoneAtCreat.id)
+                    this.deliveryZoneRepository.saveShopDeliveryZone(shop.first().id, dZoneAtCreat.id)
 
                     return ResourceMessage().apply {
                         this.isError = false
@@ -132,7 +127,6 @@ class DeliveryZoneService(
                         this.responseDTO = null
                     }
                 }
-            }
         }
         return null
     }
