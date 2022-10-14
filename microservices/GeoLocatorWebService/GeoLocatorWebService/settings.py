@@ -93,10 +93,10 @@ WSGI_APPLICATION = 'GeoLocatorWebService.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'geolocatordatabase',
-        'USER': 'postgres',
-        'PASSWORD': 'admin',
-        'HOST': '127.0.0.1', 
+        'NAME': 'dalu4iu8htv5kq',
+        'USER': 'cuotrqzncmsvlq',
+        'PASSWORD': '9a70fae22b058344abde89c122207103f4a3273d776bf01ce59ea318a5703c28',
+        'HOST': 'ec2-44-199-9-102.compute-1.amazonaws.com', 
         'PORT': '5432',
     },
 }

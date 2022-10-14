@@ -2,7 +2,7 @@ package com.poc.FarmaLoginService.base;
 
 public class ConstantsApplication {
 
-    public static String BASE_URL_FARMA_SERVICE = "http://localhost:8083";
+    public static String BASE_URL_FARMA_SERVICE = "https://farmadelivery.herokuapp.com/";
     public static String CLIENT_ID_PARSE = "CLIENT_ID_RESULT=";
 
     public static class ResourcesFarmaClient {

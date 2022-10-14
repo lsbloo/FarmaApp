@@ -85,22 +85,19 @@ public class AuthenticatorService extends BaseService {
     }
 
     public void createUser(CreateAccountDTO createAccountDTO, NetworkHandlerEvent networkHandlerEvent) {
-        findUserByEmail(createAccountDTO.getEmail()).ifPresentOrElse(
-                (value) -> {
-                    networkHandlerEvent.onResult(
-                            new MessageResponseDTO("Error: Email is already taken! -> " + value.getEmail(), true));
-                },
-                () -> {
-                    MessageClientResponseDTO messageClientResponseDTO = registerUser(createAccountDTO);
-                    if (messageClientResponseDTO != null) {
-                        networkHandlerEvent.onResult(new MessageResponseDTO("OK: User Registred! ->", false, "", messageClientResponseDTO));
-                    } else {
-                        networkHandlerEvent.onResult(
-                                new MessageResponseDTO("Error: There was an error saving the user", true));
-                    }
-                });
-
-
+        Optional<UserAuth> userAuth = findUserByEmail(createAccountDTO.getEmail());
+        if(userAuth.isPresent()) {
+            networkHandlerEvent.onResult(
+                    new MessageResponseDTO("Error: Email is already taken! -> " + userAuth.get().getEmail(), true));
+        } else {
+            MessageClientResponseDTO messageClientResponseDTO = registerUser(createAccountDTO);
+            if (messageClientResponseDTO != null) {
+                networkHandlerEvent.onResult(new MessageResponseDTO("OK: User Registred! ->", false, "", messageClientResponseDTO));
+            } else {
+                networkHandlerEvent.onResult(
+                        new MessageResponseDTO("Error: There was an error saving the user", true));
+            }
+        }
     }
 
     public Optional<UserAuth> findUserByEmail(String email) {

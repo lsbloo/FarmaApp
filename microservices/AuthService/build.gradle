@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.poc'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '1.8'
 
 jar {
 	manifest  {
@@ -42,6 +42,23 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test:5.6.2'
 }
 
+bootJar {
+	archiveClassifier.set('boot')
+}
+
+jar {
+	archiveClassifier.set('')
+}
+// Add these END
+
+test {
+	useJUnitPlatform()
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.jar {
+	enabled = false
 }
