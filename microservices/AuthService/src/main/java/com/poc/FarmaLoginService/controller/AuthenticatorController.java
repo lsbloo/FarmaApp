@@ -6,6 +6,8 @@ import com.poc.FarmaLoginService.dtos.network.AuthSuccessulResponseDTO;
 import com.poc.FarmaLoginService.dtos.network.MessageResponseDTO;
 import com.poc.FarmaLoginService.services.AuthenticatorService;
 import com.poc.FarmaLoginService.utils.NetworkHandlerEvent;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ public class AuthenticatorController {
     private AuthenticatorService authenticatorService;
 
 
+    @ApiOperation(value = "authenticate to user", notes = "")
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequestDTO loginRequestDTO) {
         AuthSuccessulResponseDTO authSuccessulResponseDTO = new AuthSuccessulResponseDTO();
@@ -40,6 +43,7 @@ public class AuthenticatorController {
         return ResponseEntity.accepted().body(authSuccessulResponseDTO);
     }
 
+    @ApiOperation(value = "create an user", notes = "")
     @PostMapping("/singup")
     public ResponseEntity<?> createUser(@RequestBody CreateAccountDTO createAccountDTO) {
         MessageResponseDTO messageResponseDTO = new MessageResponseDTO();
