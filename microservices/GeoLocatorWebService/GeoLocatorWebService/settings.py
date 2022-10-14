@@ -11,10 +11,14 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+import dj_database_url
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -25,12 +29,31 @@ SECRET_KEY = 'django-insecure-cx_@n+vsl#dyv1bpp&*)ewp(^@yk4@*y!2h=^h*3n*q)ww_ilu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://127.0.0.1', 'http://localhost', "*"]
+IS_HEROKU = "DYNO" in os.environ
+
+# Use HerokuDiscoverRunner on Heroku CI
+if "CI" in os.environ:
+    TEST_RUNNER = "gettingstarted.settings.HerokuDiscoverRunner"
+
+
+if IS_HEROKU:
+    ALLOWED_HOSTS = ["*"]
+else:
+    ALLOWED_HOSTS = []
+
+# SECURITY WARNING: don't run with debug turned on in production!
+if not IS_HEROKU:
+    DEBUG = True
+
+IS_HEROKU = "DYNO" in os.environ
 
 import platform
 import os
 
 WINDOWS = platform.system() == "Windows"
+
+GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH')
+GEOS_LIBRARY_PATH = os.environ.get('GEOS_LIBRARY_PATH')
 
 if WINDOWS:
     # the below needs to change for linux
@@ -101,7 +124,6 @@ DATABASES = {
     },
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -145,3 +167,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # API MANAGEMENT
+django_heroku.settings(locals())
+DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
