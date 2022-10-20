@@ -25,5 +25,6 @@ public interface ShopRepository extends CrudRepository<ShopStore, Long> {
     @Transactional
     @Query(value = "DELETE FROM shop_store_category_list where shop_store_id=?1 and category_list_id=?2", nativeQuery = true)
     void deleteShopCategoryProduct(Long shop_store_id, Long category_list_id);
+    
 
 }
