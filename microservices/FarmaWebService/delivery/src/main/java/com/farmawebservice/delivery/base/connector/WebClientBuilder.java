@@ -43,10 +43,11 @@ public class WebClientBuilder {
 
 
     public String sendMethodPost(String resource, Object data, String accessToken) {
+        String tkn = "Bearer " + accessToken;
         if (data == null) {
-            return this.client.post().uri(resource).header("Authorization", accessToken).retrieve().bodyToMono(String.class).block();
+            return this.client.post().uri(resource).header("Authorization", tkn).retrieve().bodyToMono(String.class).block();
         } else {
-            return this.client.post().uri(resource).header("Authorization", accessToken).bodyValue(data).retrieve().bodyToMono(String.class).block();
+            return this.client.post().uri(resource).header("Authorization", tkn).bodyValue(data).retrieve().bodyToMono(String.class).block();
         }
     }
 

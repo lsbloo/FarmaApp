@@ -19,7 +19,7 @@ class HomeController {
     @Autowired
     private lateinit var homeService: HomeService
 
-    @GetMapping("/itens")
+    @PostMapping("/itens")
     @ApiOperation(value = "recovery all items for client", notes = "")
     @ApiResponses(value = [ApiResponse(code = 200, message = "Successufully recovery items"),
         ApiResponse(code = 404, message = "Not found"), ApiResponse(code = 500, message = "Error Internal")])
