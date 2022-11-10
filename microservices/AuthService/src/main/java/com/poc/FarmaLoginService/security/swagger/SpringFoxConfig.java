@@ -47,8 +47,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
     private ApiInfo getApiInfo() {
         return new ApiInfoBuilder()
-                .title("FarmaDeliveryWebService")
-                .description("FarmaApp MicroService of Delivery")
+                .title("FarmaAuthService")
+                .description("FarmaApp MicroService of Authentication")
                 .version("1.0.0")
                 .build();
     }
