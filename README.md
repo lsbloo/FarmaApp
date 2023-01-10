@@ -5,4 +5,4 @@
 
 ### GIFS
 
-![Alt Text](credit_card_flutter.gif)
+![Alt Text](ezgif.com-gif-maker.gif)
