@@ -14,14 +14,14 @@ Tecnologiase ferramentas utilizadas para implementação da primeira versão do 
   
   
 Tecnologias e ferramentas utilizadas para implementação dos microserviços no qual o app consome.
-  - Java/Kotlin
-  - Spring Boot
-  - Spring Security
-  - PostgreSQL
-  - Python
-  - Django
-  - PostGIS
-  - Heroku
+  - Java/Kotlin.
+  - Spring Boot.
+  - Spring Security.
+  - PostgreSQL.
+  - Python.
+  - Django.
+  - PostGIS.
+  - Heroku.
 
 
 
