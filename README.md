@@ -30,6 +30,9 @@ Tecnologias e ferramentas utilizadas para implementação dos microserviços no 
 ![Screenshot](xto.jpg)
 
 
+### Swaggers
+![Screenshot](farma_auth_swagger.png)
+
 ### GIFS
 
 ![Alt Text](ezgif.com-gif-maker.gif)
