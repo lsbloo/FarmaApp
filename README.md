@@ -27,7 +27,7 @@ Tecnologias e ferramentas utilizadas para implementação dos microserviços no 
 
 ### Desenho Macro da aplicação
 
-![Screenshot](credit_card_htk_widget.png)
+![Screenshot](xto.jpg)
 
 
 ### GIFS
