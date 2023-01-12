@@ -3,7 +3,7 @@
 É um app desenvolvido em ambiente academico que tem como objetivo facilitar a compra e venda de produtos farmaceuticos de maneira que os clientes consultam os medicamentos cadastrados no sistema e com base na sua localização/endereço de entrega é apresentado os produtos das farmacias na qual atende a necessidade do cliente.
 
 
-Tecnologiase ferramentas utilizadas para implementação da primeira versão do app.
+Tecnologias e ferramentas utilizadas para implementação da primeira versão do app.
   - JetPackCompose (beta).
   - Koin.
   - Retrofit.
